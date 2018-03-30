@@ -1,21 +1,19 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.fragment.BusinessListFragment;
+import com.ar.tdp2fiuba.hoycomo.model.Business;
 
 public class HomeActivity extends AppCompatActivity
+        implements BusinessListFragment.OnBusinessListFragmentInteractionListener
         /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     @Override
@@ -24,6 +22,10 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (savedInstanceState == null) {
+            showListing();
+        }
 
         /*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -69,6 +71,11 @@ public class HomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onTap(Business item) {
+        // TODO: 30/03/18 Go to Business profile.
+    }
+
     /*
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -95,4 +102,13 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
     */
+
+    private void showListing() {
+        if (findViewById(R.id.home_fragment_container) != null) {
+            BusinessListFragment firstFragment = BusinessListFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.home_fragment_container, firstFragment)
+                    .commit();
+        }
+    }
 }

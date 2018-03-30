@@ -5,4 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="minutes_range">:min - :max minutos</string>
+    <string name="up_to_minutes">Hasta :max minutos</string>
 </resources>

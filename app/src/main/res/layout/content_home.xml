@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ar.tdp2fiuba.hoycomo.HomeActivity"
+    tools:context="com.ar.tdp2fiuba.hoycomo.activity.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
     <TextView

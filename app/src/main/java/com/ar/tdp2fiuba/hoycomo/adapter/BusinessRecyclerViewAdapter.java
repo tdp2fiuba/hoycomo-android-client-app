@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.BusinessListFragment.OnBusinessListFragmentInteractionListener;
 import com.ar.tdp2fiuba.hoycomo.model.Business;
-import com.ar.tdp2fiuba.hoycomo.service.BusinessService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -31,8 +30,6 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         mValues = new ArrayList<>();
         mListener = listener;
         mContext = (Context) mListener;
-
-        this.add(BusinessService.getBusinesses());
     }
 
     @Override

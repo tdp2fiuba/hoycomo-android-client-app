@@ -5,6 +5,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -74,6 +75,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onTap(Business item) {
         // TODO: 30/03/18 Go to Business profile.
+        Log.d(this.getLocalClassName(), "Item selected: " + item.toString());
     }
 
     /*

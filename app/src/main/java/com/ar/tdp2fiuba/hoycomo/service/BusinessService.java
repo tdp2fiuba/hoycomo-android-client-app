@@ -7,9 +7,12 @@ import java.util.List;
 
 public class BusinessService {
 
-    // TODO: 30/03/18 Implement!
-    public static List<Business> getBusinesses() {
-        List<Business> business = new ArrayList<>();
+    private final List<Business> business;
+    private int count = 0;
+
+    // TODO: 31/03/18 Use static methods.
+    public BusinessService() {
+        business = new ArrayList<>();
         business.add(new Business("55501", "La Birra", "http://i.imgur.com/DvpvklR.png", 40, 60));
         business.add(new Business("55502", "La Birra Night", "http://i.imgur.com/DvpvklR.png", null, 60));
         business.add(new Business("55503", "Los Orientales", "http://i.imgur.com/DvpvklR.png", 40, 60));
@@ -27,6 +30,29 @@ public class BusinessService {
         business.add(new Business("55515", "La Mezzetta", "http://i.imgur.com/DvpvklR.png", 40, 60));
         business.add(new Business("55516", "El Imperio", "http://i.imgur.com/DvpvklR.png", 40, 60));
         business.add(new Business("55517", "Pin Pun", "http://i.imgur.com/DvpvklR.png", 40, 60));
-        return business;
+        business.add(new Business("55518", "Lo de Darío", "http://i.imgur.com/DvpvklR.png", 40, 60));
+        business.add(new Business("55519", "Siga la Vaca", "http://i.imgur.com/DvpvklR.png", 40, 60));
+        business.add(new Business("55520", "Los Maizales", "http://i.imgur.com/DvpvklR.png", 40, 60));
+        business.add(new Business("55521", "Güerrín", "http://i.imgur.com/DvpvklR.png", 40, 60));
+        business.add(new Business("55522", "Rodizzio", "http://i.imgur.com/DvpvklR.png", 40, 60));
+        business.add(new Business("55523", "Friday's Puerto Madero", "http://i.imgur.com/DvpvklR.png", 40, 60));
+        business.add(new Business("55524", "Clé", "http://i.imgur.com/DvpvklR.png", 40, 60));
+        business.add(new Business("55525", "Prosciutto Caballito", "http://i.imgur.com/DvpvklR.png", 40, 60));
+    }
+
+    // TODO: 30/03/18 Implement.
+    public List<Business> getBusinesses(final int count) {
+        int toIndex = this.count + count > this.business.size() ?
+                this.business.size() : this.count + count;
+        int fromIndex = this.count < toIndex ?
+                this.count : toIndex;
+        List<Business> businesses = this.business.subList(fromIndex, toIndex);
+        this.count += count;
+        return businesses;
+    }
+
+    // TODO: 31/03/18 Remove.
+    public void resetCount() {
+        this.count = 0;
     }
 }

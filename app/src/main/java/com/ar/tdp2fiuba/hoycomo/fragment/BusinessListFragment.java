@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.BusinessRecyclerViewAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.Business;
 import com.ar.tdp2fiuba.hoycomo.service.BusinessService;
+import com.ar.tdp2fiuba.hoycomo.utils.PaginationScrollListener;
 import com.ar.tdp2fiuba.hoycomo.utils.RecyclerViewEmptySupport;
 
 /**
@@ -27,11 +29,16 @@ public class BusinessListFragment extends Fragment {
 
     private BusinessRecyclerViewAdapter mAdapter;
 
+    private final BusinessService businessService;  // TODO: 31/03/18 Don't instantiate it.
+    private boolean isLoading = false;
+    private static final int paginationCount = 20;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public BusinessListFragment() {
+        businessService = new BusinessService();
     }
 
     public static BusinessListFragment newInstance() {
@@ -57,8 +64,25 @@ public class BusinessListFragment extends Fragment {
                     layoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
             recyclerView.setEmptyView(rootView.findViewById(R.id.business_empty_list));
+            recyclerView.addOnScrollListener(new PaginationScrollListener(layoutManager) {
+                @Override
+                protected void loadMoreItems() {
+                    retrieveMoreBusinesses();
+                }
+
+                @Override
+                public boolean isLoading() {
+                    return isLoading;
+                }
+
+                @Override
+                protected int getLoadingOffset() {
+                    return 5;
+                }
+            });
             mAdapter = new BusinessRecyclerViewAdapter(mListener);
             recyclerView.setAdapter(mAdapter);
+            retrieveMoreBusinesses();
 
             rootView.findViewById(R.id.business_empty_list).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,8 +113,21 @@ public class BusinessListFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        businessService.resetCount();
+    }
+
+    private void retrieveMoreBusinesses() {
+        isLoading = true;
+        mAdapter.add(businessService.getBusinesses(paginationCount));
+        isLoading = false;
+    }
+
     private void refreshData() {
-        mAdapter.add(BusinessService.getBusinesses());
+        businessService.resetCount();
+        retrieveMoreBusinesses();
     }
 
     /**

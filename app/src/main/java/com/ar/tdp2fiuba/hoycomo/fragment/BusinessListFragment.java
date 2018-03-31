@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import android.view.ViewGroup;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.BusinessRecyclerViewAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.Business;
-
-import static com.ar.tdp2fiuba.hoycomo.service.BusinessService.getBusinesses;
+import com.ar.tdp2fiuba.hoycomo.service.BusinessService;
+import com.ar.tdp2fiuba.hoycomo.utils.RecyclerViewEmptySupport;
 
 /**
  * A fragment representing a list of Items.
@@ -25,6 +24,8 @@ import static com.ar.tdp2fiuba.hoycomo.service.BusinessService.getBusinesses;
 public class BusinessListFragment extends Fragment {
 
     private OnBusinessListFragmentInteractionListener mListener;
+
+    private BusinessRecyclerViewAdapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -45,20 +46,29 @@ public class BusinessListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_business_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_business_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        if (rootView != null) {
+            Context context = rootView.getContext();
+            RecyclerViewEmptySupport recyclerView = (RecyclerViewEmptySupport) rootView.findViewById(R.id.business_list);
             LinearLayoutManager layoutManager = new LinearLayoutManager(context);
             recyclerView.setLayoutManager(layoutManager);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     layoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
-            recyclerView.setAdapter(new BusinessRecyclerViewAdapter(getBusinesses(), mListener));
+            recyclerView.setEmptyView(rootView.findViewById(R.id.business_empty_list));
+            mAdapter = new BusinessRecyclerViewAdapter(mListener);
+            recyclerView.setAdapter(mAdapter);
+
+            rootView.findViewById(R.id.business_empty_list).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    refreshData();
+                }
+            });
         }
-        return view;
+
+        return rootView;
     }
 
 
@@ -77,6 +87,10 @@ public class BusinessListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void refreshData() {
+        mAdapter.add(BusinessService.getBusinesses());
     }
 
     /**

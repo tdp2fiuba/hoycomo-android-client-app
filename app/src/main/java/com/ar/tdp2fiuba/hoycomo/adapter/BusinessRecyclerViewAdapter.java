@@ -11,8 +11,10 @@ import android.widget.TextView;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.BusinessListFragment.OnBusinessListFragmentInteractionListener;
 import com.ar.tdp2fiuba.hoycomo.model.Business;
+import com.ar.tdp2fiuba.hoycomo.service.BusinessService;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +27,12 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     private final OnBusinessListFragmentInteractionListener mListener;
     private final Context mContext;
 
-    public BusinessRecyclerViewAdapter(List<Business> items, OnBusinessListFragmentInteractionListener listener) {
-        mValues = items;
+    public BusinessRecyclerViewAdapter(OnBusinessListFragmentInteractionListener listener) {
+        mValues = new ArrayList<>();
         mListener = listener;
         mContext = (Context) mListener;
+
+        this.add(BusinessService.getBusinesses());
     }
 
     @Override
@@ -63,6 +67,11 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
         return mValues.size();
     }
 
+    public void add(List<Business> items) {
+        mValues.addAll(items);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mNameView;
@@ -87,7 +96,6 @@ public class BusinessRecyclerViewAdapter extends RecyclerView.Adapter<BusinessRe
     private void loadImage(final ViewHolder holder) {
         Picasso.get()
                 .load(holder.mItem.getImageUrl())
-                .placeholder(R.drawable.ic_menu_gallery)
                 .fit()
                 .into(holder.mImageView);
     }

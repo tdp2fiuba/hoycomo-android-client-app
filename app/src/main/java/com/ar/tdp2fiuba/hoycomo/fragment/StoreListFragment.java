@@ -2,6 +2,7 @@ package com.ar.tdp2fiuba.hoycomo.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -125,14 +126,35 @@ public class StoreListFragment extends Fragment {
     }
 
     private void retrieveMoreStores() {
-        isLoading = true;
-        mAdapter.add(storeService.getStores(paginationCount));
-        isLoading = false;
+        startLoading();
+
+        // TODO: 01/04/18 Replace this delay with actual request to API.
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                stopLoading();
+                mAdapter.add(storeService.getStores(paginationCount));
+            }
+        }, 2000);
     }
 
     private void refreshData() {
         storeService.resetCount();
         retrieveMoreStores();
+    }
+
+    private void startLoading() {
+        isLoading = true;
+        if (mAdapter != null) {
+            mAdapter.addLoadingFooter();
+        }
+    }
+
+    private void stopLoading() {
+        isLoading = false;
+        if (mAdapter != null) {
+            mAdapter.removeLoadingFooter();
+        }
     }
 
     /**

@@ -28,6 +28,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     private final StoreListFragment.OnStoreListFragmentInteractionListener mListener;
     private final Context mContext;
 
+    private int loadingItemIndex = -1;    // Not loading
+
+    private final static int ITEM = 0;
+    private final static int LOADING = 1;
+
     public StoreRecyclerViewAdapter(StoreListFragment.OnStoreListFragmentInteractionListener listener) {
         mValues = new ArrayList<>();
         mListener = listener;
@@ -45,7 +50,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        if (isDummyItem(holder.mItem)) {
+        if (getItemViewType(position) == LOADING) {
             holder.mContentView.setVisibility(View.GONE);
             holder.mProgressBar.setVisibility(View.VISIBLE);
         } else {
@@ -74,27 +79,34 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
         return mValues.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return (position == loadingItemIndex) ? LOADING : ITEM;
+    }
+
     public void add(List<Store> items) {
+        int previousSize = mValues.size();
         mValues.addAll(items);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(previousSize, items.size());
     }
 
     public void addLoadingFooter() {
         final Store dummyItem = new Store(null, null, null, null, null);
         mValues.add(dummyItem);
-        notifyDataSetChanged();
-    }
-
-    public void removeLoadingFooter() {
-        Store lastItem = mValues.get(mValues.size() - 1);
-        if (isDummyItem(lastItem)) {
-            mValues.remove(mValues.size() - 1);
+        loadingItemIndex = mValues.size() - 1;
+        if (loadingItemIndex == 0) {
             notifyDataSetChanged();
+        } else {
+            notifyItemInserted(loadingItemIndex);
         }
     }
 
-    private boolean isDummyItem(Store item) {
-        return item.getId() == null;
+    public void removeLoadingFooter() {
+        if (loadingItemIndex >= 0) {
+            mValues.remove(loadingItemIndex);
+            notifyItemRemoved(loadingItemIndex);
+            loadingItemIndex = -1;
+        }
     }
 
     private void loadImage(final ViewHolder holder) {

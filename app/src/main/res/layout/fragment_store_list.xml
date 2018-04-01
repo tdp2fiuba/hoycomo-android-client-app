@@ -6,21 +6,21 @@
     android:layout_width="match_parent">
 
     <com.ar.tdp2fiuba.hoycomo.utils.RecyclerViewEmptySupport
-        android:id="@+id/business_list"
-        android:name="com.ar.tdp2fiuba.hoycomo.fragment.BusinessFragment"
+        android:id="@+id/store_list"
+        android:name="com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.ar.tdp2fiuba.hoycomo.fragment.BusinessListFragment"
-        tools:listitem="@layout/business_row" />
+        tools:context="com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment"
+        tools:listitem="@layout/store_row" />
 
     <TextView
-        android:id="@+id/business_empty_list"
+        android:id="@+id/store_empty_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="4dp"
         android:textSize="20sp"
-        android:text="@string/no_available_businesses"/>
+        android:text="@string/no_available_stores"/>
 
 </android.support.constraint.ConstraintLayout>

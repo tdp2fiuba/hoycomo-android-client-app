@@ -10,11 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ar.tdp2fiuba.hoycomo.R;
-import com.ar.tdp2fiuba.hoycomo.fragment.BusinessListFragment;
-import com.ar.tdp2fiuba.hoycomo.model.Business;
+import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
+import com.ar.tdp2fiuba.hoycomo.model.Store;
 
 public class HomeActivity extends AppCompatActivity
-        implements BusinessListFragment.OnBusinessListFragmentInteractionListener
+        implements StoreListFragment.OnStoreListFragmentInteractionListener
         /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     @Override
@@ -73,8 +73,8 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onTap(Business item) {
-        // TODO: 30/03/18 Go to Business profile.
+    public void onTap(Store item) {
+        // TODO: 30/03/18 Go to Store profile.
         Log.d(this.getLocalClassName(), "Item selected: " + item.toString());
     }
 
@@ -107,7 +107,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void showListing() {
         if (findViewById(R.id.home_fragment_container) != null) {
-            BusinessListFragment firstFragment = BusinessListFragment.newInstance();
+            StoreListFragment firstFragment = StoreListFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.home_fragment_container, firstFragment)
                     .commit();

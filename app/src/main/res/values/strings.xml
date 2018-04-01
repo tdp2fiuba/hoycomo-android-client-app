@@ -8,5 +8,5 @@
 
     <string name="minutes_range">:min - :max minutos</string>
     <string name="up_to_minutes">Hasta :max minutos</string>
-    <string name="no_available_businesses">No encontramos comercios disponibles cerca de tu zona :(</string>
+    <string name="no_available_stores">No encontramos comercios disponibles cerca de tu zona :(</string>
 </resources>

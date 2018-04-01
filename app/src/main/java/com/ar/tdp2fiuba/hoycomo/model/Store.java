@@ -1,13 +1,13 @@
 package com.ar.tdp2fiuba.hoycomo.model;
 
-public class Business {
+public class Store {
     private String id;
     private String name;
     private String imageUrl;
     private Integer minDelayTime;
     private Integer maxDelayTime;
 
-    public Business(String id, String name, String imageUrl, Integer minDelayTime, Integer maxDelayTime) {
+    public Store(String id, String name, String imageUrl, Integer minDelayTime, Integer maxDelayTime) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
@@ -40,15 +40,15 @@ public class Business {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Business business = (Business) o;
+        Store store = (Store) o;
 
-        if (id != null ? !id.equals(business.id) : business.id != null) return false;
-        if (name != null ? !name.equals(business.name) : business.name != null) return false;
-        if (imageUrl != null ? !imageUrl.equals(business.imageUrl) : business.imageUrl != null)
+        if (id != null ? !id.equals(store.id) : store.id != null) return false;
+        if (name != null ? !name.equals(store.name) : store.name != null) return false;
+        if (imageUrl != null ? !imageUrl.equals(store.imageUrl) : store.imageUrl != null)
             return false;
-        if (minDelayTime != null ? !minDelayTime.equals(business.minDelayTime) : business.minDelayTime != null)
+        if (minDelayTime != null ? !minDelayTime.equals(store.minDelayTime) : store.minDelayTime != null)
             return false;
-        return maxDelayTime != null ? maxDelayTime.equals(business.maxDelayTime) : business.maxDelayTime == null;
+        return maxDelayTime != null ? maxDelayTime.equals(store.maxDelayTime) : store.maxDelayTime == null;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Business {
 
     @Override
     public String toString() {
-        return "Business{" +
+        return "Store{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +

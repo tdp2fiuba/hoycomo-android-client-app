@@ -27,7 +27,7 @@ public class StoreListFragment extends Fragment {
 
     private OnStoreListFragmentInteractionListener mListener;
 
-    private StoreRecyclerViewAdapter mAdapter;
+    private StoreRecyclerViewAdapter mAdapter = null;
 
     private final StoreService storeService;  // TODO: 31/03/18 Don't instantiate it.
     private boolean isLoading = false;

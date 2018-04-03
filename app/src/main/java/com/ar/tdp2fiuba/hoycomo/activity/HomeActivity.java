@@ -10,11 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 
 public class HomeActivity extends AppCompatActivity
-        implements StoreListFragment.OnStoreListFragmentInteractionListener
+        implements StoreListFragment.OnStoreListFragmentInteractionListener,
+            StoreFragment.OnStoreFragmentInteractionListener
         /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     @Override
@@ -74,8 +76,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onTap(Store item) {
-        // TODO: 30/03/18 Go to Store profile.
         Log.d(this.getLocalClassName(), "Item selected: " + item.toString());
+        showStore(item);
     }
 
     /*
@@ -107,9 +109,19 @@ public class HomeActivity extends AppCompatActivity
 
     private void showListing() {
         if (findViewById(R.id.home_fragment_container) != null) {
-            StoreListFragment firstFragment = StoreListFragment.newInstance();
+            StoreListFragment listFragment = StoreListFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.home_fragment_container, firstFragment)
+                    .add(R.id.home_fragment_container, listFragment)
+                    .commit();
+        }
+    }
+
+    private void showStore(Store store) {
+        if (findViewById(R.id.home_fragment_container) != null) {
+            StoreFragment storeFragment = StoreFragment.newInstance(store);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.home_fragment_container, storeFragment)
+                    .addToBackStack(store.getId())
                     .commit();
         }
     }

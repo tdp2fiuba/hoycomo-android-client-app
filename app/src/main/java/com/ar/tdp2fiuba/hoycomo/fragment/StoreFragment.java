@@ -2,6 +2,7 @@ package com.ar.tdp2fiuba.hoycomo.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.model.DailyTimeWindow;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -88,6 +90,7 @@ public class StoreFragment extends Fragment {
         loadImage((ImageView) view.findViewById(R.id.fragment_store_image));
         ((TextView) view.findViewById(R.id.fragment_store_name)).setText(mStore.getName());
         setDelayTime((TextView) view.findViewById(R.id.fragment_store_delay_time));
+        displayTimetable(view.findViewById(R.id.timetable));
     }
 
     private void loadImage(final ImageView imageView) {
@@ -107,6 +110,34 @@ public class StoreFragment extends Fragment {
                 getResources().getString(R.string.up_to_minutes)
                         .replace(":max", maxDelayTime);
         textView.setText(delayTime);
+    }
+
+    private void displayTimetable(final View timetable) {
+        displayDailyTimeWindow(mStore.getAvailability().getMonday(), timetable, R.id.timetable_monday_hours);
+        displayDailyTimeWindow(mStore.getAvailability().getTuesday(), timetable, R.id.timetable_tuesday_hours);
+        displayDailyTimeWindow(mStore.getAvailability().getWednesday(), timetable, R.id.timetable_wednesday_hours);
+        displayDailyTimeWindow(mStore.getAvailability().getThursday(), timetable, R.id.timetable_thursday_hours);
+        displayDailyTimeWindow(mStore.getAvailability().getFriday(), timetable, R.id.timetable_friday_hours);
+        displayDailyTimeWindow(mStore.getAvailability().getSaturday(), timetable, R.id.timetable_saturday_hours);
+        displayDailyTimeWindow(mStore.getAvailability().getSunday(), timetable, R.id.timetable_sunday_hours);
+    }
+
+    private void displayDailyTimeWindow(@Nullable DailyTimeWindow timeWindow, final View timetable, int timeWindowViewId) {
+        TextView hoursTextView = (TextView) timetable.findViewById(timeWindowViewId);
+        if (timeWindow != null) {
+            if (timeWindow.getStartTime().equals(timeWindow.getEndTime())) {
+                hoursTextView.setText(R.string.open_all_day);
+            } else {
+                hoursTextView.setText(
+                        hoursTextView.getText().toString()
+                                .replace(":min", timeWindow.getStartTime())
+                                .replace(":max", timeWindow.getEndTime())
+                );
+            }
+        } else {
+            hoursTextView.setText(R.string.closed);
+            hoursTextView.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
     }
 
     /**

@@ -6,7 +6,18 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="hours_range">:min a :max hs</string>
     <string name="minutes_range">:min - :max minutos</string>
     <string name="up_to_minutes">Hasta :max minutos</string>
     <string name="no_available_stores">No encontramos comercios disponibles cerca de tu zona :(</string>
+    <string name="schedule">Horarios</string>
+    <string name="monday">Lunes</string>
+    <string name="tuesday">Martes</string>
+    <string name="wednesday">Miércoles</string>
+    <string name="thursday">Jueves</string>
+    <string name="friday">Viernes</string>
+    <string name="saturday">Sábado</string>
+    <string name="sunday">Domingo</string>
+    <string name="closed">Cerrado</string>
+    <string name="open_all_day">Abierto todo el día</string>
 </resources>

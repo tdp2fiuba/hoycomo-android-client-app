@@ -6,13 +6,21 @@ public class Store {
     private String imageUrl;
     private Integer minDelayTime;
     private Integer maxDelayTime;
+    private Availability availability;
 
+    @Deprecated
     public Store(String id, String name, String imageUrl, Integer minDelayTime, Integer maxDelayTime) {
+        this(id, name, imageUrl, minDelayTime, maxDelayTime, null);
+    }
+
+    public Store(String id, String name, String imageUrl, Integer minDelayTime, Integer maxDelayTime,
+                 Availability availability) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.minDelayTime = minDelayTime;
         this.maxDelayTime = maxDelayTime;
+        this.availability = availability;
     }
 
     public String getId() {
@@ -35,6 +43,20 @@ public class Store {
         return maxDelayTime;
     }
 
+    public Availability getAvailability() {
+        return availability != null ?
+                availability :
+                new Availability(       // Available 24/7
+                        new DailyTimeWindow("00", "00"),
+                        new DailyTimeWindow("00", "00"),
+                        new DailyTimeWindow("00", "00"),
+                        new DailyTimeWindow("00", "00"),
+                        new DailyTimeWindow("00", "00"),
+                        new DailyTimeWindow("00", "00"),
+                        new DailyTimeWindow("00", "00")
+                );
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,23 +64,12 @@ public class Store {
 
         Store store = (Store) o;
 
-        if (id != null ? !id.equals(store.id) : store.id != null) return false;
-        if (name != null ? !name.equals(store.name) : store.name != null) return false;
-        if (imageUrl != null ? !imageUrl.equals(store.imageUrl) : store.imageUrl != null)
-            return false;
-        if (minDelayTime != null ? !minDelayTime.equals(store.minDelayTime) : store.minDelayTime != null)
-            return false;
-        return maxDelayTime != null ? maxDelayTime.equals(store.maxDelayTime) : store.maxDelayTime == null;
+        return id != null ? id.equals(store.id) : store.id == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
-        result = 31 * result + (minDelayTime != null ? minDelayTime.hashCode() : 0);
-        result = 31 * result + (maxDelayTime != null ? maxDelayTime.hashCode() : 0);
-        return result;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
@@ -69,6 +80,7 @@ public class Store {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", minDelayTime=" + minDelayTime +
                 ", maxDelayTime=" + maxDelayTime +
+                ", availability=" + availability +
                 '}';
     }
 }

@@ -20,4 +20,5 @@
     <string name="sunday">Domingo</string>
     <string name="closed">Cerrado</string>
     <string name="open_all_day">Abierto todo el día</string>
+    <string name="close">Cerrar</string>
 </resources>

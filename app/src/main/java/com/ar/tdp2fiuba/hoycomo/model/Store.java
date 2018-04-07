@@ -3,20 +3,22 @@ package com.ar.tdp2fiuba.hoycomo.model;
 public class Store {
     private String id;
     private String name;
+    private Address address;
     private String imageUrl;
     private Integer minDelayTime;
     private Integer maxDelayTime;
     private Availability availability;
 
     @Deprecated
-    public Store(String id, String name, String imageUrl, Integer minDelayTime, Integer maxDelayTime) {
-        this(id, name, imageUrl, minDelayTime, maxDelayTime, null);
+    public Store(String id, String name, Address address, String imageUrl, Integer minDelayTime, Integer maxDelayTime) {
+        this(id, name, address, imageUrl, minDelayTime, maxDelayTime, null);
     }
 
-    public Store(String id, String name, String imageUrl, Integer minDelayTime, Integer maxDelayTime,
+    public Store(String id, String name, Address address, String imageUrl, Integer minDelayTime, Integer maxDelayTime,
                  Availability availability) {
         this.id = id;
         this.name = name;
+        this.address = address;
         this.imageUrl = imageUrl;
         this.minDelayTime = minDelayTime;
         this.maxDelayTime = maxDelayTime;
@@ -29,6 +31,10 @@ public class Store {
 
     public String getName() {
         return name;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     public String getImageUrl() {
@@ -77,6 +83,7 @@ public class Store {
         return "Store{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", address=" + address +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", minDelayTime=" + minDelayTime +
                 ", maxDelayTime=" + maxDelayTime +

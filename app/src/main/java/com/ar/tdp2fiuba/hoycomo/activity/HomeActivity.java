@@ -13,8 +13,13 @@ import android.view.MenuItem;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
+import com.ar.tdp2fiuba.hoycomo.model.Address;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
-import com.google.android.gms.maps.model.LatLng;
+
+import static com.ar.tdp2fiuba.hoycomo.activity.MapsActivity.ARG_ADDRESS_NAME;
+import static com.ar.tdp2fiuba.hoycomo.activity.MapsActivity.ARG_LAT;
+import static com.ar.tdp2fiuba.hoycomo.activity.MapsActivity.ARG_LNG;
+import static com.ar.tdp2fiuba.hoycomo.activity.MapsActivity.ARG_MARKER_NAME;
 
 public class HomeActivity extends AppCompatActivity
         implements StoreListFragment.OnStoreListFragmentInteractionListener,
@@ -83,8 +88,8 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onStoreMapTap(LatLng latLng) {
-        openFullMap();
+    public void onStoreMapTap(Address address, String markerName) {
+        openFullMap(address, markerName);
     }
 
     /*
@@ -133,9 +138,12 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    // TODO: 07/04/18 Open map with store already marked.
-    private void openFullMap() {
+    private void openFullMap(Address address, String markerName) {
         Intent mapIntent = new Intent(this, MapsActivity.class);
+        mapIntent.putExtra(ARG_LAT, address.getLatitude());
+        mapIntent.putExtra(ARG_LNG, address.getLongitude());
+        mapIntent.putExtra(ARG_ADDRESS_NAME, address.getName());
+        mapIntent.putExtra(ARG_MARKER_NAME, markerName);
         startActivity(mapIntent);
     }
 }

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.model.Address;
 import com.ar.tdp2fiuba.hoycomo.model.DailyTimeWindow;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -105,12 +106,14 @@ public class StoreFragment extends Fragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // TODO: 07/04/18 Mark store direction in the map.
+        LatLng latLng = new LatLng(mStore.getAddress().getLatitude(), mStore.getAddress().getLongitude());
+        mMap.addMarker(new MarkerOptions().position(latLng).title(mStore.getName()).snippet(mStore.getAddress().getName()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mListener.onStoreMapTap(latLng);
+                mListener.onStoreMapTap(mStore.getAddress(), mStore.getName());
             }
         });
     }
@@ -176,7 +179,7 @@ public class StoreFragment extends Fragment
      * activity.
      */
     public interface OnStoreFragmentInteractionListener {
-        void onStoreMapTap(LatLng latLng);
+        void onStoreMapTap(Address address, String markerName);
     }
 
 }

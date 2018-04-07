@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,9 @@ public class StoreFragment extends Fragment
     private static final String ARG_STORE = "STORE";
     private Store mStore;
 
+    private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap;
+
     private OnStoreFragmentInteractionListener mListener;
 
     public StoreFragment() {
@@ -69,6 +70,11 @@ public class StoreFragment extends Fragment
             displayInfo(view);
         }
 
+        mSupportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragment_store_map);
+        if (mSupportMapFragment != null) {
+            mSupportMapFragment.getMapAsync(this);
+        }
+
         return view;
     }
 
@@ -87,16 +93,26 @@ public class StoreFragment extends Fragment
             throw new RuntimeException(context.toString()
                     + " must implement OnStoreFragmentInteractionListener");
         }
-
-        SupportMapFragment mapFragment = (SupportMapFragment) ((FragmentActivity) context).getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_store_map);
-        mapFragment.getMapAsync(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // TODO: 07/04/18 Mark store direction in the map.
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                mListener.onStoreMapTap(latLng);
+            }
+        });
     }
 
     private void displayInfo(final View view) {
@@ -154,32 +170,13 @@ public class StoreFragment extends Fragment
     }
 
     /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
-
-    /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
      */
     public interface OnStoreFragmentInteractionListener {
-        // TODO: 02/04/18 Define interaction methods.
+        void onStoreMapTap(LatLng latLng);
     }
 
 }

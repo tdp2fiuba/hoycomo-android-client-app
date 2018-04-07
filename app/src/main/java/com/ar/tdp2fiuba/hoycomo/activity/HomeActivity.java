@@ -1,5 +1,6 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,7 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.google.android.gms.maps.model.LatLng;
 
 public class HomeActivity extends AppCompatActivity
         implements StoreListFragment.OnStoreListFragmentInteractionListener,
@@ -75,9 +77,14 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onTap(Store item) {
+    public void onStoreTap(Store item) {
         Log.d(this.getLocalClassName(), "Item selected: " + item.toString());
         showStore(item);
+    }
+
+    @Override
+    public void onStoreMapTap(LatLng latLng) {
+        openFullMap();
     }
 
     /*
@@ -124,5 +131,11 @@ public class HomeActivity extends AppCompatActivity
                     .addToBackStack(store.getId())
                     .commit();
         }
+    }
+
+    // TODO: 07/04/18 Open map with store already marked.
+    private void openFullMap() {
+        Intent mapIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapIntent);
     }
 }

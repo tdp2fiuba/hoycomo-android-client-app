@@ -67,7 +67,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                     if (null != mListener) {
                         // Notify the active callbacks interface (the activity, if the
                         // fragment is attached to one) that an item has been selected.
-                        mListener.onTap(holder.mItem);
+                        mListener.onStoreTap(holder.mItem);
                     }
                 }
             });

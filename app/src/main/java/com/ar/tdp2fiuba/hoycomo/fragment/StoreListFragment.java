@@ -164,6 +164,6 @@ public class StoreListFragment extends Fragment {
      * activity.
      */
     public interface OnStoreListFragmentInteractionListener {
-        void onTap(Store item);
+        void onStoreTap(Store item);
     }
 }

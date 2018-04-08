@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.Address;
 import com.ar.tdp2fiuba.hoycomo.model.DailyTimeWindow;
+import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -133,8 +134,9 @@ public class StoreFragment extends Fragment
     }
 
     private void setDelayTime(final TextView textView) {
-        String minDelayTime = mStore.getMinDelayTime() != null ? mStore.getMinDelayTime().toString() : null;
-        String maxDelayTime = mStore.getMaxDelayTime().toString();
+        DelayTime storeDelayTime = mStore.getDelayTime();
+        String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
+        String maxDelayTime = storeDelayTime.getMax().toString();
         String delayTime = minDelayTime != null ?
                 getResources().getString(R.string.minutes_range)
                         .replace(":min", minDelayTime)

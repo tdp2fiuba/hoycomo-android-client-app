@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
+import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.squareup.picasso.Picasso;
 
@@ -117,8 +118,9 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     }
 
     private void setDelayTime(final ViewHolder holder) {
-        String minDelayTime = holder.mItem.getMinDelayTime() != null ? holder.mItem.getMinDelayTime().toString() : null;
-        String maxDelayTime = holder.mItem.getMaxDelayTime().toString();
+        DelayTime storeDelayTime = holder.mItem.getDelayTime();
+        String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
+        String maxDelayTime = storeDelayTime.getMax().toString();
         String delayTime = minDelayTime != null ?
                 mContext.getResources().getString(R.string.minutes_range)
                         .replace(":min", minDelayTime)

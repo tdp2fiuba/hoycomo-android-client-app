@@ -5,23 +5,21 @@ public class Store {
     private String name;
     private Address address;
     private String imageUrl;
-    private Integer minDelayTime;
-    private Integer maxDelayTime;
+    private DelayTime delayTime;
     private Availability availability;
 
     @Deprecated
-    public Store(String id, String name, Address address, String imageUrl, Integer minDelayTime, Integer maxDelayTime) {
-        this(id, name, address, imageUrl, minDelayTime, maxDelayTime, null);
+    public Store(String id, String name, Address address, String imageUrl, DelayTime delayTime) {
+        this(id, name, address, imageUrl, delayTime, null);
     }
 
-    public Store(String id, String name, Address address, String imageUrl, Integer minDelayTime, Integer maxDelayTime,
+    public Store(String id, String name, Address address, String imageUrl, DelayTime delayTime,
                  Availability availability) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.imageUrl = imageUrl;
-        this.minDelayTime = minDelayTime;
-        this.maxDelayTime = maxDelayTime;
+        this.delayTime = delayTime;
         this.availability = availability;
     }
 
@@ -41,12 +39,8 @@ public class Store {
         return imageUrl;
     }
 
-    public Integer getMinDelayTime() {
-        return minDelayTime;
-    }
-
-    public Integer getMaxDelayTime() {
-        return maxDelayTime;
+    public DelayTime getDelayTime() {
+        return delayTime;
     }
 
     public Availability getAvailability() {
@@ -85,8 +79,7 @@ public class Store {
                 ", name='" + name + '\'' +
                 ", address=" + address +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", minDelayTime=" + minDelayTime +
-                ", maxDelayTime=" + maxDelayTime +
+                ", delayTime=" + delayTime +
                 ", availability=" + availability +
                 '}';
     }

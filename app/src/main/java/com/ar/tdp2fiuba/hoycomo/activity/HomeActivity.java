@@ -140,8 +140,8 @@ public class HomeActivity extends AppCompatActivity
 
     private void openFullMap(Address address, String markerName) {
         Intent mapIntent = new Intent(this, MapsActivity.class);
-        mapIntent.putExtra(ARG_LAT, address.getLatitude());
-        mapIntent.putExtra(ARG_LNG, address.getLongitude());
+        mapIntent.putExtra(ARG_LAT, address.getLat());
+        mapIntent.putExtra(ARG_LNG, address.getLon());
         mapIntent.putExtra(ARG_ADDRESS_NAME, address.getName());
         mapIntent.putExtra(ARG_MARKER_NAME, markerName);
         startActivity(mapIntent);

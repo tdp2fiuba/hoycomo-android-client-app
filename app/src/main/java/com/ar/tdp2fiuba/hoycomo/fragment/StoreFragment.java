@@ -107,7 +107,7 @@ public class StoreFragment extends Fragment
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng latLng = new LatLng(mStore.getAddress().getLatitude(), mStore.getAddress().getLongitude());
+        LatLng latLng = new LatLng(mStore.getAddress().getLat(), mStore.getAddress().getLon());
         mMap.addMarker(new MarkerOptions().position(latLng).title(mStore.getName()).snippet(mStore.getAddress().getName()));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 

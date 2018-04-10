@@ -16,9 +16,11 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.StoreRecyclerViewAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.StoreService;
-import com.ar.tdp2fiuba.hoycomo.utils.PaginationScrollListener;
-import com.ar.tdp2fiuba.hoycomo.utils.RecyclerViewEmptySupport;
+import com.ar.tdp2fiuba.hoycomo.utils.view.PaginationScrollListener;
+import com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -134,10 +136,15 @@ public class StoreListFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
                 stopLoading();
+
+
                 if (response.length() > 0) {
+                    final Gson gson = new GsonBuilder()
+                            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                            .create();
                     for (int i = 0; i < response.length(); i++) {
                         try {
-                            mAdapter.add(new Gson().fromJson(response.getJSONObject(i).toString(), Store.class));
+                            mAdapter.add(gson.fromJson(response.getJSONObject(i).toString(), Store.class));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

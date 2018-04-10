@@ -1,4 +1,4 @@
-package com.ar.tdp2fiuba.hoycomo.utils;
+package com.ar.tdp2fiuba.hoycomo.utils.view;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

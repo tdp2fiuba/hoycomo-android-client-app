@@ -87,7 +87,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     public void add(Store item) {
         mValues.add(item);
-        notifyItemInserted(mValues.size() - 1);
+        if (mValues.size() == 1) {
+            notifyItemInserted(mValues.size() - 1);
+        } else {
+            notifyDataSetChanged();
+        }
     }
 
     public void addLoadingFooter() {

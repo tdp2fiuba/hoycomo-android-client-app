@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@color/background">
 
-    <com.ar.tdp2fiuba.hoycomo.utils.RecyclerViewEmptySupport
+    <com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport
         android:id="@+id/store_list"
         android:name="com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment"
         android:layout_width="match_parent"

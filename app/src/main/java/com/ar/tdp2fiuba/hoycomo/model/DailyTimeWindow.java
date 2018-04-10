@@ -1,5 +1,7 @@
 package com.ar.tdp2fiuba.hoycomo.model;
 
+import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
+
 public class DailyTimeWindow {
     private String startTime;
     private String endTime;
@@ -10,11 +12,11 @@ public class DailyTimeWindow {
     }
 
     public String getStartTime() {
-        return startTime;
+        return DateUtils.formatTime(startTime);
     }
 
     public String getEndTime() {
-        return endTime;
+        return DateUtils.formatTime(endTime);
     }
 
     @Override

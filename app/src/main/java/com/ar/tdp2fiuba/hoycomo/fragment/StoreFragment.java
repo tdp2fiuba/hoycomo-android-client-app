@@ -135,6 +135,10 @@ public class StoreFragment extends Fragment
 
     private void setDelayTime(final TextView textView) {
         DelayTime storeDelayTime = mStore.getDelayTime();
+        if (storeDelayTime == null) {
+            textView.setVisibility(View.GONE);
+            return;
+        }
         String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
         String maxDelayTime = storeDelayTime.getMax().toString();
         String delayTime = minDelayTime != null ?

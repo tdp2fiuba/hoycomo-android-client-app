@@ -119,15 +119,20 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     private void setDelayTime(final ViewHolder holder) {
         DelayTime storeDelayTime = holder.mItem.getDelayTime();
-        String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
-        String maxDelayTime = storeDelayTime.getMax().toString();
-        String delayTime = minDelayTime != null ?
-                mContext.getResources().getString(R.string.minutes_range)
-                        .replace(":min", minDelayTime)
-                        .replace(":max", maxDelayTime) :
-                mContext.getResources().getString(R.string.up_to_minutes)
-                        .replace(":max", maxDelayTime);
-        holder.mDelayTimeView.setText(delayTime);
+        if (storeDelayTime != null) {
+            holder.mDelayTimeView.setVisibility(View.VISIBLE);
+            String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
+            String maxDelayTime = storeDelayTime.getMax().toString();
+            String delayTime = minDelayTime != null ?
+                    mContext.getResources().getString(R.string.minutes_range)
+                            .replace(":min", minDelayTime)
+                            .replace(":max", maxDelayTime) :
+                    mContext.getResources().getString(R.string.up_to_minutes)
+                            .replace(":max", maxDelayTime);
+            holder.mDelayTimeView.setText(delayTime);
+        } else {
+            holder.mDelayTimeView.setVisibility(View.GONE);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

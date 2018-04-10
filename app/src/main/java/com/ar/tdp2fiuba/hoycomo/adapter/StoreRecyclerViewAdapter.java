@@ -85,10 +85,9 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
         return (position == loadingItemIndex) ? LOADING : ITEM;
     }
 
-    public void add(List<Store> items) {
-        int previousSize = mValues.size();
-        mValues.addAll(items);
-        notifyItemRangeInserted(previousSize, items.size());
+    public void add(Store item) {
+        mValues.add(item);
+        notifyItemInserted(mValues.size() - 1);
     }
 
     public void addLoadingFooter() {
@@ -105,7 +104,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     public void removeLoadingFooter() {
         if (loadingItemIndex >= 0) {
             mValues.remove(loadingItemIndex);
-            notifyItemRemoved(loadingItemIndex);
+            if (loadingItemIndex == 0) {
+                notifyDataSetChanged();
+            } else {
+                notifyItemRemoved(loadingItemIndex);
+            }
             loadingItemIndex = -1;
         }
     }

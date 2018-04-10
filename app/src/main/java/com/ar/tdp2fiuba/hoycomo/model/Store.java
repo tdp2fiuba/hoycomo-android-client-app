@@ -8,7 +8,10 @@ public class Store {
     private DelayTime delayTime;
     private Availability availability;
 
-    @Deprecated
+    public Store(String id, String name, Address address, String imageUrl) {
+        this(id, name, address, imageUrl, null, null);
+    }
+
     public Store(String id, String name, Address address, String imageUrl, DelayTime delayTime) {
         this(id, name, address, imageUrl, delayTime, null);
     }

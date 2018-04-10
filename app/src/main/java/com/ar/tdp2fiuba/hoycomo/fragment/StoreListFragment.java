@@ -2,20 +2,26 @@ package com.ar.tdp2fiuba.hoycomo.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.StoreRecyclerViewAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.StoreService;
 import com.ar.tdp2fiuba.hoycomo.utils.PaginationScrollListener;
 import com.ar.tdp2fiuba.hoycomo.utils.RecyclerViewEmptySupport;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  * A fragment representing a list of Items.
@@ -29,17 +35,15 @@ public class StoreListFragment extends Fragment {
 
     private StoreRecyclerViewAdapter mAdapter = null;
 
-    private final StoreService storeService;  // TODO: 31/03/18 Don't instantiate it.
-    private boolean isLoading = false;
+    private static int currentPage = 0;
     private static final int paginationCount = 20;
+    private boolean isLoading = false;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public StoreListFragment() {
-        storeService = new StoreService();
-    }
+    public StoreListFragment() {}
 
     public static StoreListFragment newInstance() {
         return new StoreListFragment();
@@ -122,24 +126,40 @@ public class StoreListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        storeService.resetCount();
+        currentPage = 0;
     }
 
     private void retrieveMoreStores() {
-        startLoading();
-
-        // TODO: 01/04/18 Replace this delay with actual request to API.
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
+        Response.Listener<JSONArray> successListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
                 stopLoading();
-                mAdapter.add(storeService.getStores(paginationCount));
+                if (response.length() > 0) {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            mAdapter.add(new Gson().fromJson(response.getJSONObject(i).toString(), Store.class));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    currentPage++;
+                }
             }
-        }, 2000);
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                stopLoading();
+                error.printStackTrace();
+                Toast.makeText(getActivity(), R.string.error_no_stores, Toast.LENGTH_SHORT).show();
+            }
+        };
+        startLoading();
+        StoreService.getStores(currentPage + 1, paginationCount, successListener, errorListener);
     }
 
     private void refreshData() {
-        storeService.resetCount();
+        currentPage = 0;
         retrieveMoreStores();
     }
 

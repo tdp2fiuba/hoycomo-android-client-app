@@ -128,7 +128,7 @@ public class StoreFragment extends Fragment
 
     private void loadImage(final ImageView imageView) {
         Picasso.get()
-                .load(mStore.getImageUrl())
+                .load(mStore.getAvatar())
                 .fit()
                 .into(imageView);
     }

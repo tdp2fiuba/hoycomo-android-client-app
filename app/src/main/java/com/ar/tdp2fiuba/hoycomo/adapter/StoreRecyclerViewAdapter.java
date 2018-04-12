@@ -119,7 +119,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
 
     private void loadImage(final ViewHolder holder) {
         Picasso.get()
-                .load(holder.mItem.getImageUrl())
+                .load(holder.mItem.getAvatar())
                 .fit()
                 .into(holder.mImageView);
     }

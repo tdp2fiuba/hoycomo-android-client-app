@@ -4,24 +4,24 @@ public class Store {
     private String id;
     private String name;
     private Address address;
-    private String imageUrl;
+    private String avatar;
     private DelayTime delayTime;
     private Availability availability;
 
-    public Store(String id, String name, Address address, String imageUrl) {
-        this(id, name, address, imageUrl, null, null);
+    public Store(String id, String name, Address address, String avatar) {
+        this(id, name, address, avatar, null, null);
     }
 
-    public Store(String id, String name, Address address, String imageUrl, DelayTime delayTime) {
-        this(id, name, address, imageUrl, delayTime, null);
+    public Store(String id, String name, Address address, String avatar, DelayTime delayTime) {
+        this(id, name, address, avatar, delayTime, null);
     }
 
-    public Store(String id, String name, Address address, String imageUrl, DelayTime delayTime,
+    public Store(String id, String name, Address address, String avatar, DelayTime delayTime,
                  Availability availability) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.imageUrl = imageUrl;
+        this.avatar = avatar;
         this.delayTime = delayTime;
         this.availability = availability;
     }
@@ -38,8 +38,8 @@ public class Store {
         return address;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getAvatar() {
+        return avatar;
     }
 
     public DelayTime getDelayTime() {
@@ -81,7 +81,7 @@ public class Store {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", address=" + address +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", avatar='" + avatar + '\'' +
                 ", delayTime=" + delayTime +
                 ", availability=" + availability +
                 '}';

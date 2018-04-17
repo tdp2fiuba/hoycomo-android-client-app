@@ -12,11 +12,11 @@ public class DailyTimeWindow {
     }
 
     public String getStartTime() {
-        return DateUtils.formatTime(startTime);
+        return startTime != null ? DateUtils.formatTime(startTime) : null;
     }
 
     public String getEndTime() {
-        return DateUtils.formatTime(endTime);
+        return endTime != null ? DateUtils.formatTime(endTime) : null;
     }
 
     @Override

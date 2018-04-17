@@ -162,7 +162,7 @@ public class StoreFragment extends Fragment
 
     private void displayDailyTimeWindow(@Nullable DailyTimeWindow timeWindow, final View timetable, int timeWindowViewId) {
         TextView hoursTextView = (TextView) timetable.findViewById(timeWindowViewId);
-        if (timeWindow != null) {
+        if (timeWindow != null && timeWindow.getStartTime() != null && timeWindow.getEndTime() != null) {
             if (timeWindow.getStartTime().equals(timeWindow.getEndTime())) {
                 hoursTextView.setText(R.string.open_all_day);
             } else {

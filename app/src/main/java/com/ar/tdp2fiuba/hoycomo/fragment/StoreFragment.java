@@ -160,10 +160,10 @@ public class StoreFragment extends Fragment
         displayDailyTimeWindow(mStore.getAvailability().getSunday(), timetable, R.id.timetable_sunday_hours);
     }
 
-    private void displayDailyTimeWindow(@Nullable DailyTimeWindow timeWindow, final View timetable, int timeWindowViewId) {
+    private void displayDailyTimeWindow(DailyTimeWindow timeWindow, final View timetable, int timeWindowViewId) {
         TextView hoursTextView = (TextView) timetable.findViewById(timeWindowViewId);
-        if (timeWindow != null && timeWindow.getStartTime() != null && timeWindow.getEndTime() != null) {
-            if (timeWindow.getStartTime().equals(timeWindow.getEndTime())) {
+        if (timeWindow != null && !timeWindow.isClosedAllDay()) {
+            if (timeWindow.isOpenAllDay()) {
                 hoursTextView.setText(R.string.open_all_day);
             } else {
                 hoursTextView.setText(

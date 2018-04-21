@@ -12,11 +12,19 @@ public class DailyTimeWindow {
     }
 
     public String getStartTime() {
-        return startTime != null ? DateUtils.formatTime(startTime) : null;
+        return DateUtils.formatTime(startTime);
     }
 
     public String getEndTime() {
-        return endTime != null ? DateUtils.formatTime(endTime) : null;
+        return DateUtils.formatTime(endTime);
+    }
+
+    public boolean isOpenAllDay() {
+        return getStartTime().equals("00") && getEndTime().equals("24");
+    }
+
+    public boolean isClosedAllDay() {
+        return getStartTime().equals(getEndTime());
     }
 
     @Override

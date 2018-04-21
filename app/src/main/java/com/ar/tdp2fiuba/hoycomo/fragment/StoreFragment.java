@@ -110,13 +110,6 @@ public class StoreFragment extends Fragment
         LatLng latLng = new LatLng(mStore.getAddress().getLat(), mStore.getAddress().getLon());
         mMap.addMarker(new MarkerOptions().position(latLng).title(mStore.getName()).snippet(mStore.getAddress().getName()));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                mListener.onStoreMapTap(mStore.getAddress(), mStore.getName());
-            }
-        });
     }
 
     private void displayInfo(final View view) {
@@ -185,7 +178,7 @@ public class StoreFragment extends Fragment
      * activity.
      */
     public interface OnStoreFragmentInteractionListener {
-        void onStoreMapTap(Address address, String markerName);
+
     }
 
 }

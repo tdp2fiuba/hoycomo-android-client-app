@@ -82,11 +82,6 @@ public class HomeActivity extends AppCompatActivity
         showStore(item);
     }
 
-    @Override
-    public void onStoreMapTap(Address address, String markerName) {
-        openFullMap(address, markerName);
-    }
-
     /*
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

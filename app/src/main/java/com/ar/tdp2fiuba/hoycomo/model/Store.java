@@ -8,14 +8,6 @@ public class Store {
     private DelayTime delayTime;
     private Availability availability;
 
-    public Store(String id, String name, Address address, String avatar) {
-        this(id, name, address, avatar, null, null);
-    }
-
-    public Store(String id, String name, Address address, String avatar, DelayTime delayTime) {
-        this(id, name, address, avatar, delayTime, null);
-    }
-
     public Store(String id, String name, Address address, String avatar, DelayTime delayTime,
                  Availability availability) {
         this.id = id;
@@ -50,13 +42,13 @@ public class Store {
         return availability != null ?
                 availability :
                 new Availability(       // Available 24/7
-                        new DailyTimeWindow("00", "00"),
-                        new DailyTimeWindow("00", "00"),
-                        new DailyTimeWindow("00", "00"),
-                        new DailyTimeWindow("00", "00"),
-                        new DailyTimeWindow("00", "00"),
-                        new DailyTimeWindow("00", "00"),
-                        new DailyTimeWindow("00", "00")
+                        new DailyTimeWindow("00", "24"),
+                        new DailyTimeWindow("00", "24"),
+                        new DailyTimeWindow("00", "24"),
+                        new DailyTimeWindow("00", "24"),
+                        new DailyTimeWindow("00", "24"),
+                        new DailyTimeWindow("00", "24"),
+                        new DailyTimeWindow("00", "24")
                 );
     }
 

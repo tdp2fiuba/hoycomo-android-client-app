@@ -25,4 +25,17 @@ public class StoreService {
                 "GetStores"
         );
     }
+
+    public static void getMenu(String storeId, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
+        String urlWithPlaceholder = BASE_URL + "/dish/store/:storeId";
+        final String url = urlWithPlaceholder.replace(":storeId", storeId);
+
+        HttpRequestHelper.getArray(
+                url,
+                null,
+                successListener,
+                errorListener,
+                "GetMenu"
+        );
+    }
 }

@@ -22,4 +22,6 @@
     <string name="open_all_day">Abierto todo el día</string>
     <string name="close">Cerrar</string>
     <string name="error_no_stores">No se pudieron obtener más comercios. Por favor, chequeá tu conexión.</string>
+    <string name="error_no_menu">No se pudo obtener el menú del comercio. Por favor, chequá tu conexión.</string>
+    <string name="no_menu">El comercio no cuenta aún con un menú cargado</string>
 </resources>

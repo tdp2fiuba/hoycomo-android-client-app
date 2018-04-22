@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
 import com.ar.tdp2fiuba.hoycomo.model.Address;
@@ -23,7 +24,8 @@ import static com.ar.tdp2fiuba.hoycomo.activity.MapsActivity.ARG_MARKER_NAME;
 
 public class HomeActivity extends AppCompatActivity
         implements StoreListFragment.OnStoreListFragmentInteractionListener,
-            StoreFragment.OnStoreFragmentInteractionListener
+            StoreFragment.OnStoreFragmentInteractionListener,
+            MenuFragment.OnMenuFragmentInteractionListener
         /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     @Override
@@ -81,6 +83,13 @@ public class HomeActivity extends AppCompatActivity
         Log.d(this.getLocalClassName(), "Item selected: " + item.toString());
         showStore(item);
     }
+
+    @Override
+    public void onMenuItemTap(com.ar.tdp2fiuba.hoycomo.model.MenuItem item) {
+        Log.d(this.getLocalClassName(), "Menu item selected: " + item.toString());
+        // TODO: 22/4/18 Open menu item screen.
+    }
+
 
     /*
     @SuppressWarnings("StatementWithEmptyBody")

@@ -10,10 +10,10 @@
         android:id="@+id/menu"
         android:name="com.ar.tdp2fiuba.hoycomo.fragment.MenuItemFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment"
-        tools:listitem="@layout/store_row" />
+        tools:listitem="@layout/menu_item_row" />
 
     <TextView
         android:id="@+id/empty_menu"

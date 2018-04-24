@@ -1,10 +1,10 @@
 package com.ar.tdp2fiuba.hoycomo.adapter;
 
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment;
 import com.ar.tdp2fiuba.hoycomo.model.MenuItem;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +54,8 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
             holder.mProgressBar.setVisibility(View.GONE);
 
             holder.mNameView.setText(holder.mItem.getName());
-            holder.mPriceView.setText(String.valueOf(holder.mItem.getPrice()));
-            loadImage(holder);
+            holder.mDescriptionView.setText(holder.mItem.getDescription());
+            setPrice(holder);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,7 +90,7 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     }
 
     public void addLoadingFooter() {
-        final MenuItem dummyItem = new MenuItem(null, null, null, null, null, null);
+        final MenuItem dummyItem = new MenuItem(null, null, null, null, null, null,null);
         mValues.add(dummyItem);
         loadingItemIndex = mValues.size() - 1;
         if (loadingItemIndex == 0) {
@@ -113,21 +112,28 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
         }
     }
 
-    // TODO: 22/4/18 Load all images in a carousel.
-    private void loadImage(final ViewHolder holder) {
-        if (holder.mItem.getPictures() != null && !holder.mItem.getPictures().isEmpty()) {
-            Picasso.get()
-                    .load(holder.mItem.getPictures().get(0))
-                    .fit()
-                    .into(holder.mImageView);
+    private void setPrice(final ViewHolder holder) {
+        MenuItem item = holder.mItem;
+
+        Integer finalPrice = item.getPrice();
+        if (item.getDiscount() != null && item.getDiscount() != 0) {
+            finalPrice -= item.getDiscount();
+            holder.mDiscountView.setVisibility(View.VISIBLE);
+            holder.mDiscountView.setText("$" + String.valueOf(item.getPrice()));
+            holder.mDiscountView.setPaintFlags(holder.mDiscountView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            holder.mDiscountView.setVisibility(View.GONE);
         }
+
+        holder.mPriceView.setText("$" + String.valueOf(finalPrice));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mNameView;
+        public final TextView mDescriptionView;
         public final TextView mPriceView;
-        public final ImageView mImageView;
+        public final TextView mDiscountView;
         public final LinearLayout mContentView;
         public final ProgressBar mProgressBar;
         public MenuItem mItem;
@@ -136,8 +142,9 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
             super(view);
             mView = view;
             mNameView = (TextView) view.findViewById(R.id.menu_item_row_name);
+            mDescriptionView = (TextView) view.findViewById(R.id.menu_item_row_description);
             mPriceView = (TextView) view.findViewById(R.id.menu_item_row_price);
-            mImageView = (ImageView) view.findViewById(R.id.menu_item_row_image);
+            mDiscountView = (TextView) view.findViewById(R.id.menu_item_row_price_without_discount);
 
             mContentView = (LinearLayout) view.findViewById(R.id.menu_item_row_content);
             mProgressBar = (ProgressBar) view.findViewById(R.id.menu_item_row_loading);

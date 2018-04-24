@@ -6,14 +6,16 @@ public class MenuItem {
     private String id;
     private String storeId;
     private String name;
+    private String description;
     private Integer price;
     private Integer discount;
     private List<String> pictures;
 
-    public MenuItem(String id, String storeId, String name, Integer price, Integer discount, List<String> pictures) {
+    public MenuItem(String id, String storeId, String name, String description, Integer price, Integer discount, List<String> pictures) {
         this.id = id;
         this.storeId = storeId;
         this.name = name;
+        this.description = description;
         this.price = price;
         this.discount = discount;
         this.pictures = pictures;
@@ -29,6 +31,10 @@ public class MenuItem {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Integer getPrice() {
@@ -64,6 +70,7 @@ public class MenuItem {
                 "id='" + id + '\'' +
                 ", storeId='" + storeId + '\'' +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", price=" + price +
                 ", discount=" + discount +
                 ", pictures=" + pictures +

@@ -24,4 +24,11 @@
     <string name="error_no_stores">No se pudieron obtener más comercios. Por favor, chequeá tu conexión.</string>
     <string name="error_no_menu">No se pudo obtener el menú del comercio. Por favor, chequá tu conexión.</string>
     <string name="no_menu">El comercio no cuenta aún con un menú cargado</string>
+    <string name="garnish">Guarnición</string>
+    <string name="suitable_for">Apto para</string>
+    <string name="coeliacs">Celíacos</string>
+    <string name="diabetics">Diabéticos</string>
+    <string name="vegans">Veganos</string>
+    <string name="vegetarians">Vegetarianos</string>
+    <string name="quantity">Cantidad</string>
 </resources>

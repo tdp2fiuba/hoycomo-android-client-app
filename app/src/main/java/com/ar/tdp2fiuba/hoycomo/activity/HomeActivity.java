@@ -16,6 +16,7 @@ import com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
 import com.ar.tdp2fiuba.hoycomo.model.Address;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.google.gson.Gson;
 
 import static com.ar.tdp2fiuba.hoycomo.activity.MapsActivity.ARG_ADDRESS_NAME;
 import static com.ar.tdp2fiuba.hoycomo.activity.MapsActivity.ARG_LAT;
@@ -87,7 +88,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onMenuItemTap(com.ar.tdp2fiuba.hoycomo.model.MenuItem item) {
         Log.d(this.getLocalClassName(), "Menu item selected: " + item.toString());
-        // TODO: 22/4/18 Open menu item screen.
+        openMenuItem(item);
     }
 
 
@@ -135,6 +136,12 @@ public class HomeActivity extends AppCompatActivity
                     .addToBackStack(store.getId())
                     .commit();
         }
+    }
+
+    private void openMenuItem(com.ar.tdp2fiuba.hoycomo.model.MenuItem item) {
+        Intent intent = new Intent(this, MenuItemActivity.class);
+        intent.putExtra(MenuItemActivity.ARG_MENU_ITEM, new Gson().toJson(item));
+        startActivity(intent);
     }
 
     private void openFullMap(Address address, String markerName) {

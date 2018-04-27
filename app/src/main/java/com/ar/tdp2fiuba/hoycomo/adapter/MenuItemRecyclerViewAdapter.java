@@ -90,7 +90,7 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     }
 
     public void addLoadingFooter() {
-        final MenuItem dummyItem = new MenuItem(null, null, null, null, null, null,null);
+        final MenuItem dummyItem = new MenuItem();
         mValues.add(dummyItem);
         loadingItemIndex = mValues.size() - 1;
         if (loadingItemIndex == 0) {

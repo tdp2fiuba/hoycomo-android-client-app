@@ -10,8 +10,18 @@ public class MenuItem {
     private Integer price;
     private Integer discount;
     private List<String> pictures;
+    private List<String> garnishes;
+    private boolean celiac;
+    private boolean diabetic;
+    private boolean vegan;
+    private boolean vegetarian;
 
-    public MenuItem(String id, String storeId, String name, String description, Integer price, Integer discount, List<String> pictures) {
+    @Deprecated
+    public MenuItem() {}
+
+    public MenuItem(String id, String storeId, String name, String description, Integer price, Integer discount,
+                    List<String> pictures, List<String> garnishes,
+                    boolean celiac, boolean diabetic, boolean vegan, boolean vegetarian) {
         this.id = id;
         this.storeId = storeId;
         this.name = name;
@@ -19,6 +29,11 @@ public class MenuItem {
         this.price = price;
         this.discount = discount;
         this.pictures = pictures;
+        this.garnishes = garnishes;
+        this.celiac = celiac;
+        this.diabetic = diabetic;
+        this.vegan = vegan;
+        this.vegetarian = vegetarian;
     }
 
     public String getId() {
@@ -49,6 +64,26 @@ public class MenuItem {
         return pictures;
     }
 
+    public List<String> getGarnishes() {
+        return garnishes;
+    }
+
+    public boolean isCeliac() {
+        return celiac;
+    }
+
+    public boolean isDiabetic() {
+        return diabetic;
+    }
+
+    public boolean isVegan() {
+        return vegan;
+    }
+
+    public boolean isVegetarian() {
+        return vegetarian;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,6 +109,11 @@ public class MenuItem {
                 ", price=" + price +
                 ", discount=" + discount +
                 ", pictures=" + pictures +
+                ", garnishes=" + garnishes +
+                ", celiac=" + celiac +
+                ", diabetic=" + diabetic +
+                ", vegan=" + vegan +
+                ", vegetarian=" + vegetarian +
                 '}';
     }
 }

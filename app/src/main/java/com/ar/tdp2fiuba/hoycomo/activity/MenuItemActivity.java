@@ -2,7 +2,10 @@ package com.ar.tdp2fiuba.hoycomo.activity;
 
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.adapter.ImagePagerAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.MenuItem;
 import com.google.gson.Gson;
 
@@ -66,9 +70,24 @@ public class MenuItemActivity extends AppCompatActivity {
     private void displayInfo() {
         ((TextView) findViewById(R.id.menu_item_name)).setText(mMenuItem.getName());
         ((TextView) findViewById(R.id.menu_item_description)).setText(mMenuItem.getDescription());
+        setImages();
         setPrice();
         setForm();
         setSuitableForTable();
+    }
+
+    private void setImages() {
+        final View container = findViewById(R.id.menu_item_image_slider_container);
+        if (mMenuItem.getPictures() != null && !mMenuItem.getPictures().isEmpty()) {
+            container.setVisibility(View.VISIBLE);
+            ViewPager viewPager = findViewById(R.id.menu_item_slider_view_pager);
+            TabLayout tabLayout = findViewById(R.id.menu_item_slider_tab_dots);
+            tabLayout.setupWithViewPager(viewPager, true);
+            PagerAdapter adapter = new ImagePagerAdapter(this, mMenuItem.getPictures());
+            viewPager.setAdapter(adapter);
+        } else {
+            container.setVisibility(View.GONE);
+        }
     }
 
     private void setPrice() {
@@ -119,10 +138,11 @@ public class MenuItemActivity extends AppCompatActivity {
     private void setGarnishSpinner() {
         final Spinner garnishSpinner = findViewById(R.id.menu_item_garnish_spinner);
         final TextView garnishLabel = findViewById(R.id.menu_item_garnish_label);
+
         if (mMenuItem.getGarnishes() != null && !mMenuItem.getGarnishes().isEmpty()) {
             garnishLabel.setVisibility(View.VISIBLE);
             garnishSpinner.setVisibility(View.VISIBLE);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mMenuItem.getGarnishes());
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, mMenuItem.getGarnishes());
             garnishSpinner.setAdapter(adapter);
         } else {
             garnishLabel.setVisibility(View.GONE);

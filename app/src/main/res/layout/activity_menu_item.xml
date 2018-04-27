@@ -10,6 +10,25 @@
 
     <include layout="@layout/main_toolbar" />
 
+    <RelativeLayout
+        android:id="@+id/menu_item_image_slider_container"
+        android:layout_width="match_parent"
+        android:layout_height="140dp">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/menu_item_slider_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/menu_item_slider_tab_dots"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,8 +115,11 @@
                 android:text="@string/quantity"/>
             <Spinner
                 android:id="@+id/menu_item_quantity_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -114,8 +136,11 @@
                 android:text="@string/garnish"/>
             <Spinner
                 android:id="@+id/menu_item_garnish_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"/>
         </LinearLayout>
 
         <include layout="@layout/divider_primary_thin"/>

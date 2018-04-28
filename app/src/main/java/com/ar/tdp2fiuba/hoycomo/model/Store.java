@@ -1,8 +1,6 @@
 package com.ar.tdp2fiuba.hoycomo.model;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Store {
@@ -72,8 +70,15 @@ public class Store {
                 );
     }
 
-    public String getFoodTypes() {
+    public String getParsedFoodTypesAsString() {
+        if (foodTypes == null) {
+            return "";
+        }
         return String.join(", ", foodTypes);
+    }
+
+    public List<String> getFoodTypes() {
+        return foodTypes;
     }
 
     public void setFoodTypes(List<String> value) {

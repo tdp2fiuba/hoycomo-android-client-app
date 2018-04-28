@@ -95,6 +95,10 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_cart) {
             // TODO: Handle the cart action
+        } else if (id == R.id.nav_login) {
+            // TODO: 28/4/18 This should not be a drawer option.
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

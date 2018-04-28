@@ -59,6 +59,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             holder.mProgressBar.setVisibility(View.GONE);
 
             holder.mNameView.setText(holder.mItem.getName());
+            holder.mFoodTypesView.setText(holder.mItem.getFoodTypes());
             loadImage(holder);
             setDelayTime(holder);
 
@@ -146,6 +147,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
         public final View mView;
         public final TextView mNameView;
         public final TextView mDelayTimeView;
+        public final TextView mFoodTypesView;
         public final ImageView mImageView;
         public final LinearLayout mContentView;
         public final ProgressBar mProgressBar;
@@ -155,6 +157,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             super(view);
             mView = view;
             mNameView = (TextView) view.findViewById(R.id.store_row_name);
+            mFoodTypesView = (TextView) view.findViewById(R.id.store_row_food_types);
             mDelayTimeView = (TextView) view.findViewById(R.id.store_row_delay_time);
             mImageView = (ImageView) view.findViewById(R.id.store_row_image);
 

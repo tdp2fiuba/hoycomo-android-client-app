@@ -16,6 +16,7 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.StoreRecyclerViewAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.StoreService;
+import com.ar.tdp2fiuba.hoycomo.utils.StoreDeserializer;
 import com.ar.tdp2fiuba.hoycomo.utils.view.PaginationScrollListener;
 import com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport;
 import com.google.gson.FieldNamingPolicy;
@@ -139,7 +140,9 @@ public class StoreListFragment extends Fragment {
 
 
                 if (response.length() > 0) {
-                    final Gson gson = new GsonBuilder()
+                    GsonBuilder builder = new GsonBuilder();
+                    builder.registerTypeAdapter(Store.class, new StoreDeserializer());
+                    final Gson gson = builder
                             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                             .create();
                     for (int i = 0; i < response.length(); i++) {

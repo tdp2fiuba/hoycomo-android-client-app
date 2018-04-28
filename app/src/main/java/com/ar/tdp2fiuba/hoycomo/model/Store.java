@@ -1,5 +1,10 @@
 package com.ar.tdp2fiuba.hoycomo.model;
 
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Store {
     private String id;
     private String name;
@@ -7,6 +12,7 @@ public class Store {
     private String avatar;
     private DelayTime delayTime;
     private Availability availability;
+    private List<String> foodTypes;
 
     public Store(String id, String name, Address address, String avatar) {
         this(id, name, address, avatar, null, null);
@@ -18,12 +24,18 @@ public class Store {
 
     public Store(String id, String name, Address address, String avatar, DelayTime delayTime,
                  Availability availability) {
+        this(id, name, address, avatar, delayTime, availability, null);
+    }
+
+    public Store(String id, String name, Address address, String avatar, DelayTime delayTime,
+                 Availability availability, List<String> foodTypes) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.avatar = avatar;
         this.delayTime = delayTime;
         this.availability = availability;
+        this.foodTypes = foodTypes;
     }
 
     public String getId() {
@@ -60,6 +72,14 @@ public class Store {
                 );
     }
 
+    public String getFoodTypes() {
+        return String.join(", ", foodTypes);
+    }
+
+    public void setFoodTypes(List<String> value) {
+        this.foodTypes = value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,6 +104,7 @@ public class Store {
                 ", avatar='" + avatar + '\'' +
                 ", delayTime=" + delayTime +
                 ", availability=" + availability +
+                ", foodTypes='" + getFoodTypes() + '\'' +
                 '}';
     }
 }

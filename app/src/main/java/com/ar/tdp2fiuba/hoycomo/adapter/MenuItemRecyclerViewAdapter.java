@@ -86,9 +86,9 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     public void add(MenuItem item) {
         mValues.add(item);
         if (mValues.size() == 1) {
-            notifyItemInserted(mValues.size() - 1);
-        } else {
             notifyDataSetChanged();
+        } else {
+            notifyItemInserted(mValues.size() - 1);
         }
     }
 

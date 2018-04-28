@@ -31,4 +31,7 @@
     <string name="vegans">Veganos</string>
     <string name="vegetarians">Vegetarianos</string>
     <string name="quantity">Cantidad</string>
+    <string name="my_cart">Mi pedido</string>
+    <string name="not_logged_in">No ha iniciado sesión</string>
+    <string name="home">Inicio</string>
 </resources>

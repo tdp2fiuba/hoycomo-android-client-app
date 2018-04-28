@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment;
 import com.ar.tdp2fiuba.hoycomo.model.MenuItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,7 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
             holder.mNameView.setText(holder.mItem.getName());
             holder.mDescriptionView.setText(holder.mItem.getDescription());
             setPrice(holder);
+            loadImage(holder);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -128,12 +131,27 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
         holder.mPriceView.setText("$" + String.valueOf(finalPrice));
     }
 
+    private void loadImage(final ViewHolder holder) {
+        MenuItem item = holder.mItem;
+        ImageView imageView = holder.mImageView;
+
+        if (item.getPictures() != null && !item.getPictures().isEmpty()) {
+            imageView.setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load(item.getPictures().get(0))
+                    .into(imageView);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mNameView;
         public final TextView mDescriptionView;
         public final TextView mPriceView;
         public final TextView mDiscountView;
+        public final ImageView mImageView;
         public final LinearLayout mContentView;
         public final ProgressBar mProgressBar;
         public MenuItem mItem;
@@ -145,6 +163,7 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
             mDescriptionView = (TextView) view.findViewById(R.id.menu_item_row_description);
             mPriceView = (TextView) view.findViewById(R.id.menu_item_row_price);
             mDiscountView = (TextView) view.findViewById(R.id.menu_item_row_price_without_discount);
+            mImageView = (ImageView) view.findViewById(R.id.menu_item_row_image);
 
             mContentView = (LinearLayout) view.findViewById(R.id.menu_item_row_content);
             mProgressBar = (ProgressBar) view.findViewById(R.id.menu_item_row_loading);

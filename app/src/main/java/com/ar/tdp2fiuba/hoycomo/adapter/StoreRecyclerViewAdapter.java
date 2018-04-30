@@ -59,7 +59,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             holder.mProgressBar.setVisibility(View.GONE);
 
             holder.mNameView.setText(holder.mItem.getName());
-            holder.mFoodTypesView.setText(holder.mItem.getFoodTypes());
+            holder.mFoodTypesView.setText(holder.mItem.getParsedFoodTypesAsString());
             loadImage(holder);
             setDelayTime(holder);
 

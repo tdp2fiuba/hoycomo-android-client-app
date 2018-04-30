@@ -122,6 +122,7 @@ public class StoreFragment extends Fragment
     private void displayInfo(final View view) {
         loadImage((ImageView) view.findViewById(R.id.fragment_store_image));
         ((TextView) view.findViewById(R.id.fragment_store_name)).setText(mStore.getName());
+        ((TextView) view.findViewById(R.id.fragment_store_food_types)).setText(mStore.getParsedFoodTypesAsString());
         setDelayTime((TextView) view.findViewById(R.id.fragment_store_delay_time));
         displayTimetable(view.findViewById(R.id.timetable));
     }

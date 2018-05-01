@@ -45,12 +45,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        updateDrawerUsername();
-    }
-
-    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -114,14 +108,11 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
 
-    private void updateDrawerUsername() {
         String storedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
         if (storedUser != null) {
             User currentUser = new Gson().fromJson(storedUser, User.class);
             if (currentUser.getFirstName() != null) {
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 TextView drawerUsername = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_name);
                 drawerUsername.setText(currentUser.getFirstName());
             }

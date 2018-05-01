@@ -11,13 +11,19 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.ar.tdp2fiuba.hoycomo.model.User;
+import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
+import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
+
+import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -31,19 +37,17 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setDrawer(toolbar);
 
         if (savedInstanceState == null) {
             showListing();
         }
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateDrawerUsername();
     }
 
     @Override
@@ -85,25 +89,50 @@ public class HomeActivity extends AppCompatActivity
         openMenuItem(item);
     }
 
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_cart) {
-            // TODO: Handle the cart action
-        } else if (id == R.id.nav_login) {
-            // TODO: 28/4/18 This should not be a drawer option.
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+        if (id == R.id.nav_log_out) {
+            UserAuthenticationManager.logOut(this);
+            continueToLogIn();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setDrawer(Toolbar toolbar) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void updateDrawerUsername() {
+        String storedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
+        if (storedUser != null) {
+            User currentUser = new Gson().fromJson(storedUser, User.class);
+            if (currentUser.getFirstName() != null) {
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                TextView drawerUsername = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_name);
+                drawerUsername.setText(currentUser.getFirstName());
+            }
+        }
+    }
+
+    private void continueToLogIn() {
+        Intent intent = new Intent();
+        intent.setClass(HomeActivity.this, LoginActivity.class);
+        startActivity(intent);
+        HomeActivity.this.finish();
     }
 
     private void showListing() {

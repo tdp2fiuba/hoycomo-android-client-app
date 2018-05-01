@@ -137,7 +137,6 @@ public class StoreListFragment extends Fragment {
             public void onResponse(JSONArray response) {
                 stopLoading();
 
-
                 if (response.length() > 0) {
                     final Gson gson = new GsonBuilder()
                             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

@@ -5,14 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_login"
-            android:icon="@mipmap/ic_account_circle_white_48dp"
-            android:title="@string/log_in" />
-
-        <item
-            android:id="@+id/nav_cart"
-            android:icon="@mipmap/ic_shopping_cart_black_24dp"
-            android:title="@string/my_cart" />
+            android:id="@+id/nav_log_out"
+            android:icon="@mipmap/ic_close_black_36dp"
+            android:iconTint="@color/error"
+            android:title="@string/log_out" />
     </group>
 
 </menu>

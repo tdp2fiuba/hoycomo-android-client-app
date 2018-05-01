@@ -4,19 +4,28 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.model.User;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
+import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
+
+import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,9 +35,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        setLoginButtonListener();
+        if (UserAuthenticationManager.isUserLoggedIn(this)) {
+            continueToHome();
+        } else {
+            setContentView(R.layout.activity_login);
+            setLoginButtonListener();
+        }
     }
 
     @Override
@@ -50,7 +63,16 @@ public class LoginActivity extends AppCompatActivity {
                 Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        finish();
+                        final Gson gson = new GsonBuilder()
+                                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                                .create();
+                        final User user = gson.fromJson(response.toString(), User.class);
+                        SharedPreferencesUtils.save(getApplicationContext(), SHP_USER, user.toString());
+
+                        Toast.makeText(LoginActivity.this, getString(R.string.welcome_username)
+                                .replace(":username", user.getFirstName() != null ? user.getFirstName() : ""), Toast.LENGTH_SHORT
+                        ).show();
+                        continueToHome();
                     }
                 };
                 Response.ErrorListener errorListener = new Response.ErrorListener() {
@@ -58,8 +80,11 @@ public class LoginActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
                         Log.e(TAG, "Error on Facebook login");
+                        Toast.makeText(LoginActivity.this, R.string.error_log_in, Toast.LENGTH_SHORT).show();
+                        stopLoading();
                     }
                 };
+                startLoading();
                 UserAuthenticationManager.logIn(accessToken, successListener, errorListener);
             }
 
@@ -70,8 +95,27 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                exception.printStackTrace();
+                Log.e(TAG, "Error on Facebook login");
+                Toast.makeText(LoginActivity.this, R.string.error_log_in, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void continueToHome() {
+        Intent intent = new Intent();
+        intent.setClass(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
+        LoginActivity.this.finish();
+    }
+
+    private void startLoading() {
+        findViewById(R.id.login_container).setVisibility(View.GONE);
+        findViewById(R.id.login_progress_bar).setVisibility(View.VISIBLE);
+    }
+
+    private void stopLoading() {
+        findViewById(R.id.login_progress_bar).setVisibility(View.GONE);
+        findViewById(R.id.login_container).setVisibility(View.VISIBLE);
     }
 }

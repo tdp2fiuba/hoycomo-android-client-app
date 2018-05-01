@@ -36,4 +36,9 @@
     <string name="not_logged_in">No ha iniciado sesión</string>
     <string name="home">Inicio</string>
     <string name="log_in">Inicio de sesión</string>
+    <string name="welcome">¡Bienvenido a HoyComo!</string>
+    <string name="must_log_in_facebook">Debes iniciar sesión con Facebook para usar la app</string>
+    <string name="error_log_in">Ha ocurrido un error y no se ha podido iniciar sesión</string>
+    <string name="welcome_username">Bienvenido, :username</string>
+    <string name="log_out">Cerrar sesión</string>
 </resources>

@@ -161,7 +161,7 @@ public class StoreListFragment extends Fragment {
             }
         };
         startLoading();
-        StoreService.getStores(currentPage + 1, paginationCount, successListener, errorListener);
+        StoreService.getStores(currentPage, paginationCount, successListener, errorListener);
     }
 
     private void refreshData() {

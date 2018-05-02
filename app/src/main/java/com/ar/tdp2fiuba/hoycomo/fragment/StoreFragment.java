@@ -4,12 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
@@ -168,7 +168,7 @@ public class StoreFragment extends Fragment
 
     @SuppressLint("ClickableViewAccessibility")
     private void fixScrollOnMap() {
-        final ScrollView mainScrollView = (ScrollView) getView().findViewById(R.id.fragment_store_scroll_view);
+        final NestedScrollView mainScrollView = (NestedScrollView) getView().findViewById(R.id.fragment_store_scroll_view);
         final ImageView transparentImageView = (ImageView) getView().findViewById(R.id.fragment_store_transparent_image);
 
         transparentImageView.setOnTouchListener(new View.OnTouchListener() {

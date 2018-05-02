@@ -5,7 +5,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/fragment_store_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -92,5 +92,5 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </FrameLayout>

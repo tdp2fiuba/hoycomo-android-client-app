@@ -4,23 +4,19 @@ import com.google.gson.Gson;
 
 public class User {
     private String userId;
-    private String token;
     private String firstName;
     private String lastName;
+    private String avatar;
 
-    public User(String userId, String token, String firstName, String lastName) {
+    public User(String userId, String firstName, String lastName, String avatar) {
         this.userId = userId;
-        this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.avatar = avatar;
     }
 
     public String getUserId() {
         return userId;
-    }
-
-    public String getToken() {
-        return token;
     }
 
     public String getFirstName() {
@@ -29,6 +25,10 @@ public class User {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 
     @Override

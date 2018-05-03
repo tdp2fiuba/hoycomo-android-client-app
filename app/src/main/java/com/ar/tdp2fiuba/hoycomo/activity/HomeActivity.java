@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
@@ -22,6 +23,9 @@ import com.ar.tdp2fiuba.hoycomo.model.User;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
@@ -115,6 +119,10 @@ public class HomeActivity extends AppCompatActivity
             if (currentUser.getFirstName() != null) {
                 TextView drawerUsername = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_name);
                 drawerUsername.setText(currentUser.getFirstName());
+            }
+            if (currentUser.getAvatar() != null) {
+                CircleImageView drawerUserPicture = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_picture);
+                Picasso.get().load(currentUser.getAvatar()).into(drawerUserPicture);
             }
         }
     }

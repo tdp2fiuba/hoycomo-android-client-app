@@ -23,8 +23,10 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_TOKEN;
 import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
 public class LoginActivity extends AppCompatActivity {
@@ -66,13 +68,23 @@ public class LoginActivity extends AppCompatActivity {
                         final Gson gson = new GsonBuilder()
                                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                                 .create();
-                        final User user = gson.fromJson(response.toString(), User.class);
-                        SharedPreferencesUtils.save(getApplicationContext(), SHP_USER, user.toString());
+                        try {
+                            final User user = gson.fromJson(response.getJSONObject("user").toString(), User.class);
+                            SharedPreferencesUtils.save(getApplicationContext(), SHP_USER, user.toString());
 
-                        Toast.makeText(LoginActivity.this, getString(R.string.welcome_username)
-                                .replace(":username", user.getFirstName() != null ? user.getFirstName() : ""), Toast.LENGTH_SHORT
-                        ).show();
-                        continueToHome();
+                            final String token = response.getString("token");
+                            SharedPreferencesUtils.save(getApplicationContext(), SHP_TOKEN, token);
+
+                            Toast.makeText(LoginActivity.this, getString(R.string.welcome_username)
+                                    .replace(":username", user.getFirstName() != null ? user.getFirstName() : ""), Toast.LENGTH_SHORT
+                            ).show();
+                            continueToHome();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, "Error on Facebook login");
+                            Toast.makeText(LoginActivity.this, R.string.error_log_in, Toast.LENGTH_SHORT).show();
+                            stopLoading();
+                        }
                     }
                 };
                 Response.ErrorListener errorListener = new Response.ErrorListener() {

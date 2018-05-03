@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_TOKEN;
 import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
 public class UserAuthenticationManager {
@@ -45,11 +46,16 @@ public class UserAuthenticationManager {
     public static void logOut(Context context) {
         LoginManager.getInstance().logOut();
         SharedPreferencesUtils.remove(context, SHP_USER);
+        SharedPreferencesUtils.remove(context, SHP_TOKEN);
     }
 
     public static boolean isUserLoggedIn(Context context) {
-        String user = SharedPreferencesUtils.load(context, SHP_USER, null);
-        return user != null;
+        String token = SharedPreferencesUtils.load(context, SHP_TOKEN, null);
+        return token != null;
+    }
+
+    public static String getToken(Context context) {
+        return SharedPreferencesUtils.load(context, SHP_TOKEN, null);
     }
 
 }

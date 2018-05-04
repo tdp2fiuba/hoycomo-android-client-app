@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,8 @@ import com.google.gson.Gson;
 public class MenuItemActivity extends AppCompatActivity {
 
     public final static String ARG_MENU_ITEM = "menuItem";
+
+    private final static String TAG = "MenuItemActivity";
 
     private MenuItem mMenuItem;
 
@@ -67,6 +70,11 @@ public class MenuItemActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void addToCart(View v) {
+        Log.d(TAG, "MenuItem with ID " + mMenuItem.getId() + " added to My Cart");
+        // TODO: 3/5/18 Add MenuItem to My Cart
+    }
+
     private void displayInfo() {
         ((TextView) findViewById(R.id.menu_item_name)).setText(mMenuItem.getName());
         ((TextView) findViewById(R.id.menu_item_description)).setText(mMenuItem.getDescription());
@@ -105,6 +113,11 @@ public class MenuItemActivity extends AppCompatActivity {
         priceView.setText("$" + String.valueOf(finalPrice));
     }
 
+    private void setForm() {
+        setQuantitySpinner();
+        setGarnishSpinner();
+    }
+
     private void setSuitableForTable() {
         setSuitableFor(mMenuItem.isCeliac(), R.id.menu_item_coeliacs_icon);
         setSuitableFor(mMenuItem.isDiabetic(), R.id.menu_item_diabetics_icon);
@@ -121,11 +134,6 @@ public class MenuItemActivity extends AppCompatActivity {
             icon.setImageResource(R.mipmap.ic_close_black_36dp);
             icon.setColorFilter(ContextCompat.getColor(this, R.color.error), PorterDuff.Mode.SRC_IN);
         }
-    }
-
-    private void setForm() {
-        setQuantitySpinner();
-        setGarnishSpinner();
     }
 
     private void setQuantitySpinner() {

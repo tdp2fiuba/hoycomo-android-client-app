@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.StoreRecyclerViewAdapter;
+import com.ar.tdp2fiuba.hoycomo.model.Filter;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.StoreService;
 import com.ar.tdp2fiuba.hoycomo.utils.view.PaginationScrollListener;
@@ -41,6 +43,8 @@ public class StoreListFragment extends Fragment {
     private static final int paginationCount = 20;
     private boolean isLoading = false;
 
+    private Filter filter;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -59,7 +63,12 @@ public class StoreListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_store_list, container, false);
+
+        if (getArguments().getString("filter") != null) {
+            filter = Filter.parseJSONFilter(getArguments().getString("filter"));
+        }
 
         if (rootView != null) {
             Context context = rootView.getContext();
@@ -131,12 +140,17 @@ public class StoreListFragment extends Fragment {
         currentPage = 0;
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.filter).setVisible(true);
+        super.onPrepareOptionsMenu(menu);
+    }
+
     private void retrieveMoreStores() {
         Response.Listener<JSONArray> successListener = new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 stopLoading();
-
 
                 if (response.length() > 0) {
                     final Gson gson = new GsonBuilder()
@@ -162,7 +176,7 @@ public class StoreListFragment extends Fragment {
             }
         };
         startLoading();
-        StoreService.getStores(currentPage + 1, paginationCount, successListener, errorListener);
+        StoreService.getStores(currentPage + 1, paginationCount, filter, successListener, errorListener);
     }
 
     private void refreshData() {

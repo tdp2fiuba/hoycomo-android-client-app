@@ -11,6 +11,10 @@ public class DistanceFilter {
         this.distance = distance;
     }
 
+    public DistanceFilter() {
+
+    }
+
     public double getLat() {
         return this.lat;
     }
@@ -21,5 +25,17 @@ public class DistanceFilter {
 
     public double getDistance() {
         return this.distance;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

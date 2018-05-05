@@ -94,6 +94,7 @@ public class StoreFragment extends Fragment
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.delete_filters).setVisible(false);
         super.onPrepareOptionsMenu(menu);
     }
 

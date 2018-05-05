@@ -1,7 +1,12 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,42 +16,29 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.model.DistanceFilter;
 import com.ar.tdp2fiuba.hoycomo.model.Filter;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
 public class FilterActivity extends AppCompatActivity {
 
     private Filter filter;
+    private DistanceFilter distanceFilter;
+    private FusedLocationProviderClient mFuseLocationProviderClient;
+
+    private final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        String filterJSON = getIntent().getExtras().getString("filter");
-        filter = Filter.parseJSONFilter(filterJSON);
-
         setContentView(R.layout.activity_filter);
-
-        if (filter != null) {
-            EditText distance = findViewById(R.id.distance);
-            if (distance != null) {
-                distance.setText(Double.toString(filter.getDistance().getDistance()));
-            }
-        } else {
-            filter = new Filter();
-        }
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-                finish();
-            }
-        });
+        setFilter();
+        setLocationListener();
+        setToolbarBackButton();
     }
 
     @Override
@@ -77,9 +69,90 @@ public class FilterActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION:
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setLocationListener();
+                } else {
+                    Toast.makeText(this, R.string.error_required_permissions_distance_filter, Toast.LENGTH_SHORT).show();
+                    errorReturnToStoreList();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void errorReturnToStoreList() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    private void setFilter() {
+        String filterJSON = getIntent().getExtras().getString("filter");
+        filter = Filter.parseJSONFilter(filterJSON);
+
+        if (filter != null) {
+            distanceFilter = filter.getDistanceFilter();
+            EditText distance = findViewById(R.id.distance);
+            if (distance != null) {
+                distance.setText(Double.toString(distanceFilter.getDistance()));
+            }
+        } else {
+            filter = new Filter();
+            distanceFilter = new DistanceFilter();
+        }
+    }
+
+    private void setToolbarBackButton() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                intent.putExtra("filter", new Gson().toJson(filter));
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    private void setLocationListener() {
+        mFuseLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+            return;
+        }
+        mFuseLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    distanceFilter.setLat(location.getLatitude());
+                    distanceFilter.setLon(location.getLongitude());
+                }
+            }
+        });
+        mFuseLocationProviderClient.getLastLocation().addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                errorReturnToStoreList();
+            }
+        });
+    }
+
     private void fillFilter() {
         String distance = ((EditText)findViewById(R.id.distance)).getText().toString();
-        filter.setDistanceFilter(10, 10, Double.parseDouble(distance));
+        distanceFilter.setDistance(Double.parseDouble(distance));
+        filter.setDistanceFilter(distanceFilter);
     }
 
     private boolean validate() {

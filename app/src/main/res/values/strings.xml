@@ -26,4 +26,6 @@
     <string name="apply_filter">Aplicar</string>
     <string name="filter_distance_title">Distancia Máxima a mi Ubicación</string>
     <string name="filter_distance_label">Distancia Máxima (kms):</string>
+    <string name="error_required_distance_filter">Debe ingresar un valor de distancia</string>
+    <string name="delete_filters">Borrar Filtros</string>
 </resources>

@@ -82,6 +82,12 @@ public class HomeActivity extends AppCompatActivity
                 intent.putExtra("filter", new Gson().toJson(filter));
                 startActivity(intent);
                 return true;
+            case R.id.delete_filters:
+                filter = null;
+                finish();
+                getIntent().removeExtra("filter");
+                startActivity(getIntent());
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

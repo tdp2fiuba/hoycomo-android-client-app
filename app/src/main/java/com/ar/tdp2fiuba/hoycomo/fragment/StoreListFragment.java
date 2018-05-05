@@ -63,6 +63,7 @@ public class StoreListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        currentPage = 0;
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_store_list, container, false);
 
@@ -143,6 +144,12 @@ public class StoreListFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.filter).setVisible(true);
+        if (filter != null) {
+            menu.findItem(R.id.delete_filters).setVisible(true);
+        } else {
+            menu.findItem(R.id.delete_filters).setVisible(false);
+        }
+
         super.onPrepareOptionsMenu(menu);
     }
 
@@ -176,7 +183,7 @@ public class StoreListFragment extends Fragment {
             }
         };
         startLoading();
-        StoreService.getStores(currentPage + 1, paginationCount, filter, successListener, errorListener);
+        StoreService.getStores(currentPage, paginationCount, filter, successListener, errorListener);
     }
 
     private void refreshData() {

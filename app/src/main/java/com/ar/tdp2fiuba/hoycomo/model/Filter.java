@@ -3,20 +3,20 @@ package com.ar.tdp2fiuba.hoycomo.model;
 import com.google.gson.Gson;
 
 public class Filter {
-    private DistanceFilter distanceFilter;
+    private DistanceFilter distance;
 
     public Filter() {}
 
-    public Filter(DistanceFilter distanceFilter) {
-        this.distanceFilter = distanceFilter;
+    public Filter(DistanceFilter distance) {
+        this.distance = distance;
     }
 
-    public DistanceFilter getDistanceFilter() {
-        return this.distanceFilter;
+    public DistanceFilter getDistance() {
+        return this.distance;
     }
 
     public void setDistanceFilter(double lat, double lon, double distance) {
-        this.distanceFilter = new DistanceFilter(lat, lon, distance);
+        this.distance = new DistanceFilter(lat, lon, distance);
     }
 
     public String parseToJSONString() {

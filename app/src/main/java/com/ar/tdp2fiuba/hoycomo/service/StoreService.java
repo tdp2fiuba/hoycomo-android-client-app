@@ -13,17 +13,14 @@ public class StoreService {
     private static final String BASE_URL = "https://hoycomo-server.herokuapp.com/api";
 
     public static void getStores(int page, int count, Filter filter, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
-        final String url = BASE_URL + "/stores";
-        final Map<String, String> requestParams = new HashMap<>();
-        requestParams.put("page", Integer.toString(page));
-        requestParams.put("count", Integer.toString(count));
-        if (filter != null) {
-            requestParams.put("filters", filter.parseToJSONString());
-        }
+        final String urlWithPlaceholders = BASE_URL + "/stores?page=:page&count=:count&filters=:filters";
+        String url = urlWithPlaceholders.replace(":page", Integer.toString(page))
+                .replace(":count", Integer.toString(count))
+                .replace(":filters", filter == null ? "null" : filter.parseToJSONString());
 
         HttpRequestHelper.getArray(
                 url,
-                requestParams,
+                null,
                 successListener,
                 errorListener,
                 "GetStores"

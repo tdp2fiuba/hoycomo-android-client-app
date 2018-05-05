@@ -2,10 +2,11 @@
     <string name="app_name">HoyComo</string>
     <string name="filter_distance">Filtrar por Distancia</string>
 
+    <string name="facebook_app_id">201786523941932</string>
+    <string name="fb_login_protocol_scheme">fb331659324025102</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
 
     <string name="hours_range">:min a :max hs</string>
     <string name="minutes_range">:min - :max minutos</string>
@@ -29,4 +30,24 @@
     <string name="error_required_distance_filter">Debe ingresar un valor de distancia</string>
     <string name="error_required_permissions_distance_filter">Debe permitir usar la localización del celular para usar el filtro por distancia</string>
     <string name="delete_filters">Borrar Filtros</string>
+    <string name="error_no_menu">No se pudo obtener el menú del comercio. Por favor, chequá tu conexión.</string>
+    <string name="no_menu">El comercio no cuenta aún con un menú cargado</string>
+    <string name="garnish">Guarnición</string>
+    <string name="suitable_for">Apto para</string>
+    <string name="coeliacs">Celíacos</string>
+    <string name="diabetics">Diabéticos</string>
+    <string name="vegans">Veganos</string>
+    <string name="vegetarians">Vegetarianos</string>
+    <string name="quantity">Cantidad</string>
+    <string name="my_cart">Mi pedido</string>
+    <string name="not_logged_in">No ha iniciado sesión</string>
+    <string name="home">Inicio</string>
+    <string name="log_in">Inicio de sesión</string>
+    <string name="welcome">¡Bienvenido a HoyComo!</string>
+    <string name="must_log_in_facebook">Debes iniciar sesión con Facebook para usar la app</string>
+    <string name="error_log_in">Ha ocurrido un error y no se ha podido iniciar sesión</string>
+    <string name="welcome_username">Bienvenido, :username</string>
+    <string name="log_out">Cerrar sesión</string>
+    <string name="add_comments">Agregar comentarios…</string>
+    <string name="add_to_my_cart">Agregar a mi pedido</string>
 </resources>

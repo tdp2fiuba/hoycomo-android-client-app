@@ -19,7 +19,6 @@
         android:orderInCategory="200"
         android:icon="@drawable/ic_filter_list_black_24dp"
         android:iconTint="@color/white"
-        android:title="@string/action_settings"
         app:showAsAction="always">
 
     </item>

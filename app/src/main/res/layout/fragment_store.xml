@@ -5,25 +5,39 @@
     android:clickable="true"
     android:focusable="true">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/fragment_store_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <fragment
-                android:id="@+id/fragment_store_map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="128dp" />
+                android:layout_height="128dp">
+
+                <fragment
+                    android:id="@+id/fragment_store_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:id="@+id/fragment_store_transparent_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@android:color/transparent" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:layout_marginBottom="12dp">
 
                 <ImageView
                     android:id="@+id/fragment_store_image"
@@ -76,9 +90,15 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <FrameLayout
+                android:id="@+id/fragment_store_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"/>
+
             <include layout="@layout/availability_timetable" />
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </FrameLayout>

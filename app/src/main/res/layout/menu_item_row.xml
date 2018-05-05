@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/menu_item_row_content"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:baselineAligned="false">
+
+        <ImageView
+            android:id="@+id/menu_item_row_image"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="fitXY"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="left"
+            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menu_item_row_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="16sp"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/menu_item_row_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:layout_marginLeft="74dp"
+            android:layout_marginStart="74dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menu_item_row_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/menu_item_row_price_without_discount"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="14sp"
+                android:textColor="@color/colorAccent"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/menu_item_row_loading"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</android.support.constraint.ConstraintLayout>

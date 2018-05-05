@@ -3,40 +3,56 @@ package com.ar.tdp2fiuba.hoycomo.activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
+
 import com.ar.tdp2fiuba.hoycomo.model.Address;
 import com.ar.tdp2fiuba.hoycomo.model.Filter;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.google.gson.Gson;
+import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.ar.tdp2fiuba.hoycomo.model.User;
+import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
+import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
 public class HomeActivity extends AppCompatActivity
-        implements StoreListFragment.OnStoreListFragmentInteractionListener,
-            StoreFragment.OnStoreFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+            StoreListFragment.OnStoreListFragmentInteractionListener,
+            StoreFragment.OnStoreFragmentInteractionListener,
+            MenuFragment.OnMenuFragmentInteractionListener {
 
     private Filter filter;
+    private final int FILTER_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        if (intent != null && intent.getExtras() != null) {
-            String filterJSON = intent.getExtras().getString("filter");
-            filter = Filter.parseJSONFilter(filterJSON);
-        }
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setDrawer(toolbar);
 
         if (savedInstanceState == null) {
             showListing();
@@ -80,13 +96,11 @@ public class HomeActivity extends AppCompatActivity
             case R.id.filter:
                 Intent intent = new Intent(this, FilterActivity.class);
                 intent.putExtra("filter", new Gson().toJson(filter));
-                startActivity(intent);
+                startActivityForResult(intent, FILTER_REQUEST_CODE);
                 return true;
             case R.id.delete_filters:
                 filter = null;
-                finish();
-                getIntent().removeExtra("filter");
-                startActivity(getIntent());
+                showListing();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -95,9 +109,76 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case FILTER_REQUEST_CODE:
+                if (data != null && data.getExtras() != null) {
+                    String filterJSON = data.getExtras().getString("filter");
+                    filter = Filter.parseJSONFilter(filterJSON);
+                }
+                showListing();
+                break;
+        }
+    }
+
+    @Override
     public void onStoreTap(Store item) {
         Log.d(this.getLocalClassName(), "Item selected: " + item.toString());
         showStore(item);
+    }
+
+    @Override
+    public void onMenuItemTap(com.ar.tdp2fiuba.hoycomo.model.MenuItem item) {
+        Log.d(this.getLocalClassName(), "Menu item selected: " + item.toString());
+        openMenuItem(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_log_out) {
+            UserAuthenticationManager.logOut(this);
+            continueToLogIn();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void setDrawer(Toolbar toolbar) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        String storedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
+        if (storedUser != null) {
+            User currentUser = new Gson().fromJson(storedUser, User.class);
+            if (currentUser.getFirstName() != null) {
+                TextView drawerUsername = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_name);
+                drawerUsername.setText(currentUser.getFirstName());
+            }
+            if (currentUser.getAvatar() != null) {
+                CircleImageView drawerUserPicture = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_picture);
+                Picasso.get().load(currentUser.getAvatar()).into(drawerUserPicture);
+            }
+        }
+    }
+
+    private void continueToLogIn() {
+        Intent intent = new Intent();
+        intent.setClass(HomeActivity.this, LoginActivity.class);
+        startActivity(intent);
+        HomeActivity.this.finish();
     }
 
     private void showListing() {
@@ -122,8 +203,9 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onStoreMapTap(Address address, String markerName) {
-
+    private void openMenuItem(com.ar.tdp2fiuba.hoycomo.model.MenuItem item) {
+        Intent intent = new Intent(this, MenuItemActivity.class);
+        intent.putExtra(MenuItemActivity.ARG_MENU_ITEM, new Gson().toJson(item));
+        startActivity(intent);
     }
 }

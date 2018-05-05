@@ -112,7 +112,8 @@ public class HttpRequestHelper {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Connection", "close"); // Créditos a Martín Cura
+                headers.put("Connection", "close"); // Créditos a Martín Cura <3
+                headers.put("Authorization", "Bearer" + UserAuthenticationManager.getToken(context));
                 return headers;
             }
 

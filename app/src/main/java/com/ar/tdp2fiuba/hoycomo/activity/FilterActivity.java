@@ -1,6 +1,7 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -52,9 +53,10 @@ public class FilterActivity extends AppCompatActivity {
             case R.id.apply_filter:
                 if (validate()) {
                     fillFilter();
-                    Intent intent = new Intent(this, HomeActivity.class);
+                    Intent intent = new Intent();
                     intent.putExtra("filter", new Gson().toJson(filter));
-                    startActivity(intent);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
                 }
                 return true;
             default:
@@ -116,9 +118,7 @@ public class FilterActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                intent.putExtra("filter", new Gson().toJson(filter));
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 finish();
             }
         });

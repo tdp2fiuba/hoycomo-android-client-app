@@ -14,7 +14,7 @@ public class StoreService {
 
     public static void getStores(int page, int count, Filter filter, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
         final String urlWithPlaceholders = BASE_URL + "/stores?page=:page&count=:count&filters=:filters";
-        String url = urlWithPlaceholders.replace(":page", Integer.toString(page))
+        final String url = urlWithPlaceholders.replace(":page", Integer.toString(page))
                 .replace(":count", Integer.toString(count))
                 .replace(":filters", filter == null ? "null" : filter.parseToJSONString());
 
@@ -24,6 +24,19 @@ public class StoreService {
                 successListener,
                 errorListener,
                 "GetStores"
+        );
+    }
+
+    public static void getMenu(String storeId, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
+        String urlWithPlaceholders = BASE_URL + "/dish/store/:storeId";
+        final String url = urlWithPlaceholders.replace(":storeId", storeId);
+
+        HttpRequestHelper.getArray(
+                url,
+                null,
+                successListener,
+                errorListener,
+                "GetMenu"
         );
     }
 }

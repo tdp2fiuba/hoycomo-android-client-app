@@ -1,21 +1,19 @@
 package com.ar.tdp2fiuba.hoycomo.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
-import com.ar.tdp2fiuba.hoycomo.model.Address;
 import com.ar.tdp2fiuba.hoycomo.model.DailyTimeWindow;
 import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
@@ -123,12 +121,7 @@ public class StoreFragment extends Fragment
         mMap.addMarker(new MarkerOptions().position(latLng).title(mStore.getName()).snippet(mStore.getAddress().getName()));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                mListener.onStoreMapTap(mStore.getAddress(), mStore.getName());
-            }
-        });
+        fixScrollOnMap();
     }
 
     private void displayInfo(final View view) {
@@ -136,7 +129,17 @@ public class StoreFragment extends Fragment
         ((TextView) view.findViewById(R.id.fragment_store_name)).setText(mStore.getName());
         ((TextView) view.findViewById(R.id.fragment_store_food_types)).setText(mStore.getParsedFoodTypesAsString());
         setDelayTime((TextView) view.findViewById(R.id.fragment_store_delay_time));
+        showMenu(view);
         displayTimetable(view.findViewById(R.id.timetable));
+    }
+
+    private void showMenu(final View view) {
+        if (view.findViewById(R.id.fragment_store_menu) != null) {
+            MenuFragment menuFragment = MenuFragment.newInstance(mStore.getId());
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_store_menu, menuFragment)
+                    .commit();
+        }
     }
 
     private void loadImage(final ImageView imageView) {
@@ -173,16 +176,51 @@ public class StoreFragment extends Fragment
         displayDailyTimeWindow(mStore.getAvailability().getSunday(), timetable, R.id.timetable_sunday_hours);
     }
 
-    private void displayDailyTimeWindow(@Nullable DailyTimeWindow timeWindow, final View timetable, int timeWindowViewId) {
+    @SuppressLint("ClickableViewAccessibility")
+    private void fixScrollOnMap() {
+        final NestedScrollView mainScrollView = (NestedScrollView) getView().findViewById(R.id.fragment_store_scroll_view);
+        final ImageView transparentImageView = (ImageView) getView().findViewById(R.id.fragment_store_transparent_image);
+
+        transparentImageView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        mainScrollView.requestDisallowInterceptTouchEvent(true);
+                        // Disable touch on transparent view
+                        return false;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        mainScrollView.requestDisallowInterceptTouchEvent(false);
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        mainScrollView.requestDisallowInterceptTouchEvent(true);
+                        return false;
+
+                    default:
+                        return true;
+                }
+            }
+        });
+    }
+
+    private void displayDailyTimeWindow(DailyTimeWindow timeWindow, final View timetable, int timeWindowViewId) {
         TextView hoursTextView = (TextView) timetable.findViewById(timeWindowViewId);
-        if (timeWindow != null && timeWindow.getStartTime() != null && timeWindow.getEndTime() != null) {
-            if (timeWindow.getStartTime().equals(timeWindow.getEndTime())) {
+        if (timeWindow != null && !timeWindow.isClosedAllDay()) {
+            if (timeWindow.isOpenAllDay()) {
                 hoursTextView.setText(R.string.open_all_day);
+            } else if (timeWindow.getStartTime() == null && timeWindow.getEndTime() == null) {
+                hoursTextView.setText("-");
             } else {
                 hoursTextView.setText(
                         hoursTextView.getText().toString()
-                                .replace(":min", timeWindow.getStartTime())
-                                .replace(":max", timeWindow.getEndTime())
+                                .replace(":min", timeWindow.getStartTime() != null ? timeWindow.getStartTime() : "-")
+                                .replace(":max", timeWindow.getEndTime() != null ? timeWindow.getEndTime() : "-")
                 );
             }
         } else {
@@ -198,7 +236,7 @@ public class StoreFragment extends Fragment
      * activity.
      */
     public interface OnStoreFragmentInteractionListener {
-        void onStoreMapTap(Address address, String markerName);
+
     }
 
 }

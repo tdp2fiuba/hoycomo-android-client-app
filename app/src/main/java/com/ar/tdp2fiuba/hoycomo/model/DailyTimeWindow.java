@@ -19,6 +19,16 @@ public class DailyTimeWindow {
         return endTime != null ? DateUtils.formatTime(endTime) : null;
     }
 
+    public boolean isOpenAllDay() {
+        return getStartTime() != null && getEndTime() != null
+                && getStartTime().equals("00") && getEndTime().equals("24");
+    }
+
+    public boolean isClosedAllDay() {
+        return getStartTime() != null && getEndTime() != null
+                && getStartTime().equals(getEndTime());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "42652009726",
+    "firebase_url": "https://hoycomo-1522801207352.firebaseio.com",
+    "project_id": "hoycomo-1522801207352",
+    "storage_bucket": "hoycomo-1522801207352.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42652009726:android:6881873e6f04be03",
+        "android_client_info": {
+          "package_name": "com.ar.tdp2fiuba.hoycomo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "42652009726-p0b1fhcmvaol7ru51dducnekdncb0rh1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6X5DtjxYSfuEB3FBbI4RTyLk-h5TZjfU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

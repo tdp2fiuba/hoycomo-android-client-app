@@ -1,4 +1,4 @@
-package com.ar.tdp2fiuba.hoycomo.model.request;
+package com.ar.tdp2fiuba.hoycomo.model;
 
 public class FacebookLogInRequest {
     private String accessToken;

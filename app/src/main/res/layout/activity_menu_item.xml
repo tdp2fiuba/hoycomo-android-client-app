@@ -263,7 +263,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="12dp"
-        android:text="@string/add_to_my_cart"
-        android:onClick="addToCart"/>
+        android:text="@string/add_to_my_order"
+        android:onClick="addToMyOrder"/>
 
 </RelativeLayout>

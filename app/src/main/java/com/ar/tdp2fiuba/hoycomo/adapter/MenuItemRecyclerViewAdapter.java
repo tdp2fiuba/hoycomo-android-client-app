@@ -26,15 +26,17 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
 
     private final List<MenuItem> mValues;
     private final MenuFragment.OnMenuFragmentInteractionListener mListener;
+    private final String mStoreId;
 
     private int loadingItemIndex = -1;    // Not loading
 
     private final static int ITEM = 0;
     private final static int LOADING = 1;
 
-    public MenuItemRecyclerViewAdapter(MenuFragment.OnMenuFragmentInteractionListener listener) {
+    public MenuItemRecyclerViewAdapter(MenuFragment.OnMenuFragmentInteractionListener listener, String storeId) {
         mValues = new ArrayList<>();
         mListener = listener;
+        mStoreId = storeId;
     }
 
     @Override
@@ -66,7 +68,7 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
                     if (null != mListener) {
                         // Notify the active callbacks interface (the activity, if the
                         // fragment is attached to one) that an item has been selected.
-                        mListener.onMenuItemTap(holder.mItem);
+                        mListener.onMenuItemTap(holder.mItem, mStoreId);
                     }
                 }
             });

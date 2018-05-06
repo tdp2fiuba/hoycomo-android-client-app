@@ -80,7 +80,7 @@ public class MenuFragment extends Fragment {
                     layoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
             recyclerView.setEmptyView(rootView.findViewById(R.id.empty_menu));
-            mAdapter = new MenuItemRecyclerViewAdapter(mListener);
+            mAdapter = new MenuItemRecyclerViewAdapter(mListener, mStoreId);
             recyclerView.setAdapter(mAdapter);
             recyclerView.setNestedScrollingEnabled(false);
 
@@ -167,6 +167,6 @@ public class MenuFragment extends Fragment {
      * activity.
      */
     public interface OnMenuFragmentInteractionListener {
-        void onMenuItemTap(MenuItem item);
+        void onMenuItemTap(MenuItem item, String storeId);
     }
 }

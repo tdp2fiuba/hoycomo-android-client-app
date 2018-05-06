@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment;
 import com.ar.tdp2fiuba.hoycomo.model.MenuItem;
+import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,17 +27,17 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
 
     private final List<MenuItem> mValues;
     private final MenuFragment.OnMenuFragmentInteractionListener mListener;
-    private final String mStoreId;
+    private final Store mStore;
 
     private int loadingItemIndex = -1;    // Not loading
 
     private final static int ITEM = 0;
     private final static int LOADING = 1;
 
-    public MenuItemRecyclerViewAdapter(MenuFragment.OnMenuFragmentInteractionListener listener, String storeId) {
+    public MenuItemRecyclerViewAdapter(MenuFragment.OnMenuFragmentInteractionListener listener, Store store) {
         mValues = new ArrayList<>();
         mListener = listener;
-        mStoreId = storeId;
+        mStore = store;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
                     if (null != mListener) {
                         // Notify the active callbacks interface (the activity, if the
                         // fragment is attached to one) that an item has been selected.
-                        mListener.onMenuItemTap(holder.mItem, mStoreId);
+                        mListener.onMenuItemTap(holder.mItem, mStore);
                     }
                 }
             });

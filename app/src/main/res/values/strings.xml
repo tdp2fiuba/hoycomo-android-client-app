@@ -32,7 +32,7 @@
     <string name="vegans">Veganos</string>
     <string name="vegetarians">Vegetarianos</string>
     <string name="quantity">Cantidad</string>
-    <string name="my_cart">Mi pedido</string>
+    <string name="my_order">Mi pedido</string>
     <string name="not_logged_in">No ha iniciado sesión</string>
     <string name="home">Inicio</string>
     <string name="log_in">Inicio de sesión</string>
@@ -46,4 +46,9 @@
     <string name="log_in_for_order">Iniciá sesión para realizar tus pedidos</string>
     <string name="one_store_for_order">Lo sentimos, los pedidos sólo admiten un comercio por vez</string>
     <string name="see_my_order">Ver mi pedido</string>
+    <string name="_continue">Continuar</string>
+    <string name="subtotal_amount">Subtotal: :monto</string>
+    <string name="add_more_food">Agregar más comida</string>
+    <string name="cancel">Cancelar</string>
+    <string name="order_cancelled">El pedido fue cancelado</string>
 </resources>

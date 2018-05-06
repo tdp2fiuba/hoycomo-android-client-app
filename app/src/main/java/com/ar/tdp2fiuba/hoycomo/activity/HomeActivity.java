@@ -87,14 +87,15 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMenuItemTap(com.ar.tdp2fiuba.hoycomo.model.MenuItem item, String storeId) {
+    public void onMenuItemTap(com.ar.tdp2fiuba.hoycomo.model.MenuItem item, Store store) {
         Log.d(this.getLocalClassName(), "Menu item selected: " + item.toString());
-        openMenuItem(item, storeId);
+        openMenuItem(item, store);
     }
 
     @Override
     public void onMyOrderButtonPressed() {
-        // TODO: 5/5/18 Open MyOrder activity.
+        Intent intent = new Intent(this, MyOrderActivity.class);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -165,10 +166,10 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    private void openMenuItem(com.ar.tdp2fiuba.hoycomo.model.MenuItem item, String storeId) {
+    private void openMenuItem(com.ar.tdp2fiuba.hoycomo.model.MenuItem item, Store store) {
         Intent intent = new Intent(this, MenuItemActivity.class);
         intent.putExtra(MenuItemActivity.ARG_MENU_ITEM, new Gson().toJson(item));
-        intent.putExtra(MenuItemActivity.ARG_STORE_ID, storeId);
+        intent.putExtra(MenuItemActivity.ARG_STORE, new Gson().toJson(store));
         startActivity(intent);
     }
 }

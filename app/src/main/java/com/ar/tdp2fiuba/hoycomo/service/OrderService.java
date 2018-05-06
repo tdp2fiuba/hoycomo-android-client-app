@@ -16,4 +16,8 @@ public class OrderService {
     public static boolean isThereCurrentOrder() {
         return myOrder != null;
     }
+
+    public static void clearOrder() {
+        myOrder = null;
+    }
 }

@@ -4,11 +4,13 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_log_out"
             android:icon="@mipmap/ic_close_black_36dp"
             android:iconTint="@color/error"
             android:title="@string/log_out" />
+
     </group>
 
 </menu>

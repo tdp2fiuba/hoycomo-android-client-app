@@ -136,7 +136,7 @@ public class StoreFragment extends Fragment
         if (getView() != null) {
             final Button myOrderButton = getView().findViewById(R.id.fragment_store_my_order_button);
             if (OrderService.isThereCurrentOrder()
-                    && OrderService.getMyCurrentOrder().getStoreId().equals(mStore.getId())) {
+                    && OrderService.getMyCurrentOrder().getStore().equals(mStore)) {
                 myOrderButton.setVisibility(View.VISIBLE);
             } else {
                 myOrderButton.setVisibility(View.GONE);
@@ -146,7 +146,7 @@ public class StoreFragment extends Fragment
 
     private void showMenu(final View view) {
         if (view.findViewById(R.id.fragment_store_menu) != null) {
-            MenuFragment menuFragment = MenuFragment.newInstance(mStore.getId());
+            MenuFragment menuFragment = MenuFragment.newInstance(mStore);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_store_menu, menuFragment)
                     .commit();

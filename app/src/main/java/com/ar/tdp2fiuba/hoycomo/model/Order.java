@@ -5,26 +5,26 @@ import java.util.List;
 
 public class Order {
     private String userId;
-    private String storeId;
+    private Store store;
     private Integer price;
-    private List<String> dishesId;
+    private List<OrderItem> items;
     private String description;
     private Address address;
 
-    public Order(String userId, String storeId, Integer price, List<String> dishesId) {
-        this(userId, storeId, price, dishesId, null, null);
+    public Order(String userId, Store store, Integer price, List<OrderItem> items) {
+        this(userId, store, price, items, null, null);
     }
 
-    public Order(String userId, String storeId, Integer price, List<String> dishesId, Address address) {
-        this(userId, storeId, price, dishesId, null, address);
+    public Order(String userId, Store store, Integer price, List<OrderItem> items, Address address) {
+        this(userId, store, price, items, null, address);
     }
 
-    public Order(String userId, String storeId, Integer price, List<String> dishesId, String description,
+    public Order(String userId, Store store, Integer price, List<OrderItem> items, String description,
                  Address address) {
         this.userId = userId;
-        this.storeId = storeId;
+        this.store = store;
         this.price = price;
-        this.dishesId = dishesId;
+        this.items = items;
         this.description = description;
         this.address = address;
     }
@@ -33,17 +33,12 @@ public class Order {
         return userId;
     }
 
-    public String getStoreId() {
-        return storeId;
+    public Store getStore() {
+        return store;
     }
 
     public Integer getPrice() {
         return price;
-    }
-
-    public Integer addToPrice(Integer priceToAdd) {
-        this.price += priceToAdd;
-        return this.price;
     }
 
     public String getDescription() {
@@ -54,15 +49,16 @@ public class Order {
         this.description = description;
     }
 
-    public List<String> getDishesId() {
-        return dishesId;
+    public List<OrderItem> getItems() {
+        return items;
     }
 
-    public void addDishId(String dishId) {
-        if (dishesId == null) {
-            dishesId = new ArrayList<>();
+    public void addItem(OrderItem item) {
+        if (items == null) {
+            items = new ArrayList<>();
         }
-        dishesId.add(dishId);
+        items.add(item);
+        price += item.getPrice() * item.getQuantity();
     }
 
     public Address getAddress() {
@@ -77,10 +73,10 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "userId='" + userId + '\'' +
-                ", storeId='" + storeId + '\'' +
+                ", store='" + store + '\'' +
                 ", price=" + price +
                 ", description='" + description + '\'' +
-                ", dishesId=" + dishesId +
+                ", items=" + items +
                 ", address=" + address +
                 '}';
     }

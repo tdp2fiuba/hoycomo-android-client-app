@@ -51,12 +51,12 @@ public class MenuItemActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle(mMenuItem.getName());
 
         if (savedInstanceState == null) {
             if (getIntent() != null) {
                 if (getIntent().getStringExtra(ARG_MENU_ITEM) != null) {
                     mMenuItem = new Gson().fromJson(getIntent().getStringExtra(ARG_MENU_ITEM), MenuItem.class);
+                    getSupportActionBar().setTitle(mMenuItem.getName());
                     displayInfo();
                 }
                 if (getIntent().getStringExtra(ARG_STORE_ID) != null) {

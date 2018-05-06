@@ -12,4 +12,8 @@ public class OrderService {
     public static void setAsCurrentOrder(Order order) {
         myOrder = order;
     }
+
+    public static boolean isThereCurrentOrder() {
+        return myOrder != null;
+    }
 }

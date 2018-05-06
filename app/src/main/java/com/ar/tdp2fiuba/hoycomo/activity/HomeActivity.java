@@ -92,6 +92,11 @@ public class HomeActivity extends AppCompatActivity
         openMenuItem(item, storeId);
     }
 
+    @Override
+    public void onMyOrderButtonPressed() {
+        // TODO: 5/5/18 Open MyOrder activity.
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

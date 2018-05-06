@@ -16,19 +16,32 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.ImagePagerAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.MenuItem;
+import com.ar.tdp2fiuba.hoycomo.model.Order;
+import com.ar.tdp2fiuba.hoycomo.model.User;
+import com.ar.tdp2fiuba.hoycomo.service.OrderService;
+import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
+import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
 public class MenuItemActivity extends AppCompatActivity {
 
     public final static String ARG_MENU_ITEM = "menuItem";
+    public final static String ARG_STORE_ID = "storeId";
 
     private final static String TAG = "MenuItemActivity";
 
     private MenuItem mMenuItem;
+    private String mStoreId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +51,17 @@ public class MenuItemActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(mMenuItem.getName());
 
         if (savedInstanceState == null) {
-            if (getIntent() != null && getIntent().getStringExtra(ARG_MENU_ITEM) != null) {
-                mMenuItem = new Gson().fromJson(getIntent().getStringExtra(ARG_MENU_ITEM), MenuItem.class);
-                displayInfo();
+            if (getIntent() != null) {
+                if (getIntent().getStringExtra(ARG_MENU_ITEM) != null) {
+                    mMenuItem = new Gson().fromJson(getIntent().getStringExtra(ARG_MENU_ITEM), MenuItem.class);
+                    displayInfo();
+                }
+                if (getIntent().getStringExtra(ARG_STORE_ID) != null) {
+                    mStoreId = getIntent().getStringExtra(ARG_STORE_ID);
+                }
             }
         }
     }
@@ -70,9 +89,32 @@ public class MenuItemActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addToCart(View v) {
-        Log.d(TAG, "MenuItem with ID " + mMenuItem.getId() + " added to My Cart");
-        // TODO: 3/5/18 Add MenuItem to My Cart
+    public void addToMyOrder(View v) {
+        Log.d(TAG, "MenuItem with ID " + mMenuItem.getId() + " added to My Order");
+        Order myCurrentOrder = OrderService.getMyCurrentOrder();
+        if (myCurrentOrder == null) {
+            if (UserAuthenticationManager.isUserLoggedIn(this)) {
+                String serializedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
+                User user = new Gson().fromJson(serializedUser, User.class);
+                List<String> dishIds = new ArrayList<>();
+                dishIds.add(mMenuItem.getId());
+                Order newOrder = new Order(user.getUserId(), mStoreId, mMenuItem.getPrice(), dishIds, user.getAddress());
+                OrderService.setAsCurrentOrder(newOrder);
+                Log.d(TAG, "My Order: " + newOrder);
+                finish();
+            } else {
+                Toast.makeText(this, R.string.log_in_for_order, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            if (!myCurrentOrder.getStoreId().equals(mStoreId)) {
+                Toast.makeText(this, R.string.one_store_for_order, Toast.LENGTH_LONG).show();
+            } else {
+                myCurrentOrder.addDishId(mMenuItem.getId());
+                myCurrentOrder.addToPrice(mMenuItem.getPrice());
+                Log.d(TAG, "My Order: " + myCurrentOrder);
+                finish();
+            }
+        }
     }
 
     private void displayInfo() {

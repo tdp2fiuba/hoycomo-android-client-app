@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
@@ -49,12 +48,18 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 
@@ -82,9 +87,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMenuItemTap(com.ar.tdp2fiuba.hoycomo.model.MenuItem item) {
+    public void onMenuItemTap(com.ar.tdp2fiuba.hoycomo.model.MenuItem item, String storeId) {
         Log.d(this.getLocalClassName(), "Menu item selected: " + item.toString());
-        openMenuItem(item);
+        openMenuItem(item, storeId);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -140,6 +145,7 @@ public class HomeActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.home_fragment_container, listFragment)
                     .commit();
+            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 
@@ -150,12 +156,14 @@ public class HomeActivity extends AppCompatActivity
                     .add(R.id.home_fragment_container, storeFragment)
                     .addToBackStack(store.getId())
                     .commit();
+            getSupportActionBar().setTitle(store.getName());
         }
     }
 
-    private void openMenuItem(com.ar.tdp2fiuba.hoycomo.model.MenuItem item) {
+    private void openMenuItem(com.ar.tdp2fiuba.hoycomo.model.MenuItem item, String storeId) {
         Intent intent = new Intent(this, MenuItemActivity.class);
         intent.putExtra(MenuItemActivity.ARG_MENU_ITEM, new Gson().toJson(item));
+        intent.putExtra(MenuItemActivity.ARG_STORE_ID, storeId);
         startActivity(intent);
     }
 }

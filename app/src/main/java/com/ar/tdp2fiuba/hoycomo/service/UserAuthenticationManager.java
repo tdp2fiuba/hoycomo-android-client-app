@@ -3,7 +3,7 @@ package com.ar.tdp2fiuba.hoycomo.service;
 import android.content.Context;
 
 import com.android.volley.Response;
-import com.ar.tdp2fiuba.hoycomo.model.request.FacebookLogInRequest;
+import com.ar.tdp2fiuba.hoycomo.model.FacebookLogInRequest;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.facebook.login.LoginManager;
 import com.google.gson.FieldNamingPolicy;

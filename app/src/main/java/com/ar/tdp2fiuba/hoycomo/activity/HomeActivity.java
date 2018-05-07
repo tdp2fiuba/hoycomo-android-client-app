@@ -194,10 +194,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void showListing() {
         if (findViewById(R.id.home_fragment_container) != null) {
-            StoreListFragment listFragment = StoreListFragment.newInstance();
-            Bundle filterBundle = new Bundle();
-            filterBundle.putString("filter", new Gson().toJson(filter));
-            listFragment.setArguments(filterBundle);
+            StoreListFragment listFragment = StoreListFragment.newInstance(filter);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.home_fragment_container, listFragment)
                     .commit();

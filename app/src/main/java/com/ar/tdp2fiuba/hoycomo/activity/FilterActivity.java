@@ -89,8 +89,7 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void errorReturnToStoreList() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     private void setFilter() {

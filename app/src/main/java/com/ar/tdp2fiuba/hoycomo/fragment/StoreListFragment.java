@@ -51,9 +51,13 @@ public class StoreListFragment extends Fragment {
      */
     public StoreListFragment() {}
 
+    public StoreListFragment(Filter filter) { this.filter = filter; }
+
     public static StoreListFragment newInstance() {
         return new StoreListFragment();
     }
+
+    public static StoreListFragment newInstance(Filter filter) { return new StoreListFragment(filter); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,10 +70,6 @@ public class StoreListFragment extends Fragment {
         currentPage = 0;
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_store_list, container, false);
-
-        if (getArguments().getString("filter") != null) {
-            filter = Filter.parseJSONFilter(getArguments().getString("filter"));
-        }
 
         if (rootView != null) {
             Context context = rootView.getContext();

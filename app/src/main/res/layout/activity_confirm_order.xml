@@ -73,26 +73,84 @@
                     android:layout_height="wrap_content"
                     app:contentPadding="12dp"
                     android:focusableInTouchMode="true"
-                    android:layout_marginBottom="64dp"
-                    >
+                    android:layout_marginBottom="64dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-                        <TextView
+
+                        <LinearLayout
+                            android:id="@+id/confirm_order_user_address_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="@string/address"/>
-                        <TextView
-                            android:id="@+id/confirm_order_user_address"
+                            android:layout_marginBottom="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:text="@string/address"/>
+                            <TextView
+                                android:id="@+id/confirm_order_user_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:maxLines="2"
+                                android:ellipsize="marquee"
+                                android:text="@string/register_delivery_address"
+                                android:textStyle="italic"
+                                android:textColor="@color/colorPrimary" />
+
+                        </LinearLayout>
+
+                        <include layout="@layout/divider_primary_thin" />
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:textStyle="italic"
-                            android:textColor="@color/colorPrimary"
-                            />
+                            android:orientation="horizontal" >
+
+                            <EditText
+                                android:id="@+id/confirm_order_floor_input"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="12dp"
+                                android:gravity="center"
+                                android:textSize="16sp"
+                                android:textStyle="italic"
+                                android:inputType="numberDecimal"
+                                android:maxLength="3"
+                                android:maxLines="1"
+                                android:hint="@string/floor"
+                                android:textColor="@color/colorPrimary"
+                                android:background="@android:color/transparent"
+                                />
+
+                            <include layout="@layout/divider_vertical_primary_thin" />
+
+                            <EditText
+                                android:id="@+id/confirm_order_apartment_input"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:layout_marginBottom="12dp"
+                                android:gravity="center"
+                                android:textSize="16sp"
+                                android:textStyle="italic"
+                                android:maxLength="3"
+                                android:maxLines="1"
+                                android:inputType="textCapCharacters"
+                                android:hint="@string/apartment"
+                                android:textColor="@color/colorPrimary"
+                                android:background="@android:color/transparent"
+                                />
+
+                        </LinearLayout>
 
                         <include layout="@layout/divider_primary_thin" />
 
@@ -133,6 +191,7 @@
                         <include layout="@layout/divider_primary_thin" />
 
                         <TextView
+                            android:id="@+id/confirm_order_notes_label"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"

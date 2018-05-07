@@ -1,6 +1,5 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
@@ -74,7 +73,7 @@ public class MenuItemActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setMyOrderButtonsVisibility();
+        setAddToOrderButtonVisibility();
     }
 
     @Override
@@ -127,11 +126,6 @@ public class MenuItemActivity extends AppCompatActivity {
         }
     }
 
-    public void openMyOrder(View v) {
-        Intent intent = new Intent(this, MyOrderActivity.class);
-        startActivity(intent);
-    }
-
     private void displayInfo() {
         ((TextView) findViewById(R.id.menu_item_name)).setText(mMenuItem.getName());
         ((TextView) findViewById(R.id.menu_item_description)).setText(mMenuItem.getDescription());
@@ -141,19 +135,12 @@ public class MenuItemActivity extends AppCompatActivity {
         setSuitableForTable();
     }
 
-    private void setMyOrderButtonsVisibility() {
+    private void setAddToOrderButtonVisibility() {
         Button addToMyOrderButton = findViewById(R.id.menu_item_add_to_my_order_button);
-        Button goToMyOrderButton = findViewById(R.id.menu_item_go_to_my_order_button);
         if (!OrderService.isThereCurrentOrder() || OrderService.getMyCurrentOrder().getStore().equals(mStore)) {
             addToMyOrderButton.setVisibility(View.VISIBLE);
-            goToMyOrderButton.setVisibility(View.GONE);
         } else {
             addToMyOrderButton.setVisibility(View.GONE);
-            if (OrderService.isThereCurrentOrder()) {
-                goToMyOrderButton.setVisibility(View.VISIBLE);
-            } else {
-                goToMyOrderButton.setVisibility(View.GONE);
-            }
         }
     }
 

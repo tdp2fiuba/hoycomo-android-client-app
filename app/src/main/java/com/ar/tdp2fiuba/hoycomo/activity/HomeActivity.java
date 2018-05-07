@@ -1,6 +1,8 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -9,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,6 +30,7 @@ import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.google.gson.Gson;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.model.User;
+import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
@@ -44,6 +48,9 @@ public class HomeActivity extends AppCompatActivity
 
     private Filter filter;
     private final int FILTER_REQUEST_CODE = 1;
+
+    private static final String TAG_STORE_LIST_FRAGMENT = "STORE_LIST";
+    private static final String TAG_STORE_FRAGMENT = "STORE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,13 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            if (OrderService.isThereCurrentOrder()) {
+                StoreFragment storeFragment = (StoreFragment) getSupportFragmentManager().findFragmentByTag(TAG_STORE_FRAGMENT);
+                if (storeFragment != null && storeFragment.isVisible()) {
+                    openMyOrderCancellationDialog();
+                    return;
+                }
+            }
             super.onBackPressed();
             getSupportActionBar().setTitle(R.string.app_name);
         }
@@ -196,7 +210,7 @@ public class HomeActivity extends AppCompatActivity
         if (findViewById(R.id.home_fragment_container) != null) {
             StoreListFragment listFragment = StoreListFragment.newInstance(filter);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.home_fragment_container, listFragment)
+                    .add(R.id.home_fragment_container, listFragment, TAG_STORE_LIST_FRAGMENT)
                     .commit();
             getSupportActionBar().setTitle(R.string.app_name);
         }
@@ -206,7 +220,7 @@ public class HomeActivity extends AppCompatActivity
         if (findViewById(R.id.home_fragment_container) != null) {
             StoreFragment storeFragment = StoreFragment.newInstance(store);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.home_fragment_container, storeFragment)
+                    .add(R.id.home_fragment_container, storeFragment, TAG_STORE_FRAGMENT)
                     .addToBackStack(store.getId())
                     .commit();
             getSupportActionBar().setTitle(store.getName());
@@ -218,5 +232,31 @@ public class HomeActivity extends AppCompatActivity
         intent.putExtra(MenuItemActivity.ARG_MENU_ITEM, new Gson().toJson(item));
         intent.putExtra(MenuItemActivity.ARG_STORE, new Gson().toJson(store));
         startActivity(intent);
+    }
+
+    private void openMyOrderCancellationDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle(R.string.my_order)
+                .setMessage(R.string.my_order_cancellation_dialog_body)
+                .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        OrderService.clearOrder();
+                        HomeActivity.super.onBackPressed();
+                        getSupportActionBar().setTitle(R.string.app_name);
+                    }
+                })
+                .setNegativeButton(R.string.better_not, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setIcon(R.mipmap.ic_shopping_cart_black_24dp)
+                .show();
     }
 }

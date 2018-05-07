@@ -1,5 +1,6 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -68,8 +69,13 @@ public class MyOrderActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void addMoreItems(View v) {
+        finish();
+    }
+
     public void continueToConfirmation(View v) {
-        // TODO: 6/5/18 Go to order confirmation.
+        Intent intent = new Intent(this, ConfirmOrderActivity.class);
+        startActivity(intent);
     }
 
     private void displayStoreInfo() {

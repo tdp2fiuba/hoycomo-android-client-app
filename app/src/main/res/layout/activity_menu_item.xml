@@ -156,7 +156,8 @@
                 android:layout_marginBottom="12dp"
                 android:textSize="16sp"
                 android:hint="@string/add_comments"
-                android:inputType="textAutoComplete"
+                android:inputType="textAutoComplete|textCapSentences"
+                android:singleLine="true"
                 android:background="@android:color/transparent"/>
 
             <include layout="@layout/divider_primary_thin"/>
@@ -265,15 +266,5 @@
         android:layout_margin="12dp"
         android:text="@string/add_to_my_order"
         android:onClick="addToMyOrder"/>
-
-    <Button style="@style/Widget.AppCompat.Button.Colored"
-        android:id="@+id/menu_item_go_to_my_order_button"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="12dp"
-        android:text="@string/see_my_order"
-        android:onClick="openMyOrder"/>
 
 </RelativeLayout>

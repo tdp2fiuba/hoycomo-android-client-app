@@ -58,4 +58,20 @@
     <string name="add_more_food">Agregar más comida</string>
     <string name="cancel">Cancelar</string>
     <string name="order_cancelled">El pedido fue cancelado</string>
+    <string name="my_order_cancellation_dialog_body">Al salir del comercio se cancelará tu pedido actual. ¿Estás seguro de querer salir?</string>
+    <string name="exit">Salir</string>
+    <string name="better_not">Mejor no</string>
+    <string name="confirm_order">Confirmar pedido</string>
+    <string name="send_order">Enviar pedido</string>
+    <string name="total">Total</string>
+    <string name="address">Dirección</string>
+    <string name="payment_method">Forma de pago</string>
+    <string name="cash">Efectivo</string>
+    <string name="estimated_time">Tiempo estimado</string>
+    <string name="notes">Notas</string>
+    <string name="note_example">Ej: Golpear puerta, no funciona el timbre</string>
+    <string name="register_delivery_address">Registrar la dirección de envío</string>
+    <string name="floor">Piso</string>
+    <string name="apartment">Dpto</string>
+    <string name="didnt_set_address">¡No ingresaste una dirección de entrega del pedido!</string>
 </resources>

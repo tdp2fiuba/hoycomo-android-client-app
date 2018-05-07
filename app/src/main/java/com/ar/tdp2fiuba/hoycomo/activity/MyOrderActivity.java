@@ -68,6 +68,10 @@ public class MyOrderActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void addMoreItems(View v) {
+        finish();
+    }
+
     public void continueToConfirmation(View v) {
         // TODO: 6/5/18 Go to order confirmation.
     }

@@ -51,4 +51,7 @@
     <string name="add_more_food">Agregar más comida</string>
     <string name="cancel">Cancelar</string>
     <string name="order_cancelled">El pedido fue cancelado</string>
+    <string name="my_order_cancellation_dialog_body">Al salir del comercio se cancelará tu pedido actual. ¿Estás seguro de querer salir?</string>
+    <string name="exit">Salir</string>
+    <string name="better_not">Mejor no</string>
 </resources>

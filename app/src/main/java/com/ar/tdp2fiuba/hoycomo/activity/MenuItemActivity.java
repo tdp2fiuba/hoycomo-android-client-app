@@ -1,5 +1,6 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
@@ -13,22 +14,39 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.ImagePagerAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.MenuItem;
+import com.ar.tdp2fiuba.hoycomo.model.Order;
+import com.ar.tdp2fiuba.hoycomo.model.OrderItem;
+import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.ar.tdp2fiuba.hoycomo.model.User;
+import com.ar.tdp2fiuba.hoycomo.service.OrderService;
+import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
+import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
 public class MenuItemActivity extends AppCompatActivity {
 
     public final static String ARG_MENU_ITEM = "menuItem";
+    public final static String ARG_STORE = "store";
 
     private final static String TAG = "MenuItemActivity";
 
     private MenuItem mMenuItem;
+    private Store mStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +58,23 @@ public class MenuItemActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (savedInstanceState == null) {
-            if (getIntent() != null && getIntent().getStringExtra(ARG_MENU_ITEM) != null) {
-                mMenuItem = new Gson().fromJson(getIntent().getStringExtra(ARG_MENU_ITEM), MenuItem.class);
-                displayInfo();
+            if (getIntent() != null) {
+                if (getIntent().getStringExtra(ARG_MENU_ITEM) != null) {
+                    mMenuItem = new Gson().fromJson(getIntent().getStringExtra(ARG_MENU_ITEM), MenuItem.class);
+                    getSupportActionBar().setTitle(mMenuItem.getName());
+                    displayInfo();
+                }
+                if (getIntent().getStringExtra(ARG_STORE) != null) {
+                    mStore = new Gson().fromJson(getIntent().getStringExtra(ARG_STORE), Store.class);
+                }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setMyOrderButtonsVisibility();
     }
 
     @Override
@@ -70,9 +100,36 @@ public class MenuItemActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addToCart(View v) {
-        Log.d(TAG, "MenuItem with ID " + mMenuItem.getId() + " added to My Cart");
-        // TODO: 3/5/18 Add MenuItem to My Cart
+    public void addToMyOrder(View v) {
+        Log.d(TAG, "MenuItem with ID " + mMenuItem.getId() + " added to My Order");
+        Order myCurrentOrder = OrderService.getMyCurrentOrder();
+        if (myCurrentOrder == null) {
+            if (UserAuthenticationManager.isUserLoggedIn(this)) {
+                String serializedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
+                User user = new Gson().fromJson(serializedUser, User.class);
+                List<OrderItem> items = new ArrayList<>();
+                items.add(buildOrderItemFromInput());
+                Order newOrder = new Order(user.getUserId(), mStore, mMenuItem.getPrice(), items, user.getAddress());
+                OrderService.setAsCurrentOrder(newOrder);
+                Log.d(TAG, "My Order: " + newOrder);
+                finish();
+            } else {
+                Toast.makeText(this, R.string.log_in_for_order, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            if (!myCurrentOrder.getStore().equals(mStore)) {
+                Toast.makeText(this, R.string.one_store_for_order, Toast.LENGTH_LONG).show();
+            } else {
+                myCurrentOrder.addItem(buildOrderItemFromInput());
+                Log.d(TAG, "My Order: " + myCurrentOrder);
+                finish();
+            }
+        }
+    }
+
+    public void openMyOrder(View v) {
+        Intent intent = new Intent(this, MyOrderActivity.class);
+        startActivity(intent);
     }
 
     private void displayInfo() {
@@ -82,6 +139,22 @@ public class MenuItemActivity extends AppCompatActivity {
         setPrice();
         setForm();
         setSuitableForTable();
+    }
+
+    private void setMyOrderButtonsVisibility() {
+        Button addToMyOrderButton = findViewById(R.id.menu_item_add_to_my_order_button);
+        Button goToMyOrderButton = findViewById(R.id.menu_item_go_to_my_order_button);
+        if (!OrderService.isThereCurrentOrder() || OrderService.getMyCurrentOrder().getStore().equals(mStore)) {
+            addToMyOrderButton.setVisibility(View.VISIBLE);
+            goToMyOrderButton.setVisibility(View.GONE);
+        } else {
+            addToMyOrderButton.setVisibility(View.GONE);
+            if (OrderService.isThereCurrentOrder()) {
+                goToMyOrderButton.setVisibility(View.VISIBLE);
+            } else {
+                goToMyOrderButton.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void setImages() {
@@ -156,5 +229,19 @@ public class MenuItemActivity extends AppCompatActivity {
             garnishLabel.setVisibility(View.GONE);
             garnishSpinner.setVisibility(View.GONE);
         }
+    }
+
+    private OrderItem buildOrderItemFromInput() {
+        Integer itemQuantity = Integer.valueOf(((Spinner) findViewById(R.id.menu_item_quantity_spinner)).getSelectedItem().toString());
+
+        Spinner garnishSpinner = (Spinner) findViewById(R.id.menu_item_garnish_spinner);
+        String garnish = garnishSpinner.getSelectedItem() != null ?
+                garnishSpinner.getSelectedItem().toString() : null;
+
+        EditText commentsInput = (EditText) findViewById(R.id.menu_item_comments_edit_text);
+        String itemComments = commentsInput.getText() != null ?
+                commentsInput.getText().toString() : null;
+
+        return new OrderItem(mMenuItem.getId(), mMenuItem.getName(), mMenuItem.getPrice() * itemQuantity, itemQuantity, garnish, itemComments);
     }
 }

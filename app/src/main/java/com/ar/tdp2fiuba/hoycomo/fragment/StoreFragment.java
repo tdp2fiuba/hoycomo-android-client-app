@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.DailyTimeWindow;
 import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -87,6 +89,7 @@ public class StoreFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+        setMyOrderButtonVisibility();
     }
 
     @Override
@@ -131,11 +134,30 @@ public class StoreFragment extends Fragment
         setDelayTime((TextView) view.findViewById(R.id.fragment_store_delay_time));
         showMenu(view);
         displayTimetable(view.findViewById(R.id.timetable));
+
+        ((Button) view.findViewById(R.id.fragment_store_my_order_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onMyOrderButtonPressed();
+            }
+        });
+    }
+
+    private void setMyOrderButtonVisibility() {
+        if (getView() != null) {
+            final Button myOrderButton = getView().findViewById(R.id.fragment_store_my_order_button);
+            if (OrderService.isThereCurrentOrder()
+                    && OrderService.getMyCurrentOrder().getStore().equals(mStore)) {
+                myOrderButton.setVisibility(View.VISIBLE);
+            } else {
+                myOrderButton.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void showMenu(final View view) {
         if (view.findViewById(R.id.fragment_store_menu) != null) {
-            MenuFragment menuFragment = MenuFragment.newInstance(mStore.getId());
+            MenuFragment menuFragment = MenuFragment.newInstance(mStore);
             getActivity().getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_store_menu, menuFragment)
                     .commit();
@@ -236,7 +258,7 @@ public class StoreFragment extends Fragment
      * activity.
      */
     public interface OnStoreFragmentInteractionListener {
-
+        void onMyOrderButtonPressed();
     }
 
 }

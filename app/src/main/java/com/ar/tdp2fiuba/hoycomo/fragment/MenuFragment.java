@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.MenuItemRecyclerViewAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.MenuItem;
+import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.StoreService;
 import com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport;
 import com.google.gson.FieldNamingPolicy;
@@ -32,11 +33,11 @@ import org.json.JSONException;
  */
 public class MenuFragment extends Fragment {
 
-    private final static String ARG_STORE_ID = "store_id";
+    private final static String ARG_STORE = "store";
 
     private OnMenuFragmentInteractionListener mListener;
 
-    private String mStoreId;
+    private Store mStore;
     private MenuItemRecyclerViewAdapter mAdapter = null;
 
     private boolean isLoading = false;
@@ -47,11 +48,11 @@ public class MenuFragment extends Fragment {
      */
     public MenuFragment() {}
 
-    public static MenuFragment newInstance(String storeId) {
+    public static MenuFragment newInstance(Store store) {
         MenuFragment menuFragment = new MenuFragment();
 
         Bundle args = new Bundle();
-        args.putString(ARG_STORE_ID, storeId);
+        args.putString(ARG_STORE, new Gson().toJson(store));
         menuFragment.setArguments(args);
 
         return menuFragment;
@@ -62,7 +63,7 @@ public class MenuFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mStoreId = getArguments().getString(ARG_STORE_ID);
+            mStore = new Gson().fromJson(getArguments().getString(ARG_STORE), Store.class);
         }
     }
 
@@ -80,7 +81,7 @@ public class MenuFragment extends Fragment {
                     layoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
             recyclerView.setEmptyView(rootView.findViewById(R.id.empty_menu));
-            mAdapter = new MenuItemRecyclerViewAdapter(mListener);
+            mAdapter = new MenuItemRecyclerViewAdapter(mListener, mStore);
             recyclerView.setAdapter(mAdapter);
             recyclerView.setNestedScrollingEnabled(false);
 
@@ -143,7 +144,7 @@ public class MenuFragment extends Fragment {
             }
         };
         startLoading();
-        StoreService.getMenu(mStoreId, successListener, errorListener);
+        StoreService.getMenu(mStore.getId(), successListener, errorListener);
     }
 
     private void startLoading() {
@@ -167,6 +168,6 @@ public class MenuFragment extends Fragment {
      * activity.
      */
     public interface OnMenuFragmentInteractionListener {
-        void onMenuItemTap(MenuItem item);
+        void onMenuItemTap(MenuItem item, Store store);
     }
 }

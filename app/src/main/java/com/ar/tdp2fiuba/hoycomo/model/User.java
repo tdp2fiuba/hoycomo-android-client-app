@@ -7,8 +7,13 @@ public class User {
     private String firstName;
     private String lastName;
     private String avatar;
+    private Address address;
 
     public User(String userId, String firstName, String lastName, String avatar) {
+        this(userId, firstName, lastName, avatar, null);
+    }
+
+    public User(String userId, String firstName, String lastName, String avatar, Address address) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -29,6 +34,14 @@ public class User {
 
     public String getAvatar() {
         return avatar;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override

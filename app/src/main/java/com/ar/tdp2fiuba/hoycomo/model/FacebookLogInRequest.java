@@ -1,4 +1,4 @@
-package com.ar.tdp2fiuba.hoycomo.model.request;
+package com.ar.tdp2fiuba.hoycomo.model;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 

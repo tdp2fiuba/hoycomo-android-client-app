@@ -29,6 +29,7 @@ import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.model.User;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
+import com.ar.tdp2fiuba.hoycomo.utils.NumberUtils;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.google.gson.Gson;
 
@@ -107,8 +108,9 @@ public class MenuItemActivity extends AppCompatActivity {
                 String serializedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
                 User user = new Gson().fromJson(serializedUser, User.class);
                 List<OrderItem> items = new ArrayList<>();
-                items.add(buildOrderItemFromInput());
-                Order newOrder = new Order(user.getUserId(), mStore, mMenuItem.getPrice(), items, user.getAddress());
+                OrderItem item = buildOrderItemFromInput();
+                items.add(item);
+                Order newOrder = new Order(user.getUserId(), mStore, item.getPrice() * item.getQuantity(), items, user.getAddress());
                 OrderService.setAsCurrentOrder(newOrder);
                 Log.d(TAG, "My Order: " + newOrder);
                 finish();
@@ -163,7 +165,7 @@ public class MenuItemActivity extends AppCompatActivity {
         final TextView priceView = findViewById(R.id.menu_item_price);
         Integer finalPrice = mMenuItem.getPrice();
         if (mMenuItem.getDiscount() != null && mMenuItem.getDiscount() != 0) {
-            finalPrice -= mMenuItem.getDiscount();
+            finalPrice = NumberUtils.subtractPercentage(mMenuItem.getPrice(), mMenuItem.getDiscount());
             discountView.setVisibility(View.VISIBLE);
             discountView.setText("$" + String.valueOf(mMenuItem.getPrice()));
             discountView.setPaintFlags(discountView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -229,6 +231,13 @@ public class MenuItemActivity extends AppCompatActivity {
         String itemComments = commentsInput.getText() != null ?
                 commentsInput.getText().toString() : null;
 
-        return new OrderItem(mMenuItem.getId(), mMenuItem.getName(), mMenuItem.getPrice() * itemQuantity, itemQuantity, garnish, itemComments);
+        return new OrderItem(
+                mMenuItem.getId(),
+                mMenuItem.getName(),
+                mMenuItem.getDiscount() != null ? NumberUtils.subtractPercentage(mMenuItem.getPrice(), mMenuItem.getDiscount()) : mMenuItem.getPrice(),
+                itemQuantity,
+                garnish,
+                itemComments
+        );
     }
 }

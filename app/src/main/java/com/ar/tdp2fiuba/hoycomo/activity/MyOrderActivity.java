@@ -21,7 +21,6 @@ import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 public class MyOrderActivity extends AppCompatActivity {
 
     private Order mOrder;
-    private MyOrderItemAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +35,7 @@ public class MyOrderActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mOrder = OrderService.getMyCurrentOrder();
         displayStoreInfo();
         populateOrderItems();
         updateSubtotal();
@@ -79,7 +79,6 @@ public class MyOrderActivity extends AppCompatActivity {
     }
 
     private void displayStoreInfo() {
-        mOrder = OrderService.getMyCurrentOrder();
         ((TextView) findViewById(R.id.my_order_store_name)).setText(mOrder.getStore().getName());
         ((TextView) findViewById(R.id.my_order_store_address)).setText(mOrder.getStore().getAddress().getName());
     }
@@ -92,8 +91,8 @@ public class MyOrderActivity extends AppCompatActivity {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     layoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
-            mAdapter = new MyOrderItemAdapter(OrderService.getMyCurrentOrder().getItems());
-            recyclerView.setAdapter(mAdapter);
+            MyOrderItemAdapter adapter = new MyOrderItemAdapter(OrderService.getMyCurrentOrder().getItems());
+            recyclerView.setAdapter(adapter);
             recyclerView.setNestedScrollingEnabled(false);
         }
     }
@@ -101,7 +100,7 @@ public class MyOrderActivity extends AppCompatActivity {
     private void updateSubtotal() {
         TextView subtotalView = (TextView) findViewById(R.id.my_order_subtotal);
         subtotalView.setText(
-                subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(mAdapter.getItemPriceSum()))
+                subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(OrderService.getMyCurrentOrder().getPrice()))
         );
     }
 }

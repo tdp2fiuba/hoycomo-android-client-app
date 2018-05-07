@@ -14,6 +14,7 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment;
 import com.ar.tdp2fiuba.hoycomo.model.MenuItem;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.ar.tdp2fiuba.hoycomo.utils.NumberUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -123,7 +124,7 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
 
         Integer finalPrice = item.getPrice();
         if (item.getDiscount() != null && item.getDiscount() != 0) {
-            finalPrice -= item.getDiscount();
+            finalPrice = NumberUtils.subtractPercentage(item.getPrice(), item.getDiscount());
             holder.mDiscountView.setVisibility(View.VISIBLE);
             holder.mDiscountView.setText("$" + String.valueOf(item.getPrice()));
             holder.mDiscountView.setPaintFlags(holder.mDiscountView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

@@ -31,22 +31,13 @@ public class MyOrderItemAdapter extends RecyclerView.Adapter<MyOrderItemAdapter.
         holder.mItem = mValues.get(position);
         holder.mQuantityView.setText(String.valueOf(holder.mItem.getQuantity()));
         holder.mNameView.setText(holder.mItem.getName());
-        holder.mPriceView.setText("$" + String.valueOf(holder.mItem.getPrice()));
+        holder.mPriceView.setText("$" + String.valueOf(holder.mItem.getPrice() * holder.mItem.getQuantity()));
     }
 
     @Override
     public int getItemCount() {
         return mValues.size();
     }
-
-    public Integer getItemPriceSum() {
-        Integer sum = 0;
-        for (OrderItem item : mValues) {
-            sum += item.getPrice();
-        }
-        return sum;
-    }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public OrderItem mItem;

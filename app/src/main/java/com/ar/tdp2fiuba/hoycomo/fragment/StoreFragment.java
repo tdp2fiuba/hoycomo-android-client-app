@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,8 @@ public class StoreFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_store, container, false);
 
@@ -87,6 +90,13 @@ public class StoreFragment extends Fragment
     public void onResume() {
         super.onResume();
         setMyOrderButtonVisibility();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.filter).setVisible(false);
+        menu.findItem(R.id.delete_filters).setVisible(false);
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -120,6 +130,7 @@ public class StoreFragment extends Fragment
     private void displayInfo(final View view) {
         loadImage((ImageView) view.findViewById(R.id.fragment_store_image));
         ((TextView) view.findViewById(R.id.fragment_store_name)).setText(mStore.getName());
+        ((TextView) view.findViewById(R.id.fragment_store_food_types)).setText(mStore.getParsedFoodTypesAsString());
         setDelayTime((TextView) view.findViewById(R.id.fragment_store_delay_time));
         showMenu(view);
         displayTimetable(view.findViewById(R.id.timetable));

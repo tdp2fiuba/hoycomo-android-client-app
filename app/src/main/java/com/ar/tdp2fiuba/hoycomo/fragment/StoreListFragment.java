@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.StoreRecyclerViewAdapter;
+import com.ar.tdp2fiuba.hoycomo.model.Filter;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.StoreService;
 import com.ar.tdp2fiuba.hoycomo.utils.view.PaginationScrollListener;
@@ -41,15 +43,21 @@ public class StoreListFragment extends Fragment {
     private static final int paginationCount = 20;
     private boolean isLoading = false;
 
+    private Filter filter;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public StoreListFragment() {}
 
+    public StoreListFragment(Filter filter) { this.filter = filter; }
+
     public static StoreListFragment newInstance() {
         return new StoreListFragment();
     }
+
+    public static StoreListFragment newInstance(Filter filter) { return new StoreListFragment(filter); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +67,8 @@ public class StoreListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        currentPage = 0;
+        setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_store_list, container, false);
 
         if (rootView != null) {
@@ -131,6 +141,18 @@ public class StoreListFragment extends Fragment {
         currentPage = 0;
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.filter).setVisible(true);
+        if (filter != null) {
+            menu.findItem(R.id.delete_filters).setVisible(true);
+        } else {
+            menu.findItem(R.id.delete_filters).setVisible(false);
+        }
+
+        super.onPrepareOptionsMenu(menu);
+    }
+
     private void retrieveMoreStores() {
         Response.Listener<JSONArray> successListener = new Response.Listener<JSONArray>() {
             @Override
@@ -161,7 +183,7 @@ public class StoreListFragment extends Fragment {
             }
         };
         startLoading();
-        StoreService.getStores(currentPage, paginationCount, successListener, errorListener);
+        StoreService.getStores(currentPage, paginationCount, filter, successListener, errorListener);
     }
 
     private void refreshData() {

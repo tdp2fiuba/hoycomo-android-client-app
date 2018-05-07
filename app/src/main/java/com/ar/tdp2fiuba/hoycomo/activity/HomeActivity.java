@@ -1,7 +1,10 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +20,11 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.MenuFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
+
+import com.ar.tdp2fiuba.hoycomo.model.Address;
+import com.ar.tdp2fiuba.hoycomo.model.Filter;
+import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.google.gson.Gson;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.model.User;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
@@ -34,11 +42,14 @@ public class HomeActivity extends AppCompatActivity
             StoreFragment.OnStoreFragmentInteractionListener,
             MenuFragment.OnMenuFragmentInteractionListener {
 
+    private Filter filter;
+    private final int FILTER_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setDrawer(toolbar);
 
@@ -54,7 +65,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -67,6 +78,15 @@ public class HomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+
+        // Para que el ícono sea blanco, ya que android:iconTint sólo es compatible desde 26 para arriba
+        MenuItem filter = menu.findItem(R.id.filter);
+        if (filter != null) {
+            Drawable normalDrawable = filter.getIcon();
+            Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+            DrawableCompat.setTint(wrapDrawable, this.getResources().getColor(R.color.white));
+        }
+
         return true;
     }
 
@@ -77,7 +97,34 @@ public class HomeActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        return super.onOptionsItemSelected(item);
+        switch (id) {
+            case R.id.filter:
+                Intent intent = new Intent(this, FilterActivity.class);
+                intent.putExtra("filter", new Gson().toJson(filter));
+                startActivityForResult(intent, FILTER_REQUEST_CODE);
+                return true;
+            case R.id.delete_filters:
+                filter = null;
+                showListing();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case FILTER_REQUEST_CODE:
+                if (data != null && data.getExtras() != null) {
+                    String filterJSON = data.getExtras().getString("filter");
+                    filter = Filter.parseJSONFilter(filterJSON);
+                }
+                showListing();
+                break;
+        }
     }
 
     @Override
@@ -147,7 +194,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void showListing() {
         if (findViewById(R.id.home_fragment_container) != null) {
-            StoreListFragment listFragment = StoreListFragment.newInstance();
+            StoreListFragment listFragment = StoreListFragment.newInstance(filter);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.home_fragment_container, listFragment)
                     .commit();

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">HoyComo</string>
+    <string name="filter_distance">Filtrar por Distancia</string>
 
     <string name="facebook_app_id">201786523941932</string>
     <string name="fb_login_protocol_scheme">fb331659324025102</string>
@@ -23,6 +24,12 @@
     <string name="open_all_day">Abierto todo el día</string>
     <string name="close">Cerrar</string>
     <string name="error_no_stores">No se pudieron obtener más comercios. Por favor, chequeá tu conexión.</string>
+    <string name="apply_filter">Aplicar</string>
+    <string name="filter_distance_title">Distancia Máxima a mi Ubicación</string>
+    <string name="filter_distance_label">Distancia Máxima (kms):</string>
+    <string name="error_required_distance_filter">Debe ingresar un valor de distancia</string>
+    <string name="error_required_permissions_distance_filter">Debe permitir usar la localización del celular para usar el filtro por distancia</string>
+    <string name="delete_filters">Borrar Filtros</string>
     <string name="error_no_menu">No se pudo obtener el menú del comercio. Por favor, chequá tu conexión.</string>
     <string name="no_menu">El comercio no cuenta aún con un menú cargado</string>
     <string name="garnish">Guarnición</string>

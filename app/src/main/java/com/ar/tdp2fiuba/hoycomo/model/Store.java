@@ -1,6 +1,8 @@
 package com.ar.tdp2fiuba.hoycomo.model;
 
 
+import android.text.TextUtils;
+
 import java.util.List;
 
 public class Store {
@@ -66,7 +68,7 @@ public class Store {
         if (foodTypes == null) {
             return "";
         }
-        return String.join(", ", foodTypes);
+        return TextUtils.join(", ", foodTypes);
     }
 
     public List<String> getFoodTypes() {

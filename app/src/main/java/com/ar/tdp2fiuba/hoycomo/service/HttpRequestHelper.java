@@ -84,7 +84,8 @@ public class HttpRequestHelper {
             }
         };
         request.setTag(requestTag);
-        request.setRetryPolicy(new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(3), 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //request.setRetryPolicy(new DefaultRetryPolicy((int) TimeUnit.SECONDS.toMillis(3), 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(5 * 1000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         return mRequestQueue.add(request);
     }
 

@@ -125,6 +125,7 @@
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
+                    android:backgroundTint="@color/colorPrimary"
                     android:layout_marginStart="12dp"/>
             </LinearLayout>
 
@@ -145,6 +146,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
                     android:layout_marginLeft="12dp"
                     android:layout_marginStart="12dp"/>
             </LinearLayout>

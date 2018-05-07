@@ -74,4 +74,6 @@
     <string name="floor">Piso</string>
     <string name="apartment">Dpto</string>
     <string name="didnt_set_address">¡No ingresaste una dirección de entrega del pedido!</string>
+    <string name="order_send_success">La orden fue enviada éxitosamente</string>
+    <string name="order_send_error">Hubo un error y la orden no se pudo enviar al comercio</string>
 </resources>

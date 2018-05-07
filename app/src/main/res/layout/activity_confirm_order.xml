@@ -108,6 +108,7 @@
                         <include layout="@layout/divider_primary_thin" />
 
                         <LinearLayout
+                            android:id="@+id/confirm_order_floor_apartment_input_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal" >
@@ -219,6 +220,13 @@
         </ScrollView>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/confirm_order_progress_bar"
+        android:visibility="gone"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"/>
 
     <Button style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/confirm_order_send_order_button"

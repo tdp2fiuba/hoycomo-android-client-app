@@ -25,4 +25,9 @@ public class SharedPreferencesUtils {
         editor.remove(key);
         editor.apply();
     }
+
+    public static void update(Context context, String key, String value) {
+        remove(context, key);
+        save(context, key, value);
+    }
 }

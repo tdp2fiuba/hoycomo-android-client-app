@@ -8,9 +8,7 @@ import org.json.JSONArray;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StoreService {
-
-    private static final String BASE_URL = "https://hoycomo-server.herokuapp.com/api";
+public class StoreService extends HoyComoService {
 
     public static void getStores(int page, int count, Filter filter, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
         final String urlWithPlaceholders = BASE_URL + "/stores?page=:page&count=:count&filters=:filters";

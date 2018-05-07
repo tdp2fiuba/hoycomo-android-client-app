@@ -3,7 +3,7 @@ package com.ar.tdp2fiuba.hoycomo.service;
 import android.content.Context;
 
 import com.android.volley.Response;
-import com.ar.tdp2fiuba.hoycomo.model.FacebookLogInRequest;
+import com.ar.tdp2fiuba.hoycomo.model.request.FacebookLogInRequest;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.facebook.login.LoginManager;
 import com.google.gson.FieldNamingPolicy;
@@ -16,9 +16,7 @@ import org.json.JSONObject;
 import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_TOKEN;
 import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER;
 
-public class UserAuthenticationManager {
-
-    private static final String BASE_URL = "https://hoycomo-server.herokuapp.com/api";
+public class UserAuthenticationManager extends HoyComoService {
 
     public static void logIn(String accessToken, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
         final String url = BASE_URL + "/user/auth/facebook";

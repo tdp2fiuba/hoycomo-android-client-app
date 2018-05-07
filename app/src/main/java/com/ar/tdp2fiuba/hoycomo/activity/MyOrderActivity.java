@@ -20,6 +20,8 @@ import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 
 public class MyOrderActivity extends AppCompatActivity {
 
+    private static final int REQ_CODE_CONFIRMATION = 1;
+
     private Order mOrder;
 
     @Override
@@ -69,13 +71,24 @@ public class MyOrderActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQ_CODE_CONFIRMATION) {
+            if (resultCode == RESULT_OK) {
+                finish();
+                return;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     public void addMoreItems(View v) {
         finish();
     }
 
     public void continueToConfirmation(View v) {
         Intent intent = new Intent(this, ConfirmOrderActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQ_CODE_CONFIRMATION);
     }
 
     private void displayStoreInfo() {

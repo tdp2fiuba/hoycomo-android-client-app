@@ -1,5 +1,7 @@
 package com.ar.tdp2fiuba.hoycomo.model;
 
+import com.ar.tdp2fiuba.hoycomo.model.request.OrderRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +69,17 @@ public class Order {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public OrderRequest toRequest() {
+        return new OrderRequest(
+                userId,
+                store.getId(),
+                price,
+                description,
+                items,
+                address
+        );
     }
 
     @Override

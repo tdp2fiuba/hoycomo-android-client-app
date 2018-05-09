@@ -19,7 +19,7 @@ import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER
 public class UserAuthenticationManager extends HoyComoService {
 
     public static void logIn(String accessToken, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
-        final String url = BASE_URL + "/user/auth/facebook";
+        final String url = BASE_URL + "/api/user/auth/facebook";
 
         FacebookLogInRequest requestModel = new FacebookLogInRequest(accessToken);
         final Gson gson = new GsonBuilder()

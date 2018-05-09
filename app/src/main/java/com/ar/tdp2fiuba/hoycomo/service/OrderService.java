@@ -14,7 +14,7 @@ public class OrderService extends HoyComoService {
     private static Order myOrder;
 
     public static void sendOrder(OrderRequest order, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
-        final String url = BASE_URL + "/order";
+        final String url = BASE_URL + "/api/order";
 
         final Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

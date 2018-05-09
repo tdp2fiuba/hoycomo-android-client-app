@@ -235,6 +235,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="12dp"
         android:text="@string/send_order"
-        android:onClick="sendOrder"/>
+        android:onClick="validateAndSendOrder"/>
 
 </RelativeLayout>

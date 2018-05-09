@@ -19,6 +19,7 @@ import com.ar.tdp2fiuba.hoycomo.model.Address;
 import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Order;
 import com.ar.tdp2fiuba.hoycomo.model.User;
+import com.ar.tdp2fiuba.hoycomo.service.GeocodingService;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
@@ -96,38 +97,60 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         }
     }
 
-    public void sendOrder(View v) {
-        if (mUserAddress != null || mUserPlacePicked != null) {
-            if (mUserPlacePicked != null) {
-                updateUserAddress();
-            }
+    public void validateAndSendOrder(View v) {
+        validateAddress();
+    }
 
+    private void validateAddress() {
+        if (mUserPlacePicked != null) {
             Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    stopLoading();
-                    Toast.makeText(ConfirmOrderActivity.this, R.string.order_send_success, Toast.LENGTH_SHORT).show();
-                    OrderService.clearOrder();
-
-                    setResult(RESULT_OK);
-                    finish();
+                    sendOrder();
                 }
             };
             Response.ErrorListener errorListener = new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
-                    Log.e(TAG, "Error on sending Order to server");
-                    Toast.makeText(ConfirmOrderActivity.this, R.string.order_send_error, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Delivery address validation failed!");
                     stopLoading();
+                    Toast.makeText(ConfirmOrderActivity.this, R.string.error_only_caba, Toast.LENGTH_LONG).show();
                 }
             };
             startLoading();
-            OrderService.sendOrder(mOrder.toRequest(), successListener, errorListener);
-
+            GeocodingService.validateAddress(mUserPlacePicked.getAddress().toString(), successListener, errorListener);
         } else {
-            Toast.makeText(this, R.string.didnt_set_address, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.didnt_set_delivery_address, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void sendOrder() {
+        if (mUserPlacePicked != null) {
+            updateUserAddress();
+        }
+
+        Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                stopLoading();
+                Toast.makeText(ConfirmOrderActivity.this, R.string.order_send_success, Toast.LENGTH_SHORT).show();
+                OrderService.clearOrder();
+
+                setResult(RESULT_OK);
+                finish();
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.e(TAG, "Error on sending Order to server");
+                stopLoading();
+                Toast.makeText(ConfirmOrderActivity.this, R.string.order_send_error, Toast.LENGTH_SHORT).show();
+            }
+        };
+        OrderService.sendOrder(mOrder.toRequest(), successListener, errorListener);
     }
 
     private void displayStoreInfo() {
@@ -231,7 +254,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         String floor = floorInput.getText() != null ? floorInput.getText().toString() : null;
         String apartment = apartmentInput.getText() != null ? apartmentInput.getText().toString() : null;
 
-        String addressName = mUserPlacePicked.getName().toString();
+        String addressName = mUserPlacePicked.getAddress().toString();
         if (floor != null) {
             addressName += " " + floor;
         }
@@ -247,6 +270,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         if (mOrder.getAddress() == null || !newUserAddress.equals(mOrder.getAddress())) {
             mOrder.setAddress(newUserAddress);
             OrderService.setAsCurrentOrder(mOrder);
+
+            mUserAddress = newUserAddress;
 
             String serializedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
             if (serializedUser != null) {

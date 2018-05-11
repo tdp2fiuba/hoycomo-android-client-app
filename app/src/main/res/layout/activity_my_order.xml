@@ -29,6 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
+                    android:singleLine="true"
                     android:textColor="@color/black"
                     />
 
@@ -56,7 +57,18 @@
                     android:layout_gravity="end"
                     android:text="@string/subtotal_amount"/>
 
-                <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                <TextView
+                    android:id="@+id/my_order_status"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:textSize="18sp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"/>
+
+                <Button style="@style/Widget.AppCompat.Button.Small"
                     android:id="@+id/my_order_add_more_food_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,6 +84,7 @@
 
     <Button style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/my_order_continue_button"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

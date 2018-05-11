@@ -12,23 +12,25 @@ public class Order {
     private List<OrderItem> items;
     private String description;
     private Address address;
+    private OrderStatus status;
 
     public Order(String userId, Store store, Integer price, List<OrderItem> items) {
-        this(userId, store, price, items, null, null);
+        this(userId, store, price, items, null, null, OrderStatus.PENDING);
     }
 
     public Order(String userId, Store store, Integer price, List<OrderItem> items, Address address) {
-        this(userId, store, price, items, null, address);
+        this(userId, store, price, items, null, address, OrderStatus.PENDING);
     }
 
     public Order(String userId, Store store, Integer price, List<OrderItem> items, String description,
-                 Address address) {
+                 Address address, OrderStatus status) {
         this.userId = userId;
         this.store = store;
         this.price = price;
         this.items = items;
         this.description = description;
         this.address = address;
+        this.status = status;
     }
 
     public String getUserId() {
@@ -71,6 +73,10 @@ public class Order {
         this.address = address;
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
+
     public OrderRequest toRequest() {
         return new OrderRequest(
                 userId,
@@ -86,11 +92,12 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "userId='" + userId + '\'' +
-                ", store='" + store + '\'' +
+                ", store=" + store +
                 ", price=" + price +
-                ", description='" + description + '\'' +
                 ", items=" + items +
+                ", description='" + description + '\'' +
                 ", address=" + address +
+                ", status=" + status +
                 '}';
     }
 }

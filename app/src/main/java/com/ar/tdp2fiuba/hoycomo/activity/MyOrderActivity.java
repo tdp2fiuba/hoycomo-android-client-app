@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,9 @@ import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 public class MyOrderActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_CONFIRMATION = 1;
+
+    public static final String ARG_SENT = "sent";
+    private boolean sent = false;
 
     private Order mOrder;
 
@@ -37,10 +41,18 @@ public class MyOrderActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         mOrder = OrderService.getMyCurrentOrder();
+        if (getIntent() != null) {
+            sent = getIntent().getBooleanExtra(ARG_SENT, false);
+        }
+
         displayStoreInfo();
         populateOrderItems();
         updateSubtotal();
+
+        displayStatus();
+        displayButtons();
     }
 
     @Override
@@ -62,9 +74,11 @@ public class MyOrderActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.my_order_menu_cancel:
-                OrderService.clearOrder();
-                Toast.makeText(this, R.string.order_cancelled, Toast.LENGTH_SHORT).show();
-                finish();
+                if (!sent) {
+                    OrderService.clearOrder();
+                    Toast.makeText(this, R.string.order_cancelled, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
                 break;
         }
 
@@ -115,5 +129,27 @@ public class MyOrderActivity extends AppCompatActivity {
         subtotalView.setText(
                 subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(OrderService.getMyCurrentOrder().getPrice()))
         );
+    }
+
+    private void displayStatus() {
+        TextView status = (TextView) findViewById(R.id.my_order_status);
+        if (sent) {
+            status.setVisibility(View.VISIBLE);
+            status.setText(mOrder.getStatus().toString());
+        } else {
+            status.setVisibility(View.GONE);
+        }
+    }
+
+    private void displayButtons() {
+        Button addMoreFoodButton = (Button) findViewById(R.id.my_order_add_more_food_button);
+        Button continueButton = (Button) findViewById(R.id.my_order_continue_button);
+        if (sent) {
+            addMoreFoodButton.setVisibility(View.GONE);
+            continueButton.setVisibility(View.GONE);
+        } else {
+            addMoreFoodButton.setVisibility(View.VISIBLE);
+            continueButton.setVisibility(View.VISIBLE);
+        }
     }
 }

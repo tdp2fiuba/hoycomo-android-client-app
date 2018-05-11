@@ -77,4 +77,6 @@
     <string name="order_send_success">La orden fue enviada éxitosamente</string>
     <string name="order_send_error">Hubo un error y la orden no se pudo enviar al comercio</string>
     <string name="error_only_caba">Lo sentimos, por el momento sólo operamos dentro de CABA</string>
+    <string name="no_garnish">Sin guarnición</string>
+    <string name="no_comments">No hay comentarios</string>
 </resources>

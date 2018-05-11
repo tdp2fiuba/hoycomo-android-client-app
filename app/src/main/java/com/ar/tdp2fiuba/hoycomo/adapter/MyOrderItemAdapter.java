@@ -1,6 +1,7 @@
 package com.ar.tdp2fiuba.hoycomo.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ public class MyOrderItemAdapter extends RecyclerView.Adapter<MyOrderItemAdapter.
         holder.mItem = mValues.get(position);
         holder.mQuantityView.setText(String.valueOf(holder.mItem.getQuantity()));
         holder.mNameView.setText(holder.mItem.getName());
+        setGarnish(holder);
+        setComments(holder);
         holder.mPriceView.setText("$" + String.valueOf(holder.mItem.getPrice() * holder.mItem.getQuantity()));
     }
 
@@ -39,11 +42,31 @@ public class MyOrderItemAdapter extends RecyclerView.Adapter<MyOrderItemAdapter.
         return mValues.size();
     }
 
+    private void setGarnish(final ViewHolder holder) {
+        if (!TextUtils.isEmpty(holder.mItem.getGarnish())) {
+            holder.mGarnishView.setVisibility(View.VISIBLE);
+            holder.mGarnishView.setText(holder.mItem.getGarnish());
+        } else {
+            holder.mGarnishView.setVisibility(View.GONE);
+        }
+    }
+
+    private void setComments(final ViewHolder holder) {
+        if (!TextUtils.isEmpty(holder.mItem.getComments())) {
+            holder.mCommentsView.setVisibility(View.VISIBLE);
+            holder.mCommentsView.setText(holder.mItem.getComments());
+        } else {
+            holder.mCommentsView.setVisibility(View.GONE);
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public OrderItem mItem;
         public final View mView;
         public final TextView mQuantityView;
         public final TextView mNameView;
+        public final TextView mGarnishView;
+        public final TextView mCommentsView;
         public final TextView mPriceView;
 
         public ViewHolder(View view) {
@@ -51,6 +74,8 @@ public class MyOrderItemAdapter extends RecyclerView.Adapter<MyOrderItemAdapter.
             mView = view;
             mQuantityView = view.findViewById(R.id.order_item_row_quantity);
             mNameView = view.findViewById(R.id.order_item_row_name);
+            mGarnishView = view.findViewById(R.id.order_item_row_garnish);
+            mCommentsView = view.findViewById(R.id.order_item_row_comments);
             mPriceView = view.findViewById(R.id.order_item_row_price);
         }
 

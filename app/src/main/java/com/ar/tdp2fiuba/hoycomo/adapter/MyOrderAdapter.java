@@ -1,0 +1,68 @@
+package com.ar.tdp2fiuba.hoycomo.adapter;
+
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.model.Order;
+import com.ar.tdp2fiuba.hoycomo.model.OrderItem;
+
+import java.util.List;
+
+public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHolder> {
+
+    private final List<Order> mValues;
+
+    public MyOrderAdapter(List<Order> items) {
+        this.mValues = items;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.order_item_row, parent, false);
+        return new MyOrderAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.mItem = mValues.get(position);
+
+        // TODO: 12/5/18 Set layout
+    }
+
+    @Override
+    public int getItemCount() {
+        return mValues.size();
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public Order mItem;
+        public final View mView;
+        public final TextView mQuantityView;
+        public final TextView mNameView;
+        public final TextView mGarnishView;
+        public final TextView mCommentsView;
+        public final TextView mPriceView;
+
+        public ViewHolder(View view) {
+            super(view);
+            mView = view;
+            mQuantityView = view.findViewById(R.id.order_item_row_quantity);
+            mNameView = view.findViewById(R.id.order_item_row_name);
+            mGarnishView = view.findViewById(R.id.order_item_row_garnish);
+            mCommentsView = view.findViewById(R.id.order_item_row_comments);
+            mPriceView = view.findViewById(R.id.order_item_row_price);
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mNameView.getText() + "'";
+        }
+    }
+}

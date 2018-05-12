@@ -6,6 +6,11 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_my_orders"
+            android:icon="@mipmap/ic_shopping_cart_black_24dp"
+            android:title="@string/my_orders" />
+
+        <item
             android:id="@+id/nav_log_out"
             android:icon="@mipmap/ic_close_black_36dp"
             android:iconTint="@color/error"

@@ -40,6 +40,7 @@
     <string name="vegetarians">Vegetarianos</string>
     <string name="quantity">Cantidad</string>
     <string name="my_order">Mi pedido</string>
+    <string name="my_orders">Mis pedidos</string>
     <string name="not_logged_in">No ha iniciado sesión</string>
     <string name="home">Inicio</string>
     <string name="log_in">Inicio de sesión</string>
@@ -84,4 +85,6 @@
     <string name="dispatched">Despachado</string>
     <string name="delivered">Entregado</string>
     <string name="cancelled">Cancelado</string>
+    <string name="no_orders">No tenés pedidos en curso</string>
+    <string name="how_to_order">Para realizar un pedido nuevo, seleccioná algún plato del menú del comercio que quieras y agregalo a tu pedido</string>
 </resources>

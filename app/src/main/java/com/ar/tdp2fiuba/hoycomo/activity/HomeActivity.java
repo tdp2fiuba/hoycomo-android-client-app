@@ -76,15 +76,10 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (OrderService.isThereCurrentOrder()) {
-                StoreFragment storeFragment = (StoreFragment) getSupportFragmentManager().findFragmentByTag(TAG_STORE_FRAGMENT);
-                if (storeFragment != null && storeFragment.isVisible()) {
-                    openMyOrderCancellationDialog();
-                    return;
-                }
+            if (!checkCurrentOrder()) {
+                super.onBackPressed();
+                getSupportActionBar().setTitle(R.string.app_name);
             }
-            super.onBackPressed();
-            getSupportActionBar().setTitle(R.string.app_name);
         }
     }
 
@@ -165,9 +160,16 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_log_out) {
-            UserAuthenticationManager.logOut(this);
-            continueToLogIn();
+        switch (id) {
+            case R.id.nav_log_out:
+                UserAuthenticationManager.logOut(this);
+                continueToLogIn();
+                break;
+            case R.id.nav_my_orders:
+                if (!checkCurrentOrder()) {
+                    openMyOrders();
+                }
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -197,6 +199,22 @@ public class HomeActivity extends AppCompatActivity
                 Picasso.get().load(currentUser.getAvatar()).into(drawerUserPicture);
             }
         }
+    }
+
+    private boolean checkCurrentOrder() {
+        if (OrderService.isThereCurrentOrder()) {
+            StoreFragment storeFragment = (StoreFragment) getSupportFragmentManager().findFragmentByTag(TAG_STORE_FRAGMENT);
+            if (storeFragment != null && storeFragment.isVisible()) {
+                openMyOrderCancellationDialog();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void openMyOrders() {
+        Intent intent = new Intent(this, MyOrdersActivity.class);
+        startActivity(intent);
     }
 
     private void continueToLogIn() {

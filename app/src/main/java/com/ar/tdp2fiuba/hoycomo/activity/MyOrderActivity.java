@@ -45,6 +45,7 @@ public class MyOrderActivity extends AppCompatActivity {
         mOrder = OrderService.getMyCurrentOrder();
         if (getIntent() != null) {
             sent = getIntent().getBooleanExtra(ARG_SENT, false);
+            invalidateOptionsMenu();
         }
 
         displayStoreInfo();
@@ -65,6 +66,11 @@ public class MyOrderActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.my_order_menu, menu);
+        if (sent) {
+            menu.findItem(R.id.my_order_menu_cancel).setVisible(false);
+        } else {
+            menu.findItem(R.id.my_order_menu_cancel).setVisible(true);
+        }
         return true;
     }
 
@@ -135,7 +141,7 @@ public class MyOrderActivity extends AppCompatActivity {
         TextView status = (TextView) findViewById(R.id.my_order_status);
         if (sent) {
             status.setVisibility(View.VISIBLE);
-            status.setText(mOrder.getStatus().toString());
+            status.setText(mOrder.getStatus().toString(this).toUpperCase());
         } else {
             status.setVisibility(View.GONE);
         }

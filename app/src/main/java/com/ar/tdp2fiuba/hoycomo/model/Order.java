@@ -15,11 +15,11 @@ public class Order {
     private OrderStatus status;
 
     public Order(String userId, Store store, Integer price, List<OrderItem> items) {
-        this(userId, store, price, items, null, null, OrderStatus.PENDING);
+        this(userId, store, price, items, null, null, OrderStatus.TAKEN);
     }
 
     public Order(String userId, Store store, Integer price, List<OrderItem> items, Address address) {
-        this(userId, store, price, items, null, address, OrderStatus.PENDING);
+        this(userId, store, price, items, null, address, OrderStatus.TAKEN);
     }
 
     public Order(String userId, Store store, Integer price, List<OrderItem> items, String description,

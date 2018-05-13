@@ -6,35 +6,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private String userId;
+    private User user;
     private Store store;
     private Integer price;
     private List<OrderItem> items;
     private String description;
     private Address address;
-    private OrderStatus status;
+    private OrderState state;
+    private String registerTimestamp;
 
-    public Order(String userId, Store store, Integer price, List<OrderItem> items) {
-        this(userId, store, price, items, null, null, OrderStatus.TAKEN);
+    public Order() {}
+
+    public Order(User user, Store store, Integer price, List<OrderItem> items) {
+        this(user, store, price, items, null);
     }
 
-    public Order(String userId, Store store, Integer price, List<OrderItem> items, Address address) {
-        this(userId, store, price, items, null, address, OrderStatus.TAKEN);
+    public Order(User user, Store store, Integer price, List<OrderItem> items, Address address) {
+        this(user, store, price, items, null, address, new OrderState(), null);
     }
 
-    public Order(String userId, Store store, Integer price, List<OrderItem> items, String description,
-                 Address address, OrderStatus status) {
-        this.userId = userId;
+    public Order(User user, Store store, Integer price, List<OrderItem> items, String description,
+                 Address address, OrderState state, String registerTimestamp) {
+        this.user = user;
         this.store = store;
         this.price = price;
         this.items = items;
         this.description = description;
         this.address = address;
-        this.status = status;
+        this.state = state;
+        this.registerTimestamp = registerTimestamp;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     public Store getStore() {
@@ -73,13 +77,17 @@ public class Order {
         this.address = address;
     }
 
-    public OrderStatus getStatus() {
-        return status;
+    public OrderState getState() {
+        return state;
+    }
+
+    public String getRegisterTimestamp() {
+        return registerTimestamp;
     }
 
     public OrderRequest toRequest() {
         return new OrderRequest(
-                userId,
+                user.getUserId(),
                 store.getId(),
                 price,
                 description,
@@ -91,13 +99,14 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "userId='" + userId + '\'' +
+                "user=" + user +
                 ", store=" + store +
                 ", price=" + price +
                 ", items=" + items +
                 ", description='" + description + '\'' +
                 ", address=" + address +
-                ", status=" + status +
+                ", state=" + state +
+                ", registerTimestamp='" + registerTimestamp + '\'' +
                 '}';
     }
 }

@@ -93,7 +93,7 @@ public class MenuItemActivity extends AppCompatActivity {
                 List<OrderItem> items = new ArrayList<>();
                 OrderItem item = buildOrderItemFromInput();
                 items.add(item);
-                Order newOrder = new Order(user.getUserId(), mStore, item.getPrice() * item.getQuantity(), items, user.getAddress());
+                Order newOrder = new Order(user, mStore, item.getPrice() * item.getQuantity(), items, user.getAddress());
                 OrderService.setAsCurrentOrder(newOrder);
                 Log.d(TAG, "My Order: " + newOrder);
                 finish();

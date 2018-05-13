@@ -3,6 +3,7 @@ package com.ar.tdp2fiuba.hoycomo.service;
 import android.content.Context;
 
 import com.android.volley.Response;
+import com.ar.tdp2fiuba.hoycomo.model.User;
 import com.ar.tdp2fiuba.hoycomo.model.request.FacebookLogInRequest;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.facebook.login.LoginManager;
@@ -45,6 +46,15 @@ public class UserAuthenticationManager extends HoyComoService {
         LoginManager.getInstance().logOut();
         SharedPreferencesUtils.remove(context, SHP_USER);
         SharedPreferencesUtils.remove(context, SHP_TOKEN);
+    }
+
+    public static User getUser(Context context) {
+        User user = null;
+        String serializedUser = SharedPreferencesUtils.load(context, SHP_USER, null);
+        if (serializedUser != null) {
+            user = new Gson().fromJson(serializedUser, User.class);
+        }
+        return user;
     }
 
     public static boolean isUserLoggedIn(Context context) {

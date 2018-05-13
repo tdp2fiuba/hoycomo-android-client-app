@@ -51,7 +51,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private static final String TAG = "ConfirmOrder";
 
     private Order mOrder;
-    private Address mUserAddress;
+    private Address mPreviousUserAddress;
 
     private Place mUserPlacePicked;
 
@@ -98,7 +98,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     }
 
     public void validateAndSendOrder(View v) {
-        validateAddress();
+        if (mPreviousUserAddress == null) {
+            validateAddress();
+        } else {
+            sendOrder();
+        }
     }
 
     private void validateAddress() {
@@ -164,8 +168,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             if (serializedUser != null) {
                 User user = new Gson().fromJson(serializedUser, User.class);
                 if (user.getAddress() != null && user.getAddress().getName() != null) {
-                    mUserAddress = user.getAddress();
-                    ((TextView) findViewById(R.id.confirm_order_user_address)).setText(mUserAddress.getName());
+                    mPreviousUserAddress = user.getAddress();
+                    ((TextView) findViewById(R.id.confirm_order_user_address)).setText(mPreviousUserAddress.getName());
                     findViewById(R.id.confirm_order_floor_apartment_input_container).setVisibility(View.GONE);
                 }
             }
@@ -270,8 +274,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         if (mOrder.getAddress() == null || !newUserAddress.equals(mOrder.getAddress())) {
             mOrder.setAddress(newUserAddress);
             OrderService.setAsCurrentOrder(mOrder);
-
-            mUserAddress = newUserAddress;
 
             String serializedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
             if (serializedUser != null) {

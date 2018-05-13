@@ -31,6 +31,7 @@
     <string name="error_required_permissions_distance_filter">Debe permitir usar la localización del celular para usar el filtro por distancia</string>
     <string name="delete_filters">Borrar Filtros</string>
     <string name="error_no_menu">No se pudo obtener el menú del comercio. Por favor, chequá tu conexión.</string>
+    <string name="error_no_orders">No se pudieron obtener tus pedidos en curso. Por favor, chequá tu conexión.</string>
     <string name="no_menu">El comercio no cuenta aún con un menú cargado</string>
     <string name="garnish">Guarnición</string>
     <string name="suitable_for">Apto para</string>

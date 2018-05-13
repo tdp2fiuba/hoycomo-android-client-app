@@ -7,6 +7,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,6 +34,19 @@ public class OrderService extends HoyComoService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void getActiveOrders(String userId, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
+        final String urlWithPlaceholders = BASE_URL + "/api/order/user/:userId?state=TAKEN,IN_PREPARATION,DISPATCHED";
+        final String url = urlWithPlaceholders.replace(":userId", userId);
+
+        HttpRequestHelper.getArray(
+                url,
+                null,
+                successListener,
+                errorListener,
+                "GetActiveOrders"
+        );
     }
 
     public static Order getMyCurrentOrder() {

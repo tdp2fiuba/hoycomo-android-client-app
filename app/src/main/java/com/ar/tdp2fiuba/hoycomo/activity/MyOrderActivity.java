@@ -141,7 +141,7 @@ public class MyOrderActivity extends AppCompatActivity {
         TextView status = (TextView) findViewById(R.id.my_order_status);
         if (sent) {
             status.setVisibility(View.VISIBLE);
-            status.setText(mOrder.getStatus().toString(this).toUpperCase());
+            status.setText(mOrder.getState().getState().toString(this).toUpperCase());
         } else {
             status.setVisibility(View.GONE);
         }

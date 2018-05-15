@@ -2,16 +2,16 @@ package com.ar.tdp2fiuba.hoycomo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.Order;
+import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +55,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
             holder.mStatusView.setText(holder.mItem.getState().getState().toString((Context) mListener));
             holder.mStoreNameView.setText(holder.mItem.getStore().getName());
-            if (!TextUtils.isEmpty(holder.mItem.getDescription())) {
-                holder.mCommentsView.setText(holder.mItem.getDescription());
-            }
             holder.mPriceView.setText("$" + String.valueOf(holder.mItem.getPrice()));
+            holder.mTimestampView.setText(
+                    DateUtils.elapsedTimeFromUTC(holder.mItem.getRegisterTimestamp(), (Context) mListener)
+            );
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,10 +120,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
         public final View mView;
         public final TextView mStoreNameView;
         public final TextView mStatusView;
-        public final TextView mCommentsView;
         public final TextView mPriceView;
+        public final TextView mTimestampView;
 
-        public final LinearLayout mContentView;
+        public final RelativeLayout mContentView;
         public final ProgressBar mProgressBar;
 
         public ViewHolder(View view) {
@@ -131,10 +131,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             mView = view;
             mStoreNameView = view.findViewById(R.id.order_row_store_name);
             mStatusView = view.findViewById(R.id.order_row_status);
-            mCommentsView = view.findViewById(R.id.order_row_comments);
             mPriceView = view.findViewById(R.id.order_row_price);
+            mTimestampView = view.findViewById(R.id.order_row_timestamp);
 
-            mContentView = (LinearLayout) view.findViewById(R.id.order_row_content);
+            mContentView = (RelativeLayout) view.findViewById(R.id.order_row_content);
             mProgressBar = (ProgressBar) view.findViewById(R.id.order_row_loading);
         }
 

@@ -43,6 +43,15 @@
                     android:layout_marginBottom="12dp"
                     />
 
+                <TextView
+                    android:id="@+id/my_order_timestamp"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textStyle="italic"
+                    />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/my_order_item_list"
                     android:layout_width="match_parent"

@@ -18,6 +18,7 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.MyOrderItemAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.Order;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
+import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
 import com.google.gson.Gson;
 
 public class MyOrderActivity extends AppCompatActivity {
@@ -58,6 +59,7 @@ public class MyOrderActivity extends AppCompatActivity {
         populateOrderItems();
         updateSubtotal();
 
+        displayTimestamp();
         displayStatus();
         displayButtons();
     }
@@ -142,6 +144,16 @@ public class MyOrderActivity extends AppCompatActivity {
         subtotalView.setText(
                 subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(mOrder.getPrice()))
         );
+    }
+
+    private void displayTimestamp() {
+        TextView timestampView = (TextView) findViewById(R.id.my_order_timestamp);
+        if (sent) {
+            timestampView.setVisibility(View.VISIBLE);
+            timestampView.setText(DateUtils.formatFromUTC(mOrder.getRegisterTimestamp()));
+        } else {
+            timestampView.setVisibility(View.GONE);
+        }
     }
 
     private void displayStatus() {

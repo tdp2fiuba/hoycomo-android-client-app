@@ -88,4 +88,8 @@
     <string name="cancelled">Cancelado</string>
     <string name="no_orders">No tenés pedidos en curso</string>
     <string name="how_to_order">Para realizar un pedido nuevo, seleccioná algún plato del menú del comercio que quieras y agregalo a tu pedido</string>
+    <string name="one_hour_ago">Hace 1 hora</string>
+    <string name="hours_ago">Hace :h horas</string>
+    <string name="recently">Recién</string>
+    <string name="minutes_ago">Hace :m minutos</string>
 </resources>

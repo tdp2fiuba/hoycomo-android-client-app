@@ -19,6 +19,30 @@ public class HoyComoFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+        if (remoteMessage.getData().get("topic") == "DELIVERED"){
+            sendDeliveredNotification(remoteMessage);
+        } else {
+            sendBasicNotification(remoteMessage);
+        }
+    }
+
+    public void sendBasicNotification(RemoteMessage remoteMessage){
+        int notificationId = new Random().nextInt(60000);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,CHANNEL_ID)
+                .setContentTitle(remoteMessage.getData().get("title")) //the "title" value you sent in your notification
+                .setContentText(remoteMessage.getData().get("message")) //ditto
+                .setAutoCancel(true)  //dismisses the notification on click
+                .setSound(defaultSoundUri);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
+    }
+
+    public void sendDeliveredNotification(RemoteMessage remoteMessage){
         int notificationId = new Random().nextInt(60000);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -26,6 +50,8 @@ public class HoyComoFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_menu_share)  //a resource for your custom small icon
                 .setContentTitle(remoteMessage.getData().get("title")) //the "title" value you sent in your notification
                 .setContentText(remoteMessage.getData().get("message")) //ditto
+                //.addAction(null, "Rechazar",rechazarIntent)
+                //.addAction(null, "Calificar",calificarIntent)
                 .setAutoCancel(true)  //dismisses the notification on click
                 .setSound(defaultSoundUri);
 

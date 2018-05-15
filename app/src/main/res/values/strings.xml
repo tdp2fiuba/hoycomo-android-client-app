@@ -81,7 +81,7 @@
     <string name="error_only_caba">Lo sentimos, por el momento sólo operamos dentro de CABA</string>
     <string name="no_garnish">Sin guarnición</string>
     <string name="no_comments">No hay comentarios</string>
-    <string name="taken">Tomado</string>
+    <string name="pending">Pendiente</string>
     <string name="in_preparation">En preparación</string>
     <string name="dispatched">Despachado</string>
     <string name="delivered">Entregado</string>

@@ -5,7 +5,7 @@ import android.content.Context;
 import com.ar.tdp2fiuba.hoycomo.R;
 
 public enum OrderStatus {
-    TAKEN(R.string.taken),
+    PENDING(R.string.pending),
     IN_PREPARATION(R.string.in_preparation),
     DISPATCHED(R.string.dispatched),
     DELIVERED(R.string.delivered),

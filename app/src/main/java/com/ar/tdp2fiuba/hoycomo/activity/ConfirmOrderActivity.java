@@ -98,15 +98,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     }
 
     public void validateAndSendOrder(View v) {
-        if (mPreviousUserAddress == null) {
-            validateAddress();
-        } else {
-            sendOrder();
-        }
+        validateAddress();
     }
 
     private void validateAddress() {
-        if (mUserPlacePicked != null) {
+        if (mUserPlacePicked != null || mPreviousUserAddress != null) {
             Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -123,7 +119,11 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 }
             };
             startLoading();
-            GeocodingService.validateAddress(mUserPlacePicked.getAddress().toString(), successListener, errorListener);
+            if (mUserPlacePicked != null) {
+                GeocodingService.validateAddress(mUserPlacePicked.getAddress().toString(), successListener, errorListener);
+            } else {
+                GeocodingService.validateAddress(mPreviousUserAddress.getName(), successListener, errorListener);
+            }
         } else {
             Toast.makeText(this, R.string.didnt_set_delivery_address, Toast.LENGTH_LONG).show();
         }

@@ -162,6 +162,9 @@ public class HomeActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_log_out:
+                if (OrderService.isThereCurrentOrder()) {
+                    OrderService.clearOrder();
+                }
                 UserAuthenticationManager.logOut(this);
                 continueToLogIn();
                 break;

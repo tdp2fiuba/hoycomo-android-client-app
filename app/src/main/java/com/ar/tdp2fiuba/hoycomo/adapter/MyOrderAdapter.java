@@ -2,6 +2,7 @@ package com.ar.tdp2fiuba.hoycomo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +51,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
             holder.mStatusView.setText(holder.mItem.getState().getState().toString(mContext));
             holder.mStoreNameView.setText(holder.mItem.getStore().getName());
-            holder.mCommentsView.setText(holder.mItem.getDescription());
-            holder.mPriceView.setText(String.valueOf(holder.mItem.getPrice()));
+            if (!TextUtils.isEmpty(holder.mItem.getDescription())) {
+                holder.mCommentsView.setText(holder.mItem.getDescription());
+            }
+            holder.mPriceView.setText("$" + String.valueOf(holder.mItem.getPrice()));
         }
     }
 
@@ -111,10 +114,10 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mStoreNameView = view.findViewById(R.id.order_item_row_name);
-            mStatusView = view.findViewById(R.id.order_item_row_quantity);
-            mCommentsView = view.findViewById(R.id.order_item_row_comments);
-            mPriceView = view.findViewById(R.id.order_item_row_price);
+            mStoreNameView = view.findViewById(R.id.order_row_store_name);
+            mStatusView = view.findViewById(R.id.order_row_status);
+            mCommentsView = view.findViewById(R.id.order_row_comments);
+            mPriceView = view.findViewById(R.id.order_row_price);
 
             mContentView = (LinearLayout) view.findViewById(R.id.order_row_content);
             mProgressBar = (ProgressBar) view.findViewById(R.id.order_row_loading);

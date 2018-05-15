@@ -5,7 +5,7 @@ public class OrderState {
     private String timestamp;
 
     public OrderState() {
-        this.state = OrderStatus.PENDING;
+        this.state = OrderStatus.TAKEN;
     }
 
     public OrderState(OrderStatus state, String timestamp) {

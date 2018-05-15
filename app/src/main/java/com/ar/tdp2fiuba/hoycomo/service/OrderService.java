@@ -37,7 +37,7 @@ public class OrderService extends HoyComoService {
     }
 
     public static void getActiveOrders(String userId, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
-        final String urlWithPlaceholders = BASE_URL + "/api/order/user/:userId?state=TAKEN,IN_PREPARATION,DISPATCHED";
+        final String urlWithPlaceholders = BASE_URL + "/api/order/user/:userId?state=TAKEN&state=PREPARATION&state=DISPATCHED";
         final String url = urlWithPlaceholders.replace(":userId", userId);
 
         HttpRequestHelper.getArray(

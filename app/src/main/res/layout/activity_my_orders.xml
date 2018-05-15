@@ -16,10 +16,9 @@
         <com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport
             android:id="@+id/my_orders_item_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/order_item_row"/>
+            tools:listitem="@layout/order_row"/>
 
 
         <LinearLayout

@@ -18,15 +18,16 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.MyOrderItemAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.Order;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
+import com.google.gson.Gson;
 
 public class MyOrderActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_CONFIRMATION = 1;
 
-    public static final String ARG_SENT = "sent";
-    private boolean sent = false;
+    public static final String ARG_ORDER = "order";
 
     private Order mOrder;
+    private boolean sent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,13 @@ public class MyOrderActivity extends AppCompatActivity {
         super.onResume();
 
         mOrder = OrderService.getMyCurrentOrder();
+        sent = false;
         if (getIntent() != null) {
-            sent = getIntent().getBooleanExtra(ARG_SENT, false);
+            String serializedOrder = getIntent().getStringExtra(ARG_ORDER);
+            if (serializedOrder != null) {
+                mOrder = new Gson().fromJson(serializedOrder, Order.class);
+                sent = true;
+            }
             invalidateOptionsMenu();
         }
 
@@ -120,23 +126,21 @@ public class MyOrderActivity extends AppCompatActivity {
     }
 
     private void populateOrderItems() {
-        if (OrderService.isThereCurrentOrder()) {
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_order_item_list);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(layoutManager);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                    layoutManager.getOrientation());
-            recyclerView.addItemDecoration(dividerItemDecoration);
-            MyOrderItemAdapter adapter = new MyOrderItemAdapter(OrderService.getMyCurrentOrder().getItems());
-            recyclerView.setAdapter(adapter);
-            recyclerView.setNestedScrollingEnabled(false);
-        }
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_order_item_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        MyOrderItemAdapter adapter = new MyOrderItemAdapter(mOrder.getItems());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(false);
     }
 
     private void updateSubtotal() {
         TextView subtotalView = (TextView) findViewById(R.id.my_order_subtotal);
         subtotalView.setText(
-                subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(OrderService.getMyCurrentOrder().getPrice()))
+                subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(mOrder.getPrice()))
         );
     }
 

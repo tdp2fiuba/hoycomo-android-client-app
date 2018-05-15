@@ -1,5 +1,6 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -25,7 +26,9 @@ import org.json.JSONException;
 
 import java.util.Collections;
 
-public class MyOrdersActivity extends AppCompatActivity {
+import static com.ar.tdp2fiuba.hoycomo.activity.MyOrderActivity.ARG_ORDER;
+
+public class MyOrdersActivity extends AppCompatActivity implements MyOrderAdapter.OnMyOrdersInteractionListener {
 
     private User mUser;
     private MyOrderAdapter mAdapter;
@@ -55,6 +58,13 @@ public class MyOrdersActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onOrderTap(Order item) {
+        Intent intent = new Intent(this, MyOrderActivity.class);
+        intent.putExtra(ARG_ORDER, new Gson().toJson(item));
+        startActivity(intent);
     }
 
     private void populateOrders() {

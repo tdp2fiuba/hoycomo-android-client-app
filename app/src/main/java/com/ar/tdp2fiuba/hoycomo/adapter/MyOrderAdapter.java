@@ -18,17 +18,21 @@ import java.util.List;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHolder> {
 
+    public interface OnMyOrdersInteractionListener {
+        void onOrderTap(Order item);
+    }
+
     private final List<Order> mValues;
-    private final Context mContext;
+    private final OnMyOrdersInteractionListener mListener;
 
     private int loadingItemIndex = -1;    // Not loading
 
     private final static int ITEM = 0;
     private final static int LOADING = 1;
 
-    public MyOrderAdapter(Context context) {
-        mValues = new ArrayList<>();
-        this.mContext = context;
+    public MyOrderAdapter(OnMyOrdersInteractionListener listener) {
+        this.mValues = new ArrayList<>();
+        this.mListener = listener;
     }
 
     @Override
@@ -49,12 +53,23 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             holder.mContentView.setVisibility(View.VISIBLE);
             holder.mProgressBar.setVisibility(View.GONE);
 
-            holder.mStatusView.setText(holder.mItem.getState().getState().toString(mContext));
+            holder.mStatusView.setText(holder.mItem.getState().getState().toString((Context) mListener));
             holder.mStoreNameView.setText(holder.mItem.getStore().getName());
             if (!TextUtils.isEmpty(holder.mItem.getDescription())) {
                 holder.mCommentsView.setText(holder.mItem.getDescription());
             }
             holder.mPriceView.setText("$" + String.valueOf(holder.mItem.getPrice()));
+
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        // Notify the active callbacks interface (the activity, if the
+                        // fragment is attached to one) that an item has been selected.
+                        mListener.onOrderTap(holder.mItem);
+                    }
+                }
+            });
         }
     }
 

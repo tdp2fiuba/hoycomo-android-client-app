@@ -95,7 +95,10 @@ public class MyOrderActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQ_CODE_CONFIRMATION) {
             if (resultCode == RESULT_OK) {
-                finish();
+                Intent intent = new Intent();
+                intent.setClass(MyOrderActivity.this, MyOrdersActivity.class);
+                startActivity(intent);
+                MyOrderActivity.this.finish();
                 return;
             }
         }

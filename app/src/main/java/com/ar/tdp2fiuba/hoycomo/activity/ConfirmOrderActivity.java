@@ -134,6 +134,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
             updateUserAddress();
         }
 
+        mOrder.setDescription(getNotes());
+
         Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -282,5 +284,13 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 SharedPreferencesUtils.update(this, SHP_USER, new Gson().toJson(user));
             }
         }
+    }
+
+    private String getNotes() {
+        EditText notesInput = (EditText) findViewById(R.id.confirm_order_notes_input);
+        if (notesInput.getText() != null) {
+            return notesInput.getText().toString();
+        }
+        return null;
     }
 }

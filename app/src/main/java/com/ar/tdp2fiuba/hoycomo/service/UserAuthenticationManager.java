@@ -66,4 +66,24 @@ public class UserAuthenticationManager extends HoyComoService {
         return SharedPreferencesUtils.load(context, SHP_TOKEN, null);
     }
 
+    public static void updateFirebaseToken(String token, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
+        final String url = BASE_URL + "/api/user/firebase";
+
+        try {
+            JSONObject body = new JSONObject();
+            body.put("firebase_token", token);
+
+            HttpRequestHelper.put(
+                    url,
+                    null,
+                    body,
+                    successListener,
+                    errorListener,
+                    "LogIn"
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

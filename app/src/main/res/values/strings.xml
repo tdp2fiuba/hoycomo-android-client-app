@@ -92,4 +92,8 @@
     <string name="hours_ago">Hace :h horas</string>
     <string name="recently">Recién</string>
     <string name="minutes_ago">Hace :m minutos</string>
+    <string name="rate_store">Danos tu opinión</string>
+    <string name="thanks_rate">¡Gracias por compartir tu opinión!</string>
+    <string name="hoycomo_thanks">Gracias por hacer tu pedido a través de HoyComo</string>
+    <string name="opinion_about_store">Nos interesa saber tu opinión sobre este comercio</string>
 </resources>

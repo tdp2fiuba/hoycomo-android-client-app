@@ -1,10 +1,11 @@
-package com.ar.tdp2fiuba.hoycomo.service;
+package com.ar.tdp2fiuba.hoycomo.service.firebase;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import org.json.JSONObject;

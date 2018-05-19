@@ -1,4 +1,4 @@
-package com.ar.tdp2fiuba.hoycomo.service;
+package com.ar.tdp2fiuba.hoycomo.service.firebase;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -19,7 +19,7 @@ public class HoyComoFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        if (remoteMessage.getData().get("topic") == "DELIVERED"){
+        if (remoteMessage.getData().get("topic").equals("DELIVERED")){
             sendDeliveredNotification(remoteMessage);
         } else {
             sendBasicNotification(remoteMessage);

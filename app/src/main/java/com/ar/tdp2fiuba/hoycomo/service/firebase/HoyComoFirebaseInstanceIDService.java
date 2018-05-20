@@ -38,6 +38,6 @@ public class HoyComoFirebaseInstanceIDService extends FirebaseInstanceIdService 
             }
         };
 
-        UserAuthenticationManager.updateFirebaseToken(token,successListener,errorListener);
+        UserAuthenticationManager.updateFirebaseToken(token, successListener, errorListener);
     }
 }

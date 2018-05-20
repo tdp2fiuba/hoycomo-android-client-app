@@ -96,4 +96,11 @@
     <string name="thanks_rate">¡Gracias por compartir tu opinión!</string>
     <string name="hoycomo_thanks">Gracias por hacer tu pedido a través de HoyComo</string>
     <string name="opinion_about_store">Nos interesa saber tu opinión sobre este comercio</string>
+    <string name="rate">Calificar</string>
+    <string name="reject">Rechazar</string>
+    <string name="my_order_not_delivered">No me entregaron mi pedido</string>
+    <string name="i_did_receive_it">No, lo recibí</string>
+    <string name="my_order_not_delivered_body_dialog">Parece que hubo una confusión y el comercio considera que tu pedido ya fue entregado. ¿Querés que reenviemos el pedido?</string>
+    <string name="error_order_update">No se pudo actualizar el estado del pedido. Por favor, chequeá tu conexión.</string>
+    <string name="order_updated">Se actualizó el estado del pedido y el comercio ya está al tanto de la situación</string>
 </resources>

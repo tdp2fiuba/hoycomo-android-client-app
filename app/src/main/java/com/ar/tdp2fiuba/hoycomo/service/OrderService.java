@@ -49,6 +49,20 @@ public class OrderService extends HoyComoService {
         );
     }
 
+    public static void rejectOrder(String orderId, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
+        final String urlWithPlaceholders = BASE_URL + "/api/order/:orderId/reject";
+        final String url = urlWithPlaceholders.replace(":orderId", orderId);
+
+        HttpRequestHelper.post(
+                url,
+                null,
+                null,
+                successListener,
+                errorListener,
+                "GetActiveOrders"
+        );
+    }
+
     public static Order getMyCurrentOrder() {
         return myOrder;
     }

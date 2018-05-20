@@ -79,11 +79,10 @@ public class UserAuthenticationManager extends HoyComoService {
                     body,
                     successListener,
                     errorListener,
-                    "LogIn"
+                    "UpdateFirebaseToken"
             );
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
 }

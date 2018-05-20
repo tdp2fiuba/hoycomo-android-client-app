@@ -91,6 +91,7 @@
             android:name=".activity.MyOrdersActivity"
             android:label="@string/my_orders"
             android:screenOrientation="portrait"
+            android:parentActivityName=".activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.RateStoreActivity"

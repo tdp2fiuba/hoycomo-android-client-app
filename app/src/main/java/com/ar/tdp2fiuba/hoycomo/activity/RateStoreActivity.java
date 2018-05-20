@@ -1,5 +1,7 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ar.tdp2fiuba.hoycomo.R;
+import com.ar.tdp2fiuba.hoycomo.service.firebase.HoyComoFirebaseMessagingService;
 
 public class RateStoreActivity extends AppCompatActivity {
 
@@ -27,6 +30,8 @@ public class RateStoreActivity extends AppCompatActivity {
                 sendRate();
             }
         });
+
+        dismissNotification();
     }
 
     @Override
@@ -39,6 +44,17 @@ public class RateStoreActivity extends AppCompatActivity {
         // TODO: 19/5/18 Implement call to API
         Toast.makeText(this, R.string.thanks_rate, Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    private void dismissNotification() {
+        if (getIntent() != null) {
+            final int notificationId = getIntent().getIntExtra(HoyComoFirebaseMessagingService.ARG_NOTIFICATION_ID, -1);
+            if (notificationId != -1) {
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancel(notificationId);
+            }
+        }
     }
 
 }

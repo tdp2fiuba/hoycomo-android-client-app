@@ -1,6 +1,11 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -16,6 +21,7 @@ import com.ar.tdp2fiuba.hoycomo.model.Order;
 import com.ar.tdp2fiuba.hoycomo.model.User;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
+import com.ar.tdp2fiuba.hoycomo.service.firebase.HoyComoFirebaseMessagingService;
 import com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -23,12 +29,13 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import java.util.Collections;
+import org.json.JSONObject;
 
 import static com.ar.tdp2fiuba.hoycomo.activity.MyOrderActivity.ARG_ORDER;
 
 public class MyOrdersActivity extends AppCompatActivity implements MyOrderAdapter.OnMyOrdersInteractionListener {
+
+    public static final String ARG_ORDER_ID_TO_REJECT = "order_id_to_reject";
 
     private User mUser;
     private MyOrderAdapter mAdapter;
@@ -49,6 +56,11 @@ public class MyOrdersActivity extends AppCompatActivity implements MyOrderAdapte
 
         if (UserAuthenticationManager.isUserLoggedIn(this)) {
             mUser = UserAuthenticationManager.getUser(this);
+        }
+
+        if (getIntent() != null && getIntent().getStringExtra(ARG_ORDER_ID_TO_REJECT) != null) {
+            String orderIdToReject = getIntent().getStringExtra(ARG_ORDER_ID_TO_REJECT);
+            openRejectOrderDeliveryDialog(orderIdToReject);
         }
 
         populateOrders();
@@ -121,6 +133,61 @@ public class MyOrdersActivity extends AppCompatActivity implements MyOrderAdapte
     private void stopLoading() {
         if (mAdapter != null) {
             mAdapter.removeLoadingFooter();
+        }
+    }
+
+    private void openRejectOrderDeliveryDialog(final String orderIdToReject) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle(R.string.my_order_not_delivered)
+                .setMessage(R.string.my_order_not_delivered_body_dialog)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        rejectOrder(orderIdToReject);
+                    }
+                })
+                .setNegativeButton(R.string.i_did_receive_it, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    private void rejectOrder(String orderId) {
+        Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                dismissNotification();
+                stopLoading();
+                Toast.makeText(MyOrdersActivity.this, R.string.order_updated, Toast.LENGTH_LONG).show();
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                stopLoading();
+                error.printStackTrace();
+                Toast.makeText(MyOrdersActivity.this, R.string.error_order_update, Toast.LENGTH_LONG).show();
+            }
+        };
+        startLoading();
+        OrderService.rejectOrder(orderId, successListener, errorListener);
+    }
+
+    private void dismissNotification() {
+        if (getIntent() != null) {
+            final int notificationId = getIntent().getIntExtra(HoyComoFirebaseMessagingService.ARG_NOTIFICATION_ID, -1);
+            if (notificationId != -1) {
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancel(notificationId);
+            }
         }
     }
 }

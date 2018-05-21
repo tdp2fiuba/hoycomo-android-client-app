@@ -166,6 +166,7 @@ public class MyOrdersActivity extends AppCompatActivity implements MyOrderAdapte
                 dismissNotification();
                 stopLoading();
                 Toast.makeText(MyOrdersActivity.this, R.string.order_updated, Toast.LENGTH_LONG).show();
+                finish();
             }
         };
         Response.ErrorListener errorListener = new Response.ErrorListener() {

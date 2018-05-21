@@ -26,7 +26,7 @@ public class HoyComoFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        if (remoteMessage.getData().get("topic").equals("DELIVERED")){
+        if (remoteMessage.getData().get("topic") != null && remoteMessage.getData().get("topic").equals("DELIVERED")){
             sendDeliveredNotification(remoteMessage);
         } else {
             sendBasicNotification(remoteMessage);
@@ -38,8 +38,10 @@ public class HoyComoFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher_round)  //a resource for your custom small icon
                 .setContentTitle(remoteMessage.getData().get("title")) //the "title" value you sent in your notification
                 .setContentText(remoteMessage.getData().get("message")) //ditto
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)  //dismisses the notification on click
                 .setSound(defaultSoundUri);
 

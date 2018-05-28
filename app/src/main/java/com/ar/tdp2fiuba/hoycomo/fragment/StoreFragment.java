@@ -132,6 +132,7 @@ public class StoreFragment extends Fragment
         ((TextView) view.findViewById(R.id.fragment_store_name)).setText(mStore.getName());
         ((TextView) view.findViewById(R.id.fragment_store_food_types)).setText(mStore.getParsedFoodTypesAsString());
         setDelayTime((TextView) view.findViewById(R.id.fragment_store_delay_time));
+        setRating(view);
         showMenu(view);
         displayTimetable(view.findViewById(R.id.timetable));
 
@@ -152,6 +153,21 @@ public class StoreFragment extends Fragment
             } else {
                 myOrderButton.setVisibility(View.GONE);
             }
+        }
+    }
+
+    private void setRating(final View view) {
+        if (mStore.getRating() != null) {
+            view.findViewById(R.id.fragment_store_rating_container).setVisibility(View.VISIBLE);
+            ((TextView) view.findViewById(R.id.fragment_store_rating)).setText(String.format("%.1f", mStore.getRating()));
+            ((Button) view.findViewById(R.id.fragment_store_see_opinions_button)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openOpinions();
+                }
+            });
+        } else {
+            view.findViewById(R.id.fragment_store_rating_container).setVisibility(View.GONE);
         }
     }
 
@@ -196,6 +212,10 @@ public class StoreFragment extends Fragment
         displayDailyTimeWindow(mStore.getAvailability().getFriday(), timetable, R.id.timetable_friday_hours);
         displayDailyTimeWindow(mStore.getAvailability().getSaturday(), timetable, R.id.timetable_saturday_hours);
         displayDailyTimeWindow(mStore.getAvailability().getSunday(), timetable, R.id.timetable_sunday_hours);
+    }
+
+    private void openOpinions() {
+        // TODO: 27/5/18 Open StoreOpinionsActivity
     }
 
     @SuppressLint("ClickableViewAccessibility")

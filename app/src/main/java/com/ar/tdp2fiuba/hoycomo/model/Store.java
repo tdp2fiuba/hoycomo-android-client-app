@@ -10,21 +10,23 @@ public class Store {
     private String name;
     private Address address;
     private String avatar;
+    private Double rating;
     private DelayTime delayTime;
     private Availability availability;
     private List<String> foodTypes;
 
-    public Store(String id, String name, Address address, String avatar, DelayTime delayTime,
+    public Store(String id, String name, Address address, String avatar, Double rating, DelayTime delayTime,
                  Availability availability) {
-        this(id, name, address, avatar, delayTime, availability, null);
+        this(id, name, address, avatar, rating, delayTime, availability, null);
     }
 
-    public Store(String id, String name, Address address, String avatar, DelayTime delayTime,
+    public Store(String id, String name, Address address, String avatar, Double rating, DelayTime delayTime,
                  Availability availability, List<String> foodTypes) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.avatar = avatar;
+        this.rating = rating;
         this.delayTime = delayTime;
         this.availability = availability;
         this.foodTypes = foodTypes;
@@ -44,6 +46,11 @@ public class Store {
 
     public String getAvatar() {
         return avatar;
+    }
+
+    public Double getRating() {
+        // TODO: 27/5/18 Remove hardcoding and use actual rating from store.
+        return rating != null ? rating : 3.87;
     }
 
     public DelayTime getDelayTime() {
@@ -101,9 +108,10 @@ public class Store {
                 ", name='" + name + '\'' +
                 ", address=" + address +
                 ", avatar='" + avatar + '\'' +
+                ", rating=" + rating +
                 ", delayTime=" + delayTime +
                 ", availability=" + availability +
-                ", foodTypes='" + getFoodTypes() + '\'' +
+                ", foodTypes=" + foodTypes +
                 '}';
     }
 }

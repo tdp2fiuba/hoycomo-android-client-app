@@ -128,13 +128,11 @@
             android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <Spinner
+            <com.ar.tdp2fiuba.hoycomo.multiselect.Multiselect
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:prompt="@string/filter_foodtype_prompt"
-                android:backgroundTint="@color/black"/>
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:id="@+id/spinner"/>
         </LinearLayout>
 
 

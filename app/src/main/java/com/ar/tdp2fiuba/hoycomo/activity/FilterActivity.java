@@ -19,13 +19,16 @@ import android.widget.Toast;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.DistanceFilter;
 import com.ar.tdp2fiuba.hoycomo.model.Filter;
+import com.ar.tdp2fiuba.hoycomo.multiselect.Multiselect;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
-public class FilterActivity extends AppCompatActivity {
+import java.util.List;
+
+public class FilterActivity extends AppCompatActivity implements Multiselect.OnMultipleItemsSelectedListener{
 
     private Filter filter;
     private DistanceFilter distanceFilter;
@@ -40,6 +43,13 @@ public class FilterActivity extends AppCompatActivity {
         setFilter();
         setLocationListener();
         setToolbarBackButton();
+
+        // TODO: Reemplazar array por los food_types
+        String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
+        Multiselect multiselect = (Multiselect) findViewById(R.id.spinner);
+        multiselect.setItems(array);
+        multiselect.setSelection(new int[] {2,6});
+        multiselect.setListener(this);
     }
 
     @Override
@@ -161,5 +171,15 @@ public class FilterActivity extends AppCompatActivity {
         }
         Toast.makeText(this, R.string.error_required_distance_filter, Toast.LENGTH_SHORT).show();
         return false;
+    }
+
+    @Override
+    public void selectedIndices(List<Integer> indices) {
+
+    }
+
+    @Override
+    public void selectedStrings(List<String> strings) {
+        Toast.makeText(this, strings.toString(), Toast.LENGTH_LONG).show();
     }
 }

@@ -38,16 +38,124 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginTop="8dp"
                 android:ems="5"
                 android:inputType="numberDecimal"
                 android:singleLine="false"
-                android:id="@+id/distance">
+                android:id="@+id/distance"
+                android:background="@drawable/edittext_bottom_border">
 
                 <requestFocus />
             </EditText>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="@string/filter_prices_title"
+            android:theme="@style/FilterTitle"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="@string/filter_prices_label"></TextView>
+
+            <EditText
+                android:id="@+id/price"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ems="5"
+                android:inputType="numberDecimal"
+                android:singleLine="false"
+                android:background="@drawable/edittext_bottom_border"></EditText>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="@string/filter_wait_title"
+            android:theme="@style/FilterTitle"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="8dp"
+                android:inputType="numberDecimal"
+                android:singleLine="false"
+                android:id="@+id/wait"
+                android:background="@drawable/edittext_bottom_border">
+            </EditText>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="@string/filter_wait_label"></TextView>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="@string/filter_foodtype_title"
+            android:theme="@style/FilterTitle"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:prompt="@string/filter_foodtype_prompt"
+                android:backgroundTint="@color/black"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="@string/filter_rating_title"
+            android:theme="@style/FilterTitle"></TextView>
+
+
+        <android.support.v7.widget.AppCompatRatingBar
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="0dp"
+            android:progressBackgroundTint="@color/colorPrimary"
+            android:progressTint="@color/colorAccent"
+            android:numStars="5"
+            android:rating="0" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

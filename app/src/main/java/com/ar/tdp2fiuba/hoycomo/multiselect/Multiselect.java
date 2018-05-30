@@ -13,6 +13,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Multiselect extends android.support.v7.widget.AppCompatSpinner implements DialogInterface.OnMultiChoiceClickListener{
+    private final String TITULO = "Tipos de comida";
+    private final String ACEPTAR = "Aceptar";
+    private final String CANCELAR = "Cancelar";
+    private final String SELECCIONE_TIPOS_DE_COMIDA = "Seleccione tipos de comida";
+    private final int MAXLENGTH = 100;
     public interface OnMultipleItemsSelectedListener {
         void selectedIndices(List<Integer> indices);
         void selectedStrings(List<String> strings);
@@ -61,10 +66,10 @@ public class Multiselect extends android.support.v7.widget.AppCompatSpinner impl
     @Override
     public boolean performClick() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Please select!!!");
+        builder.setTitle(TITULO);
         builder.setMultiChoiceItems(_items, mSelection, this);
         _itemsAtStart = getSelectedItemsAsString();
-        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(ACEPTAR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 System.arraycopy(mSelection, 0, mSelectionAtStart, 0, mSelection.length);
@@ -72,7 +77,7 @@ public class Multiselect extends android.support.v7.widget.AppCompatSpinner impl
                 listener.selectedStrings(getSelectedStrings());
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(CANCELAR, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 simple_adapter.clear();
@@ -207,7 +212,18 @@ public class Multiselect extends android.support.v7.widget.AppCompatSpinner impl
                 sb.append(_items[i]);
             }
         }
-        return sb.toString();
+
+        String itemString = sb.toString();
+
+        if (itemString.equals("")) {
+            return SELECCIONE_TIPOS_DE_COMIDA;
+        }
+
+        if (itemString.length() > MAXLENGTH) {
+            return itemString.substring(0, MAXLENGTH - 4) + "...";
+        } else {
+            return itemString;
+        }
     }
 
     public String getSelectedItemsAsString() {

@@ -173,6 +173,7 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
         return false;
     }
 
+    //TODO: Métodos que devuelven lo que está en el pop up de multiselect
     @Override
     public void selectedIndices(List<Integer> indices) {
 
@@ -180,6 +181,6 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
 
     @Override
     public void selectedStrings(List<String> strings) {
-        Toast.makeText(this, strings.toString(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, strings.toString(), Toast.LENGTH_LONG).show();
     }
 }

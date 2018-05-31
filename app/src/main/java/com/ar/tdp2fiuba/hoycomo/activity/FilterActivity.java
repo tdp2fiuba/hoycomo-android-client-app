@@ -56,8 +56,7 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
         setLocationListener();
         setToolbarBackButton();
 
-        // TODO: Reemplazar array por los food_types
-        multiselect = (Multiselect) findViewById(R.id.spinner);
+        multiselect = findViewById(R.id.spinner);
         getFoodTypes();
     }
 
@@ -79,7 +78,9 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
                         }
                     }
                     multiselect.setItems(foodTypes);
-                    //multiselect.setSelection(new int[] {2,6});
+                    if (filter.getFoodTypes() != null) {
+                        multiselect.setSelection(filter.getFoodTypes());
+                    }
                     multiselect.setListener(self);
                 }
             }
@@ -89,7 +90,7 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                //Toast.makeText(this, "Error cargando tipos de comida", Toast.LENGTH_SHORT).show();
+                Toast.makeText(self, R.string.error_load_foodtypes, Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -206,6 +207,10 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
         String distance = ((EditText)findViewById(R.id.distance)).getText().toString();
         distanceFilter.setDistance(Double.parseDouble(distance));
         filter.setDistanceFilter(distanceFilter);
+        List<String> foodTypes = multiselect.getSelectedStrings();
+        if (foodTypes.size() > 0) {
+            filter.setFoodTypes(foodTypes.toArray(new String[0]));
+        }
     }
 
     private boolean validate() {

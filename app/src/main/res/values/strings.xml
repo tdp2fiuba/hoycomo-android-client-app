@@ -110,4 +110,5 @@
     <string name="filter_foodtype_title">Tipos de comida</string>
     <string name="filter_foodtype_prompt">Seleccione al menos un tipo de comida</string>
     <string name="filter_rating_title">Calificación mínima</string>
+    <string name="error_load_foodtypes">Error al cargar tipos de comida</string>
 </resources>

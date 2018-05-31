@@ -94,10 +94,8 @@ public class Multiselect extends android.support.v7.widget.AppCompatSpinner impl
         mSelection = new boolean[_items.length];
         mSelectionAtStart = new boolean[_items.length];
         simple_adapter.clear();
-        simple_adapter.add(_items[0]);
+        simple_adapter.add(buildSelectedItemString());
         Arrays.fill(mSelection, false);
-        mSelection[0] = true;
-        mSelectionAtStart[0] = true;
     }
 
     public void setItems(List<String> items) {
@@ -105,9 +103,8 @@ public class Multiselect extends android.support.v7.widget.AppCompatSpinner impl
         mSelection = new boolean[_items.length];
         mSelectionAtStart  = new boolean[_items.length];
         simple_adapter.clear();
-        simple_adapter.add(_items[0]);
+        simple_adapter.add(buildSelectedItemString());
         Arrays.fill(mSelection, false);
-        mSelection[0] = true;
     }
 
     public void setSelection(String[] selection) {

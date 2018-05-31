@@ -16,16 +16,27 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.DistanceFilter;
 import com.ar.tdp2fiuba.hoycomo.model.Filter;
+import com.ar.tdp2fiuba.hoycomo.model.FoodType;
+import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.multiselect.Multiselect;
+import com.ar.tdp2fiuba.hoycomo.service.FoodTypeService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class FilterActivity extends AppCompatActivity implements Multiselect.OnMultipleItemsSelectedListener{
@@ -33,7 +44,8 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
     private Filter filter;
     private DistanceFilter distanceFilter;
     private FusedLocationProviderClient mFuseLocationProviderClient;
-
+    private Multiselect multiselect;
+    private FilterActivity self = this;
     private final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 1;
 
     @Override
@@ -45,11 +57,43 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
         setToolbarBackButton();
 
         // TODO: Reemplazar array por los food_types
-        String[] array = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"};
-        Multiselect multiselect = (Multiselect) findViewById(R.id.spinner);
-        multiselect.setItems(array);
-        multiselect.setSelection(new int[] {2,6});
-        multiselect.setListener(this);
+        multiselect = (Multiselect) findViewById(R.id.spinner);
+        getFoodTypes();
+    }
+
+    private void getFoodTypes() {
+        Response.Listener<JSONArray> successListener = new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                if (response.length() > 0) {
+                    List<String> foodTypes = new ArrayList<>();
+                    final Gson gson = new GsonBuilder()
+                            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                            .create();
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            FoodType foodType = gson.fromJson(response.getJSONObject(i).toString(), FoodType.class);
+                            foodTypes.add(foodType.getDescription());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    multiselect.setItems(foodTypes);
+                    //multiselect.setSelection(new int[] {2,6});
+                    multiselect.setListener(self);
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                //Toast.makeText(this, "Error cargando tipos de comida", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        FoodTypeService.getAllFoodTypes(successListener, errorListener);
     }
 
     @Override

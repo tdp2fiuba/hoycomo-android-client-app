@@ -160,10 +160,10 @@ public class StoreFragment extends Fragment
         if (mStore.getRating() != null) {
             view.findViewById(R.id.fragment_store_rating_container).setVisibility(View.VISIBLE);
             ((TextView) view.findViewById(R.id.fragment_store_rating)).setText(String.format("%.1f", mStore.getRating()));
-            ((Button) view.findViewById(R.id.fragment_store_see_opinions_button)).setOnClickListener(new View.OnClickListener() {
+            ((Button) view.findViewById(R.id.fragment_store_see_reviews_button)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openOpinions();
+                    openReviews();
                 }
             });
         } else {
@@ -214,8 +214,9 @@ public class StoreFragment extends Fragment
         displayDailyTimeWindow(mStore.getAvailability().getSunday(), timetable, R.id.timetable_sunday_hours);
     }
 
-    private void openOpinions() {
-        // TODO: 27/5/18 Open StoreOpinionsActivity
+    private void openReviews() {
+        mListener.onReviewsButtonPressed(mStore);
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -279,6 +280,7 @@ public class StoreFragment extends Fragment
      */
     public interface OnStoreFragmentInteractionListener {
         void onMyOrderButtonPressed();
+        void onReviewsButtonPressed(Store store);
     }
 
 }

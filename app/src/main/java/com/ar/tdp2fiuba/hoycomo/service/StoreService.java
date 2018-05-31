@@ -37,4 +37,17 @@ public class StoreService extends HoyComoService {
                 "GetMenu"
         );
     }
+
+    public static void getReviews(String storeId, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
+        String urlWithPlaceholders = BASE_URL + "/api/store/:storeId/reviews";
+        final String url = urlWithPlaceholders.replace(":storeId", storeId);
+
+        HttpRequestHelper.getArray(
+                url,
+                null,
+                successListener,
+                errorListener,
+                "GetReviews"
+        );
+    }
 }

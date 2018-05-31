@@ -154,6 +154,13 @@ public class HomeActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    @Override
+    public void onReviewsButtonPressed(Store store) {
+        Intent intent = new Intent(this, StoreReviewsActivity.class);
+        intent.putExtra(StoreReviewsActivity.ARG_REVIEWED_STORE, new Gson().toJson(store));
+        startActivity(intent);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

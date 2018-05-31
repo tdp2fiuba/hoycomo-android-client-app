@@ -117,11 +117,11 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content" />
                     <Button
-                        android:id="@+id/fragment_store_see_opinions_button"
+                        android:id="@+id/fragment_store_see_reviews_button"
                         style="@style/Widget.AppCompat.Button.Borderless.Colored"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/see_opinions"/>
+                        android:text="@string/see_reviews"/>
                 </LinearLayout>
 
                 <FrameLayout

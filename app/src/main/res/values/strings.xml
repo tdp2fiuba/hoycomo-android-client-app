@@ -33,6 +33,7 @@
     <string name="error_no_menu">No se pudo obtener el menú del comercio. Por favor, chequá tu conexión.</string>
     <string name="error_no_orders">No se pudieron obtener tus pedidos en curso. Por favor, chequá tu conexión.</string>
     <string name="error_no_reviews">No se pudieron obtener las opiniones sobre el comercio. Por favor, chequá tu conexión.</string>
+    <string name="error_couldnt_post_review">No se pudo enviar tu opinión. Por favor, chequá tu conexión.</string>
     <string name="no_menu">El comercio no cuenta aún con un menú cargado</string>
     <string name="garnish">Guarnición</string>
     <string name="suitable_for">Apto para</string>

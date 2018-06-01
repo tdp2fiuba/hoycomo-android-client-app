@@ -2,6 +2,7 @@ package com.ar.tdp2fiuba.hoycomo.model;
 
 public class Review {
     private Double rating;
+    private String storeId;
     private User user;
     private String body;
     private String timestamp;
@@ -11,8 +12,9 @@ public class Review {
         this.body = body;
     }
 
-    public Review(Double rating, User user, String body, String timestamp) {
+    public Review(Double rating, String storeId, User user, String body, String timestamp) {
         this.rating = rating;
+        this.storeId = storeId;
         this.user = user;
         this.body = body;
         this.timestamp = timestamp;
@@ -20,6 +22,10 @@ public class Review {
 
     public Double getRating() {
         return rating;
+    }
+
+    public String getStoreId() {
+        return storeId;
     }
 
     public User getUser() {
@@ -39,17 +45,20 @@ public class Review {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Review review1 = (Review) o;
+        Review review = (Review) o;
 
-        if (rating != null ? !rating.equals(review1.rating) : review1.rating != null) return false;
-        if (user != null ? !user.equals(review1.user) : review1.user != null) return false;
-        if (body != null ? !body.equals(review1.body) : review1.body != null) return false;
-        return timestamp != null ? timestamp.equals(review1.timestamp) : review1.timestamp == null;
+        if (rating != null ? !rating.equals(review.rating) : review.rating != null) return false;
+        if (storeId != null ? !storeId.equals(review.storeId) : review.storeId != null)
+            return false;
+        if (user != null ? !user.equals(review.user) : review.user != null) return false;
+        if (body != null ? !body.equals(review.body) : review.body != null) return false;
+        return timestamp != null ? timestamp.equals(review.timestamp) : review.timestamp == null;
     }
 
     @Override
     public int hashCode() {
         int result = rating != null ? rating.hashCode() : 0;
+        result = 31 * result + (storeId != null ? storeId.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (body != null ? body.hashCode() : 0);
         result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
@@ -60,6 +69,7 @@ public class Review {
     public String toString() {
         return "Review{" +
                 "rating=" + rating +
+                ", storeId='" + storeId + '\'' +
                 ", user=" + user +
                 ", body='" + body + '\'' +
                 ", timestamp='" + timestamp + '\'' +

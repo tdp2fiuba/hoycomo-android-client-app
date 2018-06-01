@@ -57,6 +57,7 @@ public class HoyComoFirebaseMessagingService extends FirebaseMessagingService {
         Intent rateIntent = new Intent(this, RateStoreActivity.class);
         rateIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         rateIntent.putExtra(ARG_NOTIFICATION_ID, notificationId);
+        rateIntent.putExtra(RateStoreActivity.ARG_STORE_ID_TO_RATE, remoteMessage.getData().get("storeId"));
         PendingIntent pendingRateIntent = PendingIntent.getActivity(this, 0, rateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent rejectIntent = new Intent(this, MyOrdersActivity.class);

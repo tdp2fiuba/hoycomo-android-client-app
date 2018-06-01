@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment;
-import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
+import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -89,14 +89,14 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     public void add(Store item) {
         mValues.add(item);
         if (mValues.size() == 1) {
-            notifyItemInserted(mValues.size() - 1);
-        } else {
             notifyDataSetChanged();
+        } else {
+            notifyItemInserted(mValues.size() - 1);
         }
     }
 
     public void addLoadingFooter() {
-        final Store dummyItem = new Store(null, null, null, null, null, null);
+        final Store dummyItem = new Store(null, null, null, null, null, null, null);
         mValues.add(dummyItem);
         loadingItemIndex = mValues.size() - 1;
         if (loadingItemIndex == 0) {
@@ -126,17 +126,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     }
 
     private void setDelayTime(final ViewHolder holder) {
-        DelayTime storeDelayTime = holder.mItem.getDelayTime();
+        Double storeDelayTime = holder.mItem.getDelayTime();
         if (storeDelayTime != null) {
             holder.mDelayTimeView.setVisibility(View.VISIBLE);
-            String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
-            String maxDelayTime = storeDelayTime.getMax().toString();
-            String delayTime = minDelayTime != null ?
-                    mContext.getResources().getString(R.string.minutes_range)
-                            .replace(":min", minDelayTime)
-                            .replace(":max", maxDelayTime) :
-                    mContext.getResources().getString(R.string.up_to_minutes)
-                            .replace(":max", maxDelayTime);
+            Integer avgDelayTime = DateUtils.secToRoundedMin(storeDelayTime);
+            String delayTime = mContext.getResources().getString(R.string.avg_delay_time_minutes).replace(":avg", Integer.toString(avgDelayTime));
             holder.mDelayTimeView.setText(delayTime);
         } else {
             holder.mDelayTimeView.setVisibility(View.GONE);

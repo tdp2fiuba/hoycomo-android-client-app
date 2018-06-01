@@ -11,6 +11,8 @@
     <string name="hours_range">:min a :max hs</string>
     <string name="minutes_range">:min - :max minutos</string>
     <string name="up_to_minutes">Hasta :max minutos</string>
+    <string name="avg_delay_time_minutes">Tiempo de espera: :avg min</string>
+    <string name="fixed_minutes">:min minutos</string>
     <string name="no_available_stores">No encontramos comercios disponibles cerca de tu zona :(</string>
     <string name="schedule">Horarios</string>
     <string name="monday">Lunes</string>
@@ -32,6 +34,8 @@
     <string name="delete_filters">Borrar Filtros</string>
     <string name="error_no_menu">No se pudo obtener el menú del comercio. Por favor, chequá tu conexión.</string>
     <string name="error_no_orders">No se pudieron obtener tus pedidos en curso. Por favor, chequá tu conexión.</string>
+    <string name="error_no_reviews">No se pudieron obtener las opiniones sobre el comercio. Por favor, chequá tu conexión.</string>
+    <string name="error_couldnt_post_review">No se pudo enviar tu opinión. Por favor, chequá tu conexión.</string>
     <string name="no_menu">El comercio no cuenta aún con un menú cargado</string>
     <string name="garnish">Guarnición</string>
     <string name="suitable_for">Apto para</string>
@@ -103,6 +107,11 @@
     <string name="my_order_not_delivered_body_dialog">Parece que hubo una confusión y el comercio considera que tu pedido ya fue entregado. ¿Querés que reenviemos el pedido?</string>
     <string name="error_order_update">No se pudo actualizar el estado del pedido. Por favor, chequeá tu conexión.</string>
     <string name="order_updated">Se actualizó el estado del pedido y el comercio ya está al tanto de la situación</string>
+    <string name="see_reviews">Ver opiniones</string>
+    <string name="no_reviews">Aún no hay opiniones sobre este comercio.</string>
+    <string name="first_to_review">¡Sé el primero en opinar tras realizar un pedido!</string>
+    <string name="reviews">Opiniones</string>
+    <string name="review">Opinión</string>
     <string name="filter_prices_title">Promedio máximo de precios</string>
     <string name="filter_prices_label">$</string>
     <string name="filter_wait_title">Tiempo promedio de espera</string>

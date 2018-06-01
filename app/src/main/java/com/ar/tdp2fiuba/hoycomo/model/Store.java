@@ -10,21 +10,23 @@ public class Store {
     private String name;
     private Address address;
     private String avatar;
-    private DelayTime delayTime;
+    private Double rating;
+    private Double delayTime;
     private Availability availability;
     private List<String> foodTypes;
 
-    public Store(String id, String name, Address address, String avatar, DelayTime delayTime,
+    public Store(String id, String name, Address address, String avatar, Double rating, Double delayTime,
                  Availability availability) {
-        this(id, name, address, avatar, delayTime, availability, null);
+        this(id, name, address, avatar, rating, delayTime, availability, null);
     }
 
-    public Store(String id, String name, Address address, String avatar, DelayTime delayTime,
+    public Store(String id, String name, Address address, String avatar, Double rating, Double delayTime,
                  Availability availability, List<String> foodTypes) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.avatar = avatar;
+        this.rating = rating;
         this.delayTime = delayTime;
         this.availability = availability;
         this.foodTypes = foodTypes;
@@ -46,7 +48,11 @@ public class Store {
         return avatar;
     }
 
-    public DelayTime getDelayTime() {
+    public Double getRating() {
+        return rating;
+    }
+
+    public Double getDelayTime() {
         return delayTime;
     }
 
@@ -101,9 +107,10 @@ public class Store {
                 ", name='" + name + '\'' +
                 ", address=" + address +
                 ", avatar='" + avatar + '\'' +
+                ", rating=" + rating +
                 ", delayTime=" + delayTime +
                 ", availability=" + availability +
-                ", foodTypes='" + getFoodTypes() + '\'' +
+                ", foodTypes=" + foodTypes +
                 '}';
     }
 }

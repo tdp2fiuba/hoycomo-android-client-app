@@ -12,6 +12,11 @@ import org.joda.time.Period;
 import org.joda.time.format.ISODateTimeFormat;
 
 public class DateUtils {
+
+    public static Integer secToRoundedMin(Double seconds) {
+        return (int) (seconds / 60D);
+    }
+
     public static String formatTime(String time) {
         String[] units = time.split(":");
         return units[1].equals("00") ? units[0] : units[0] + ":" + units[1];

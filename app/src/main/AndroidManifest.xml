@@ -97,14 +97,24 @@
         <activity
             android:name=".activity.MyOrdersActivity"
             android:label="@string/my_orders"
-            android:screenOrientation="portrait"
             android:parentActivityName=".activity.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.RateStoreActivity"
             android:label="@string/rate_store"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.StoreReviewsActivity"
+            android:label="@string/reviews"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ReviewActivity"
+            android:label="@string/review"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

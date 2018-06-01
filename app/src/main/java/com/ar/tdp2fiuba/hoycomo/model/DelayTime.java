@@ -2,6 +2,7 @@ package com.ar.tdp2fiuba.hoycomo.model;
 
 import android.support.annotation.Nullable;
 
+@Deprecated
 public class DelayTime {
     @Nullable private Integer min;
     private Integer max;

@@ -2,8 +2,14 @@ package com.ar.tdp2fiuba.hoycomo.service;
 
 import com.android.volley.Response;
 import com.ar.tdp2fiuba.hoycomo.model.Filter;
+import com.ar.tdp2fiuba.hoycomo.model.Review;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,5 +42,41 @@ public class StoreService extends HoyComoService {
                 errorListener,
                 "GetMenu"
         );
+    }
+
+    public static void getReviews(String storeId, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
+        String urlWithPlaceholders = BASE_URL + "/api/store/:storeId/reviews";
+        final String url = urlWithPlaceholders.replace(":storeId", storeId);
+
+        HttpRequestHelper.getArray(
+                url,
+                null,
+                successListener,
+                errorListener,
+                "GetReviews"
+        );
+    }
+
+    public static void postReview(String storeId, Review review, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
+        String urlWithPlaceholders = BASE_URL + "/api/store/:storeId/reviews";
+        final String url = urlWithPlaceholders.replace(":storeId", storeId);
+
+        final Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+        try {
+            JSONObject body = new JSONObject(gson.toJson(review));
+
+            HttpRequestHelper.post(
+                    url,
+                    null,
+                    body,
+                    successListener,
+                    errorListener,
+                    "PostReview"
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

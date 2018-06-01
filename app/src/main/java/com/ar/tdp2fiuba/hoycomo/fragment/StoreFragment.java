@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.DailyTimeWindow;
-import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
+import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -132,6 +132,7 @@ public class StoreFragment extends Fragment
         ((TextView) view.findViewById(R.id.fragment_store_name)).setText(mStore.getName());
         ((TextView) view.findViewById(R.id.fragment_store_food_types)).setText(mStore.getParsedFoodTypesAsString());
         setDelayTime((TextView) view.findViewById(R.id.fragment_store_delay_time));
+        setRating(view);
         showMenu(view);
         displayTimetable(view.findViewById(R.id.timetable));
 
@@ -155,6 +156,26 @@ public class StoreFragment extends Fragment
         }
     }
 
+    private void setRating(final View view) {
+        if (mStore.getRating() != null) {
+            view.findViewById(R.id.fragment_store_reviews_container).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.fragment_store_rating_star_icon).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.fragment_store_rating).setVisibility(View.VISIBLE);
+
+            ((TextView) view.findViewById(R.id.fragment_store_rating)).setText(String.format("%.1f", mStore.getRating()));
+            ((Button) view.findViewById(R.id.fragment_store_see_reviews_button)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openReviews();
+                }
+            });
+        } else {
+            view.findViewById(R.id.fragment_store_reviews_container).setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_store_rating_star_icon).setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_store_rating).setVisibility(View.GONE);
+        }
+    }
+
     private void showMenu(final View view) {
         if (view.findViewById(R.id.fragment_store_menu) != null) {
             MenuFragment menuFragment = MenuFragment.newInstance(mStore);
@@ -172,19 +193,13 @@ public class StoreFragment extends Fragment
     }
 
     private void setDelayTime(final TextView textView) {
-        DelayTime storeDelayTime = mStore.getDelayTime();
+        Double storeDelayTime = mStore.getDelayTime();
         if (storeDelayTime == null) {
             textView.setVisibility(View.GONE);
             return;
         }
-        String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
-        String maxDelayTime = storeDelayTime.getMax().toString();
-        String delayTime = minDelayTime != null ?
-                getResources().getString(R.string.minutes_range)
-                        .replace(":min", minDelayTime)
-                        .replace(":max", maxDelayTime) :
-                getResources().getString(R.string.up_to_minutes)
-                        .replace(":max", maxDelayTime);
+        Integer avgDelayTime = DateUtils.secToRoundedMin(storeDelayTime);
+        String delayTime = getResources().getString(R.string.avg_delay_time_minutes).replace(":avg", Integer.toString(avgDelayTime));
         textView.setText(delayTime);
     }
 
@@ -196,6 +211,11 @@ public class StoreFragment extends Fragment
         displayDailyTimeWindow(mStore.getAvailability().getFriday(), timetable, R.id.timetable_friday_hours);
         displayDailyTimeWindow(mStore.getAvailability().getSaturday(), timetable, R.id.timetable_saturday_hours);
         displayDailyTimeWindow(mStore.getAvailability().getSunday(), timetable, R.id.timetable_sunday_hours);
+    }
+
+    private void openReviews() {
+        mListener.onReviewsButtonPressed(mStore);
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -259,6 +279,7 @@ public class StoreFragment extends Fragment
      */
     public interface OnStoreFragmentInteractionListener {
         void onMyOrderButtonPressed();
+        void onReviewsButtonPressed(Store store);
     }
 
 }

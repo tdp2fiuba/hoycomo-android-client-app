@@ -1,5 +1,6 @@
 package com.ar.tdp2fiuba.hoycomo.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -22,7 +23,7 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-public class StoreReviewsActivity extends AppCompatActivity {
+public class StoreReviewsActivity extends AppCompatActivity implements ReviewRecyclerViewAdapter.OnReviewInteractionListener {
 
     public final static String ARG_REVIEWED_STORE = "store";
 
@@ -53,6 +54,13 @@ public class StoreReviewsActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onExpandReview(Review item) {
+        Intent intent = new Intent(this, ReviewActivity.class);
+        intent.putExtra(ReviewActivity.ARG_FULL_REVIEW, new Gson().toJson(item));
+        startActivity(intent);
+    }
+
     private void displayStoreInfo() {
         ((TextView) findViewById(R.id.store_reviews_store_name)).setText(mStore.getName());
         ((TextView) findViewById(R.id.store_reviews_store_rating)).setText(String.format("%.1f", mStore.getRating()));
@@ -66,7 +74,7 @@ public class StoreReviewsActivity extends AppCompatActivity {
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setEmptyView(findViewById(R.id.store_reviews_empty_view));
-        mAdapter = new ReviewRecyclerViewAdapter();
+        mAdapter = new ReviewRecyclerViewAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
         // TODO: 30/5/18 Call actual service

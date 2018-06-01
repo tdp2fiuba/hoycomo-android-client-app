@@ -102,6 +102,11 @@
             android:name=".activity.StoreReviewsActivity"
             android:label="@string/reviews"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ReviewActivity"
+            android:label="@string/review"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

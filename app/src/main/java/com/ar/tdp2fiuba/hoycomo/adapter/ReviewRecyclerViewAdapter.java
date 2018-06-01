@@ -16,19 +16,25 @@ import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Review} and makes a call to the
- * specified {@link }.
+ * specified {@link OnReviewInteractionListener}.
  */
 public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecyclerViewAdapter.ViewHolder> {
 
+    public interface OnReviewInteractionListener {
+        void onExpandReview(Review item);
+    }
+
     private final List<Review> mValues;
+    private final OnReviewInteractionListener mListener;
 
     private int loadingItemIndex = -1;    // Not loading
 
     private final static int ITEM = 0;
     private final static int LOADING = 1;
 
-    public ReviewRecyclerViewAdapter() {
+    public ReviewRecyclerViewAdapter(OnReviewInteractionListener listener) {
         mValues = new ArrayList<>();
+        mListener = listener;
     }
 
     @Override
@@ -53,6 +59,13 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecycl
             holder.mRatingView.setText(String.format("%.1f", holder.mItem.getRating()));
             holder.mTimestampView.setText(holder.mItem.getTimestamp());
             holder.mBodyView.setText(holder.mItem.getBody());
+
+            holder.mContentView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onExpandReview(holder.mItem);
+                }
+            });
         }
     }
 

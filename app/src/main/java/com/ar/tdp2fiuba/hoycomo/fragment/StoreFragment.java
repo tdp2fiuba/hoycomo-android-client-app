@@ -158,7 +158,10 @@ public class StoreFragment extends Fragment
 
     private void setRating(final View view) {
         if (mStore.getRating() != null) {
-            view.findViewById(R.id.fragment_store_rating_container).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.fragment_store_reviews_container).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.fragment_store_rating_star_icon).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.fragment_store_rating).setVisibility(View.VISIBLE);
+
             ((TextView) view.findViewById(R.id.fragment_store_rating)).setText(String.format("%.1f", mStore.getRating()));
             ((Button) view.findViewById(R.id.fragment_store_see_reviews_button)).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,7 +170,9 @@ public class StoreFragment extends Fragment
                 }
             });
         } else {
-            view.findViewById(R.id.fragment_store_rating_container).setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_store_reviews_container).setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_store_rating_star_icon).setVisibility(View.GONE);
+            view.findViewById(R.id.fragment_store_rating).setVisibility(View.GONE);
         }
     }
 

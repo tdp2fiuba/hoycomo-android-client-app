@@ -63,15 +63,34 @@
                         android:paddingEnd="4dp"
                         android:layout_gravity="center_vertical">
 
-                        <TextView
-                            android:id="@+id/fragment_store_name"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
                             android:paddingTop="8dp"
-                            android:paddingBottom="2dp"
-                            android:textAppearance="?attr/textAppearanceListItem"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
+                            android:paddingBottom="2dp">
+                            <TextView
+                                android:id="@+id/fragment_store_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="12dp"
+                                android:layout_marginEnd="12dp"
+                                android:textAppearance="?attr/textAppearanceListItem"
+                                android:textSize="16sp"
+                                android:textStyle="bold"/>
+                            <ImageView
+                                android:id="@+id/fragment_store_rating_star_icon"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@mipmap/ic_star_rate_black_24dp"
+                                android:tint="@color/colorPrimary"/>
+                            <TextView
+                                android:id="@+id/fragment_store_rating"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/fragment_store_food_types"
@@ -96,26 +115,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/fragment_store_rating_container"
+                    android:id="@+id/fragment_store_reviews_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
                     android:background="@color/white"
                     android:layout_marginBottom="12dp"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginRight="4dp"
-                            android:layout_marginEnd="4dp"
-                            android:src="@mipmap/ic_star_rate_black_24dp"
-                            android:tint="@color/colorPrimary"/>
-                        <TextView
-                            android:id="@+id/fragment_store_rating"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content" />
                     <Button
                         android:id="@+id/fragment_store_see_reviews_button"
                         style="@style/Widget.AppCompat.Button.Borderless.Colored"

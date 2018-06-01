@@ -11,6 +11,8 @@
     <string name="hours_range">:min a :max hs</string>
     <string name="minutes_range">:min - :max minutos</string>
     <string name="up_to_minutes">Hasta :max minutos</string>
+    <string name="avg_delay_time_minutes">Tiempo de espera: :avg min</string>
+    <string name="fixed_minutes">:min minutos</string>
     <string name="no_available_stores">No encontramos comercios disponibles cerca de tu zona :(</string>
     <string name="schedule">Horarios</string>
     <string name="monday">Lunes</string>

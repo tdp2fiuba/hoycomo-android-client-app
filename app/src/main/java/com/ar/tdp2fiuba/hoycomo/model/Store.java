@@ -11,16 +11,16 @@ public class Store {
     private Address address;
     private String avatar;
     private Double rating;
-    private DelayTime delayTime;
+    private Double delayTime;
     private Availability availability;
     private List<String> foodTypes;
 
-    public Store(String id, String name, Address address, String avatar, Double rating, DelayTime delayTime,
+    public Store(String id, String name, Address address, String avatar, Double rating, Double delayTime,
                  Availability availability) {
         this(id, name, address, avatar, rating, delayTime, availability, null);
     }
 
-    public Store(String id, String name, Address address, String avatar, Double rating, DelayTime delayTime,
+    public Store(String id, String name, Address address, String avatar, Double rating, Double delayTime,
                  Availability availability, List<String> foodTypes) {
         this.id = id;
         this.name = name;
@@ -52,7 +52,7 @@ public class Store {
         return rating;
     }
 
-    public DelayTime getDelayTime() {
+    public Double getDelayTime() {
         return delayTime;
     }
 

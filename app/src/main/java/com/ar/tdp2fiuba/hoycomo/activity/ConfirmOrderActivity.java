@@ -16,12 +16,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.Address;
-import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Order;
 import com.ar.tdp2fiuba.hoycomo.model.User;
 import com.ar.tdp2fiuba.hoycomo.service.GeocodingService;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
+import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -199,16 +199,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private void setEstimatedTime() {
         TextView estimatedTimeView = (TextView) findViewById(R.id.confirm_order_estimated_time);
 
-        DelayTime storeDelayTime = mOrder.getStore().getDelayTime();
+        Double storeDelayTime = mOrder.getStore().getDelayTime();
         if (storeDelayTime != null) {
-            String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
-            String maxDelayTime = storeDelayTime.getMax().toString();
-            String estimatedTime = minDelayTime != null ?
-                    getResources().getString(R.string.minutes_range)
-                            .replace(":min", minDelayTime)
-                            .replace(":max", maxDelayTime) :
-                    getResources().getString(R.string.up_to_minutes)
-                            .replace(":max", maxDelayTime);
+            Integer avgDelayTime = DateUtils.secToRoundedMin(storeDelayTime);
+            String estimatedTime = getResources().getString(R.string.fixed_minutes).replace(":min", Integer.toString(avgDelayTime));
             estimatedTimeView.setText(estimatedTime);
         } else {
             estimatedTimeView.setText("-");

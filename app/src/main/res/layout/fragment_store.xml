@@ -114,6 +114,12 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <FrameLayout
+                    android:id="@+id/fragment_store_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"/>
+
                 <LinearLayout
                     android:id="@+id/fragment_store_reviews_container"
                     android:layout_width="match_parent"
@@ -130,12 +136,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/see_reviews"/>
                 </LinearLayout>
-
-                <FrameLayout
-                    android:id="@+id/fragment_store_menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"/>
 
                 <include layout="@layout/availability_timetable" />
 

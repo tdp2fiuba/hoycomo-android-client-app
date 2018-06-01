@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.DailyTimeWindow;
-import com.ar.tdp2fiuba.hoycomo.model.DelayTime;
 import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
+import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -193,19 +193,13 @@ public class StoreFragment extends Fragment
     }
 
     private void setDelayTime(final TextView textView) {
-        DelayTime storeDelayTime = mStore.getDelayTime();
+        Double storeDelayTime = mStore.getDelayTime();
         if (storeDelayTime == null) {
             textView.setVisibility(View.GONE);
             return;
         }
-        String minDelayTime = storeDelayTime.getMin() != null ? storeDelayTime.getMin().toString() : null;
-        String maxDelayTime = storeDelayTime.getMax().toString();
-        String delayTime = minDelayTime != null ?
-                getResources().getString(R.string.minutes_range)
-                        .replace(":min", minDelayTime)
-                        .replace(":max", maxDelayTime) :
-                getResources().getString(R.string.up_to_minutes)
-                        .replace(":max", maxDelayTime);
+        Integer avgDelayTime = DateUtils.secToRoundedMin(storeDelayTime);
+        String delayTime = getResources().getString(R.string.avg_delay_time_minutes).replace(":avg", Integer.toString(avgDelayTime));
         textView.setText(delayTime);
     }
 

@@ -49,8 +49,7 @@ public class Store {
     }
 
     public Double getRating() {
-        // TODO: 27/5/18 Remove hardcoding and use actual rating from store.
-        return rating != null ? rating : 3.87;
+        return rating;
     }
 
     public DelayTime getDelayTime() {

@@ -18,7 +18,9 @@ import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.model.User;
 import com.ar.tdp2fiuba.hoycomo.service.StoreService;
 import com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,8 +80,7 @@ public class StoreReviewsActivity extends AppCompatActivity implements ReviewRec
         recyclerView.setAdapter(mAdapter);
 
         // TODO: 30/5/18 Call actual service
-        //retrieveReviews();
-        mockReviews();
+        retrieveReviews();
     }
 
     private void retrieveReviews() {
@@ -88,7 +89,9 @@ public class StoreReviewsActivity extends AppCompatActivity implements ReviewRec
             public void onResponse(JSONArray response) {
                 stopLoading();
                 if (response.length() > 0) {
-                    final Gson gson = new Gson();
+                    final Gson gson = new GsonBuilder()
+                            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                            .create();
                     for (int i = 0; i < response.length(); i++) {
                         try {
                             mAdapter.add(gson.fromJson(response.getJSONObject(i).toString(), Review.class));
@@ -109,13 +112,6 @@ public class StoreReviewsActivity extends AppCompatActivity implements ReviewRec
         };
         startLoading();
         StoreService.getReviews(mStore.getId(), successListener, errorListener);
-    }
-
-    // TODO: 30/5/18 Remove!
-    private void mockReviews() {
-        mAdapter.add(new Review(4.0, new User("mock1", "Juan Manuel", "Bouvier", null), "Muy rico todo!", "30/05/2018 22:34"));
-        mAdapter.add(new Review(0.5, new User("mock2", "Facundo", "Etchanchú", null), "Tardaron una banda y están a dos cuadras!! Sinceramente, una genuina poronga.", "02/01/2018 21:02"));
-        mAdapter.add(new Review(3.5, new User("mock3", "Bruno", "Liberini", null), "ok", "23/08/2017 22:22"));
     }
 
     private void startLoading() {

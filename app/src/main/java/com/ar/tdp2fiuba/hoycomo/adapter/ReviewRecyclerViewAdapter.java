@@ -82,9 +82,9 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<ReviewRecycl
     public void add(Review item) {
         mValues.add(item);
         if (mValues.size() == 1) {
-            notifyItemInserted(mValues.size() - 1);
-        } else {
             notifyDataSetChanged();
+        } else {
+            notifyItemInserted(mValues.size() - 1);
         }
     }
 

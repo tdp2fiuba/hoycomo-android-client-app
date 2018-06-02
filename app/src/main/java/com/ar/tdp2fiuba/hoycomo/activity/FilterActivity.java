@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -60,7 +62,7 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
         multiselectSpinner = findViewById(R.id.filters_food_type_spinner);
         getFoodTypes();
 
-        setSwitchListeners();
+        setListeners();
     }
 
     private void getFoodTypes() {
@@ -144,6 +146,11 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
         }
     }
 
+    private void setListeners() {
+        setSwitchListeners();
+        setDistanceSliderListener();
+    }
+
     private void setSwitchListeners() {
         setSwitchListener(R.id.filters_distance_switch, R.id.filters_distance_input_container);
         setSwitchListener(R.id.filters_price_switch, R.id.filters_price_input_container);
@@ -166,23 +173,67 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
         });
     }
 
+    private void setDistanceSliderListener() {
+        SeekBar distanceSlider = findViewById(R.id.filters_distance_slider);
+        distanceSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                updateDistanceLabel(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void updateDistanceLabel(Integer kms) {
+        TextView distanceLabel = findViewById(R.id.filters_distance_label);
+        distanceLabel.setText(
+                getResources().getString(R.string.filter_distance_label).replace(":kms", String.valueOf(kms))
+        );
+    }
+
     private void errorReturnToStoreList() {
         finish();
     }
 
     private void setInitialState() {
+        updateDistanceLabel(2);
+        setFiltersInitialState();
+    }
+
+    private void setFiltersInitialState() {
         String filterJSON = getIntent().getExtras().getString("filter");
         filter = Filter.parseJSONFilter(filterJSON);
-
         if (filter != null) {
-            distanceFilter = filter.getDistanceFilter();
-            EditText distance = findViewById(R.id.filters_distance_slider);
-            if (distance != null) {
-                distance.setText(Double.toString(distanceFilter.getDistance()));
-            }
+            setDistanceFilterInitialState();
         } else {
             filter = new Filter();
             distanceFilter = new DistanceFilter();
+        }
+    }
+
+    private void setDistanceFilterInitialState() {
+        distanceFilter = filter.getDistanceFilter();
+        SwitchCompat distanceSwitch = findViewById(R.id.filters_distance_switch);
+        if (distanceFilter != null) {
+            distanceSwitch.setChecked(true);
+            findViewById(R.id.filters_distance_input_container).setVisibility(View.VISIBLE);
+
+            SeekBar distanceSlider = findViewById(R.id.filters_distance_slider);
+            Integer kms = distanceFilter.getDistance().intValue();
+            updateDistanceLabel(kms);
+            distanceSlider.setProgress(kms);
+        } else {
+            distanceSwitch.setChecked(false);
+            findViewById(R.id.filters_distance_input_container).setVisibility(View.GONE);
         }
     }
 
@@ -233,8 +284,8 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
 
     private void setDistanceFilter() {
         if (((SwitchCompat) findViewById(R.id.filters_distance_switch)).isChecked()) {
-            String distance = ((EditText) findViewById(R.id.filters_distance_slider)).getText().toString();
-            distanceFilter.setDistance(Double.parseDouble(distance));
+            Integer distance = ((SeekBar) findViewById(R.id.filters_distance_slider)).getProgress();
+            distanceFilter.setDistance(distance.doubleValue());
             filter.setDistanceFilter(distanceFilter);
         }
     }

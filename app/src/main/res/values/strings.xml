@@ -111,7 +111,7 @@
     <string name="reviews">Opiniones</string>
     <string name="review">Opinión</string>
     <string name="filter_distance_title">Distancia máxima a mi ubicación</string>
-    <string name="filter_distance_label">Kilómetros</string>
+    <string name="filter_distance_label">:kms kilómetros</string>
     <string name="filter_prices_title">Promedio máximo de precios</string>
     <string name="filter_prices_label">$</string>
     <string name="filter_wait_title">Tiempo promedio de espera</string>

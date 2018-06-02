@@ -1,4 +1,4 @@
-package com.ar.tdp2fiuba.hoycomo.multiselect;
+package com.ar.tdp2fiuba.hoycomo.utils.view;
 
 
 import android.content.Context;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Multiselect extends android.support.v7.widget.AppCompatSpinner implements DialogInterface.OnMultiChoiceClickListener{
+public class MultiselectSpinner extends android.support.v7.widget.AppCompatSpinner implements DialogInterface.OnMultiChoiceClickListener{
     private final String TITULO = "Tipos de comida";
     private final String ACEPTAR = "Aceptar";
     private final String CANCELAR = "Cancelar";
@@ -32,14 +32,14 @@ public class Multiselect extends android.support.v7.widget.AppCompatSpinner impl
 
     ArrayAdapter<String> simple_adapter;
 
-    public Multiselect(Context context) {
+    public MultiselectSpinner(Context context) {
         super(context);
         simple_adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_item);
         super.setAdapter(simple_adapter);
     }
 
-    public Multiselect(Context context, AttributeSet attrs) {
+    public MultiselectSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         simple_adapter = new ArrayAdapter<>(context,

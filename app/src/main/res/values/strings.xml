@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">HoyComo</string>
-    <string name="filter_distance">Filtrar por Distancia</string>
+    <string name="filters">Filtros</string>
 
     <string name="facebook_app_id">201786523941932</string>
     <string name="fb_login_protocol_scheme">fb331659324025102</string>
@@ -27,8 +27,6 @@
     <string name="close">Cerrar</string>
     <string name="error_no_stores">No se pudieron obtener más comercios. Por favor, chequeá tu conexión.</string>
     <string name="apply_filter">Aplicar</string>
-    <string name="filter_distance_title">Distancia Máxima a mi Ubicación</string>
-    <string name="filter_distance_label">Distancia Máxima (kms):</string>
     <string name="error_required_distance_filter">Debe ingresar un valor de distancia</string>
     <string name="error_required_permissions_distance_filter">Debe permitir usar la localización del celular para usar el filtro por distancia</string>
     <string name="delete_filters">Borrar Filtros</string>
@@ -112,10 +110,12 @@
     <string name="first_to_review">¡Sé el primero en opinar tras realizar un pedido!</string>
     <string name="reviews">Opiniones</string>
     <string name="review">Opinión</string>
+    <string name="filter_distance_title">Distancia máxima a mi ubicación</string>
+    <string name="filter_distance_label">Kilómetros</string>
     <string name="filter_prices_title">Promedio máximo de precios</string>
     <string name="filter_prices_label">$</string>
     <string name="filter_wait_title">Tiempo promedio de espera</string>
-    <string name="filter_wait_label">minutos</string>
+    <string name="filter_wait_time_label">Minutos</string>
     <string name="filter_foodtype_title">Tipos de comida</string>
     <string name="filter_foodtype_prompt">Seleccione al menos un tipo de comida</string>
     <string name="filter_rating_title">Calificación mínima</string>

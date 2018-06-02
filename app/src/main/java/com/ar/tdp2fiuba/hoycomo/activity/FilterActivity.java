@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,8 +24,7 @@ import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.model.DistanceFilter;
 import com.ar.tdp2fiuba.hoycomo.model.Filter;
 import com.ar.tdp2fiuba.hoycomo.model.FoodType;
-import com.ar.tdp2fiuba.hoycomo.model.Store;
-import com.ar.tdp2fiuba.hoycomo.multiselect.Multiselect;
+import com.ar.tdp2fiuba.hoycomo.utils.view.MultiselectSpinner;
 import com.ar.tdp2fiuba.hoycomo.service.FoodTypeService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -39,12 +40,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterActivity extends AppCompatActivity implements Multiselect.OnMultipleItemsSelectedListener{
+public class FilterActivity extends AppCompatActivity implements MultiselectSpinner.OnMultipleItemsSelectedListener{
 
     private Filter filter;
     private DistanceFilter distanceFilter;
     private FusedLocationProviderClient mFuseLocationProviderClient;
-    private Multiselect multiselect;
+    private MultiselectSpinner multiselectSpinner;
     private FilterActivity self = this;
     private final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 1;
 
@@ -52,12 +53,14 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
-        setFilter();
+        setInitialState();
         setLocationListener();
         setToolbarBackButton();
 
-        multiselect = findViewById(R.id.spinner);
+        multiselectSpinner = findViewById(R.id.filters_food_type_spinner);
         getFoodTypes();
+
+        setSwitchListeners();
     }
 
     private void getFoodTypes() {
@@ -77,11 +80,11 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
                             e.printStackTrace();
                         }
                     }
-                    multiselect.setItems(foodTypes);
+                    multiselectSpinner.setItems(foodTypes);
                     if (filter.getFoodTypes() != null) {
-                        multiselect.setSelection(filter.getFoodTypes());
+                        multiselectSpinner.setSelection(filter.getFoodTypes());
                     }
-                    multiselect.setListener(self);
+                    multiselectSpinner.setListener(self);
                 }
             }
         };
@@ -106,13 +109,11 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
 
         switch (id) {
             case R.id.apply_filter:
-                if (validate()) {
-                    fillFilter();
-                    Intent intent = new Intent();
-                    intent.putExtra("filter", new Gson().toJson(filter));
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
-                }
+                setFilter();
+                Intent intent = new Intent();
+                intent.putExtra("filter", new Gson().toJson(filter));
+                setResult(Activity.RESULT_OK, intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -143,17 +144,39 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
         }
     }
 
+    private void setSwitchListeners() {
+        setSwitchListener(R.id.filters_distance_switch, R.id.filters_distance_input_container);
+        setSwitchListener(R.id.filters_price_switch, R.id.filters_price_input_container);
+        setSwitchListener(R.id.filters_wait_time_switch, R.id.filters_wait_time_input_container);
+        setSwitchListener(R.id.filters_food_type_switch, R.id.filters_food_type_spinner);
+        setSwitchListener(R.id.filters_rating_switch, R.id.filters_rating_bar);
+    }
+
+    private void setSwitchListener(int switchResId, final int inputResId) {
+        ((SwitchCompat) findViewById(switchResId)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    findViewById(inputResId).setVisibility(View.VISIBLE);
+                    findViewById(inputResId).requestFocus();
+                } else {
+                    findViewById(inputResId).setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
     private void errorReturnToStoreList() {
         finish();
     }
 
-    private void setFilter() {
+    private void setInitialState() {
         String filterJSON = getIntent().getExtras().getString("filter");
         filter = Filter.parseJSONFilter(filterJSON);
 
         if (filter != null) {
             distanceFilter = filter.getDistanceFilter();
-            EditText distance = findViewById(R.id.distance);
+            EditText distance = findViewById(R.id.filters_distance_slider);
             if (distance != null) {
                 distance.setText(Double.toString(distanceFilter.getDistance()));
             }
@@ -203,23 +226,26 @@ public class FilterActivity extends AppCompatActivity implements Multiselect.OnM
         });
     }
 
-    private void fillFilter() {
-        String distance = ((EditText)findViewById(R.id.distance)).getText().toString();
-        distanceFilter.setDistance(Double.parseDouble(distance));
-        filter.setDistanceFilter(distanceFilter);
-        List<String> foodTypes = multiselect.getSelectedStrings();
-        if (foodTypes.size() > 0) {
-            filter.setFoodTypes(foodTypes.toArray(new String[0]));
+    private void setFilter() {
+        setDistanceFilter();
+        setFoodTypeFilter();
+    }
+
+    private void setDistanceFilter() {
+        if (((SwitchCompat) findViewById(R.id.filters_distance_switch)).isChecked()) {
+            String distance = ((EditText) findViewById(R.id.filters_distance_slider)).getText().toString();
+            distanceFilter.setDistance(Double.parseDouble(distance));
+            filter.setDistanceFilter(distanceFilter);
         }
     }
 
-    private boolean validate() {
-        String distance = ((EditText)findViewById(R.id.distance)).getText().toString();
-        if (!distance.equals("")) {
-            return true;
+    private void setFoodTypeFilter() {
+        if (((SwitchCompat) findViewById(R.id.filters_food_type_switch)).isChecked()) {
+            List<String> foodTypes = multiselectSpinner.getSelectedStrings();
+            if (foodTypes.size() > 0) {
+                filter.setFoodTypes(foodTypes.toArray(new String[0]));
+            }
         }
-        Toast.makeText(this, R.string.error_required_distance_filter, Toast.LENGTH_SHORT).show();
-        return false;
     }
 
     //TODO: Métodos que devuelven lo que está en el pop up de multiselect

@@ -7,9 +7,9 @@ import java.util.List;
 public class Filter {
     private DistanceFilter distance;
     private String[] foodTypes;
-    private int delayTime;
-    private double rating;
-    private double averagePrice;
+    private Integer delayTime;
+    private Double rating;
+    private Double averagePrice;
 
     public Filter() {}
 
@@ -21,7 +21,7 @@ public class Filter {
         return this.distance;
     }
 
-    public void setDistanceFilter(double lat, double lon, double distance) {
+    public void setDistanceFilter(Double lat, Double lon, Double distance) {
         this.distance = new DistanceFilter(lat, lon, distance);
     }
 
@@ -33,27 +33,27 @@ public class Filter {
         this.foodTypes = foodTypes;
     }
 
-    public int getDelayTime() {
+    public Integer getDelayTime() {
         return this.delayTime;
     }
 
-    public void setDelayTime(int delayTime) {
+    public void setDelayTime(Integer delayTime) {
         this.delayTime = delayTime;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return this.rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
-    public double getAveragePrice() {
+    public Double getAveragePrice() {
         return this.averagePrice;
     }
 
-    public void setAveragePrice(double averagePrice) {
+    public void setAveragePrice(Double averagePrice) {
         this.averagePrice = averagePrice;
     }
 
@@ -66,7 +66,6 @@ public class Filter {
     }
 
     public static Filter parseJSONFilter(String filterJSON) {
-        Filter filter = new Gson().fromJson(filterJSON, Filter.class);
-        return filter;
+        return new Gson().fromJson(filterJSON, Filter.class);
     }
 }

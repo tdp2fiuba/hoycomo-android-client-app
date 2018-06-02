@@ -34,7 +34,7 @@ public class MyOrderItemAdapter extends RecyclerView.Adapter<MyOrderItemAdapter.
         holder.mNameView.setText(holder.mItem.getName());
         setGarnish(holder);
         setComments(holder);
-        holder.mPriceView.setText("$" + String.valueOf(holder.mItem.getPrice() * holder.mItem.getQuantity()));
+        holder.mPriceView.setText("$" + String.valueOf(Math.round(holder.mItem.getPrice() * holder.mItem.getQuantity())));
     }
 
     @Override

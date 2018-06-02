@@ -93,7 +93,7 @@ public class MenuItemActivity extends AppCompatActivity {
                 List<OrderItem> items = new ArrayList<>();
                 OrderItem item = buildOrderItemFromInput();
                 items.add(item);
-                Order newOrder = new Order(user, mStore, item.getPrice() * item.getQuantity(), items, user.getAddress());
+                Order newOrder = new Order(user, mStore, item.getPrice() * item.getQuantity(), mStore.getDiscount(), items, user.getAddress());
                 OrderService.setAsCurrentOrder(newOrder);
                 Log.d(TAG, "My Order: " + newOrder);
                 finish();
@@ -146,16 +146,16 @@ public class MenuItemActivity extends AppCompatActivity {
     private void setPrice() {
         final TextView discountView = findViewById(R.id.menu_item_price_without_discount);
         final TextView priceView = findViewById(R.id.menu_item_price);
-        Integer finalPrice = mMenuItem.getPrice();
+        Double finalPrice = mMenuItem.getPrice();
         if (mMenuItem.getDiscount() != null && mMenuItem.getDiscount() != 0) {
             finalPrice = NumberUtils.subtractPercentage(mMenuItem.getPrice(), mMenuItem.getDiscount());
             discountView.setVisibility(View.VISIBLE);
-            discountView.setText("$" + String.valueOf(mMenuItem.getPrice()));
+            discountView.setText("$" + String.valueOf(Math.round(mMenuItem.getDiscount())));
             discountView.setPaintFlags(discountView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             discountView.setVisibility(View.GONE);
         }
-        priceView.setText("$" + String.valueOf(finalPrice));
+        priceView.setText("$" + String.valueOf(Math.round(finalPrice)));
     }
 
     private void setForm() {

@@ -14,14 +14,12 @@ public class Store {
     private Double delayTime;
     private Availability availability;
     private List<String> foodTypes;
+    private Double discount;
+
+    public Store() {}
 
     public Store(String id, String name, Address address, String avatar, Double rating, Double delayTime,
-                 Availability availability) {
-        this(id, name, address, avatar, rating, delayTime, availability, null);
-    }
-
-    public Store(String id, String name, Address address, String avatar, Double rating, Double delayTime,
-                 Availability availability, List<String> foodTypes) {
+                 Availability availability, List<String> foodTypes, Double discount) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -30,6 +28,7 @@ public class Store {
         this.delayTime = delayTime;
         this.availability = availability;
         this.foodTypes = foodTypes;
+        this.discount = discount;
     }
 
     public String getId() {
@@ -81,8 +80,8 @@ public class Store {
         return foodTypes;
     }
 
-    public void setFoodTypes(List<String> value) {
-        this.foodTypes = value;
+    public Double getDiscount() {
+        return discount;
     }
 
     @Override
@@ -111,6 +110,7 @@ public class Store {
                 ", delayTime=" + delayTime +
                 ", availability=" + availability +
                 ", foodTypes=" + foodTypes +
+                ", discount=" + discount +
                 '}';
     }
 }

@@ -59,6 +59,7 @@
     <string name="see_my_order">Ver mi pedido</string>
     <string name="_continue">Continuar</string>
     <string name="subtotal_amount">Subtotal: :monto</string>
+    <string name="subtract_discount">- :discount% de descuento</string>
     <string name="add_more_food">Agregar más comida</string>
     <string name="cancel">Cancelar</string>
     <string name="order_cancelled">El pedido fue cancelado</string>

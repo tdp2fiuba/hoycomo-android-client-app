@@ -7,8 +7,8 @@ public class MenuItem {
     private String storeId;
     private String name;
     private String description;
-    private Integer price;
-    private Integer discount;
+    private Double price;
+    private Double discount;
     private List<String> pictures;
     private List<String> garnishes;
     private boolean celiac;
@@ -19,7 +19,7 @@ public class MenuItem {
     @Deprecated
     public MenuItem() {}
 
-    public MenuItem(String id, String storeId, String name, String description, Integer price, Integer discount,
+    public MenuItem(String id, String storeId, String name, String description, Double price, Double discount,
                     List<String> pictures, List<String> garnishes,
                     boolean celiac, boolean diabetic, boolean vegan, boolean vegetarian) {
         this.id = id;
@@ -52,11 +52,11 @@ public class MenuItem {
         return description;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public Integer getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 

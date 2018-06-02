@@ -122,17 +122,17 @@ public class MenuItemRecyclerViewAdapter extends RecyclerView.Adapter<MenuItemRe
     private void setPrice(final ViewHolder holder) {
         MenuItem item = holder.mItem;
 
-        Integer finalPrice = item.getPrice();
+        Double finalPrice = item.getPrice();
         if (item.getDiscount() != null && item.getDiscount() != 0) {
             finalPrice = NumberUtils.subtractPercentage(item.getPrice(), item.getDiscount());
             holder.mDiscountView.setVisibility(View.VISIBLE);
-            holder.mDiscountView.setText("$" + String.valueOf(item.getPrice()));
+            holder.mDiscountView.setText("$" + String.valueOf(Math.round(item.getDiscount())));
             holder.mDiscountView.setPaintFlags(holder.mDiscountView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             holder.mDiscountView.setVisibility(View.GONE);
         }
 
-        holder.mPriceView.setText("$" + String.valueOf(finalPrice));
+        holder.mPriceView.setText("$" + String.valueOf(Math.round(finalPrice)));
     }
 
     private void loadImage(final ViewHolder holder) {

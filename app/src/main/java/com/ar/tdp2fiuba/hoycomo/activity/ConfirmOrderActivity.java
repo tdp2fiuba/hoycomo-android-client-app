@@ -179,7 +179,8 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     }
 
     private void displayOrderInfo() {
-        ((TextView) findViewById(R.id.confirm_order_total_price)).setText("$" + String.valueOf(mOrder.getPrice()));
+        Double finalPrice = mOrder.getPrice() - (mOrder.getPrice() * (mOrder.getDiscount() / 100));
+        ((TextView) findViewById(R.id.confirm_order_total_price)).setText("$" + String.valueOf(Math.round(finalPrice)));
         setEstimatedTime();
     }
 
@@ -190,10 +191,16 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
     private void startLoading() {
         findViewById(R.id.confirm_order_progress_bar).setVisibility(View.VISIBLE);
+
+        findViewById(R.id.confirm_order_content).setVisibility(View.GONE);
+        findViewById(R.id.confirm_order_send_order_button).setVisibility(View.GONE);
     }
 
     private void stopLoading() {
         findViewById(R.id.confirm_order_progress_bar).setVisibility(View.GONE);
+
+        findViewById(R.id.confirm_order_content).setVisibility(View.VISIBLE);
+        findViewById(R.id.confirm_order_send_order_button).setVisibility(View.VISIBLE);
     }
 
     private void setEstimatedTime() {

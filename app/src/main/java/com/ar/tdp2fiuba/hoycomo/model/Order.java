@@ -8,7 +8,8 @@ import java.util.List;
 public class Order {
     private User user;
     private Store store;
-    private Integer price;
+    private Double price;
+    private Double discount;
     private List<OrderItem> items;
     private String description;
     private Address address;
@@ -17,19 +18,16 @@ public class Order {
 
     public Order() {}
 
-    public Order(User user, Store store, Integer price, List<OrderItem> items) {
-        this(user, store, price, items, null);
+    public Order(User user, Store store, Double price, Double discount, List<OrderItem> items, Address address) {
+        this(user, store, price, discount, items, null, address, new OrderState(), null);
     }
 
-    public Order(User user, Store store, Integer price, List<OrderItem> items, Address address) {
-        this(user, store, price, items, null, address, new OrderState(), null);
-    }
-
-    public Order(User user, Store store, Integer price, List<OrderItem> items, String description,
+    public Order(User user, Store store, Double price, Double discount, List<OrderItem> items, String description,
                  Address address, OrderState state, String registerTimestamp) {
         this.user = user;
         this.store = store;
         this.price = price;
+        this.discount = discount;
         this.items = items;
         this.description = description;
         this.address = address;
@@ -45,8 +43,12 @@ public class Order {
         return store;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
+    }
+
+    public Double getDiscount() {
+        return discount;
     }
 
     public String getDescription() {
@@ -90,6 +92,7 @@ public class Order {
                 user.getUserId(),
                 store.getId(),
                 price,
+                discount,
                 description,
                 items,
                 address
@@ -102,6 +105,7 @@ public class Order {
                 "user=" + user +
                 ", store=" + store +
                 ", price=" + price +
+                ", discount=" + discount +
                 ", items=" + items +
                 ", description='" + description + '\'' +
                 ", address=" + address +

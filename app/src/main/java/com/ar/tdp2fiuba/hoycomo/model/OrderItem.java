@@ -3,20 +3,20 @@ package com.ar.tdp2fiuba.hoycomo.model;
 public class OrderItem {
     private String id;
     private String name;
-    private Integer price;
+    private Double price;
     private Integer quantity;
     private String garnish;
     private String comments;
 
-    public OrderItem(String id, String name, Integer price) {
+    public OrderItem(String id, String name, Double price) {
         this(id, name, price, 1);
     }
 
-    public OrderItem(String id, String name, Integer price, Integer quantity) {
+    public OrderItem(String id, String name, Double price, Integer quantity) {
         this(id, name, price, quantity, null, null);
     }
 
-    public OrderItem(String id, String name, Integer price, Integer quantity, String garnish, String comments) {
+    public OrderItem(String id, String name, Double price, Integer quantity, String garnish, String comments) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -33,7 +33,7 @@ public class OrderItem {
         return name;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 

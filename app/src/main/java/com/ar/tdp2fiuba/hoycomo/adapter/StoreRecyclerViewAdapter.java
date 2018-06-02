@@ -96,7 +96,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     }
 
     public void addLoadingFooter() {
-        final Store dummyItem = new Store(null, null, null, null, null, null, null);
+        final Store dummyItem = new Store();
         mValues.add(dummyItem);
         loadingItemIndex = mValues.size() - 1;
         if (loadingItemIndex == 0) {

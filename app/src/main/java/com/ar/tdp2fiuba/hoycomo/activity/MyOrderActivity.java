@@ -57,6 +57,7 @@ public class MyOrderActivity extends AppCompatActivity {
 
         displayStoreInfo();
         populateOrderItems();
+        updateDiscount();
         updateSubtotal();
 
         displayTimestamp();
@@ -139,10 +140,26 @@ public class MyOrderActivity extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
     }
 
+    private void updateDiscount() {
+        TextView discountView = findViewById(R.id.my_order_discount);
+        if (mOrder.getDiscount() != null && mOrder.getDiscount() > 0) {
+            discountView.setVisibility(View.VISIBLE);
+            discountView.setText(
+                    discountView.getText().toString().replace(":discount", String.valueOf(Math.round(mOrder.getDiscount())))
+            );
+        } else {
+            discountView.setVisibility(View.GONE);
+        }
+    }
+
     private void updateSubtotal() {
+        Double subtotal = mOrder.getPrice();
+        if (mOrder.getDiscount() != null && mOrder.getDiscount() > 0) {
+            subtotal -= subtotal * (mOrder.getDiscount() / 100);
+        }
         TextView subtotalView = (TextView) findViewById(R.id.my_order_subtotal);
         subtotalView.setText(
-                subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(mOrder.getPrice()))
+                subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(Math.round(subtotal)))
         );
     }
 

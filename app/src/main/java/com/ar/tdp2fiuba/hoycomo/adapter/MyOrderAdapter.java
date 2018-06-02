@@ -55,7 +55,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
             holder.mStatusView.setText(holder.mItem.getState().getState().toString((Context) mListener));
             holder.mStoreNameView.setText(holder.mItem.getStore().getName());
-            holder.mPriceView.setText("$" + String.valueOf(holder.mItem.getPrice()));
+            setFinalPrice(holder);
             holder.mTimestampView.setText(
                     DateUtils.elapsedTimeFromUTC(holder.mItem.getRegisterTimestamp(), (Context) mListener)
             );
@@ -114,6 +114,13 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             loadingItemIndex = -1;
         }
     }
+
+    private void setFinalPrice(final ViewHolder holder) {
+        Double finalPrice = holder.mItem.getPrice() - (holder.mItem.getPrice() * (holder.mItem.getDiscount() / 100));
+        holder.mPriceView.setText("$" + String.valueOf(Math.round(finalPrice)));
+    }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public Order mItem;

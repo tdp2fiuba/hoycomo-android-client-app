@@ -1,11 +1,11 @@
 package com.ar.tdp2fiuba.hoycomo.model;
 
 public class DistanceFilter {
-    private double lat;
-    private double lon;
-    private double distance;
+    private Double lat;
+    private Double lon;
+    private Double distance;
 
-    public DistanceFilter(double lat, double lon, double distance) {
+    public DistanceFilter(Double lat, Double lon, Double distance) {
         this.lat = lat;
         this.lon = lon;
         this.distance = distance;
@@ -15,27 +15,28 @@ public class DistanceFilter {
 
     }
 
-    public double getLat() {
+    public Double getLat() {
         return this.lat;
     }
 
-    public double getLon() {
+    public Double getLon() {
         return this.lon;
     }
 
-    public double getDistance() {
+    public Double getDistance() {
         return this.distance;
     }
 
-    public void setLat(double lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public void setLon(double lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(Double distance) {
         this.distance = distance;
     }
+
 }

@@ -4,6 +4,7 @@ package com.ar.tdp2fiuba.hoycomo.utils.view;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -81,7 +82,7 @@ public class MultiselectSpinner extends android.support.v7.widget.AppCompatSpinn
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 simple_adapter.clear();
-                if (_itemsAtStart.equals("")) {
+                if (TextUtils.isEmpty(_itemsAtStart)) {
                     simple_adapter.add(SELECCIONE_TIPOS_DE_COMIDA);
                 } else {
                     simple_adapter.add(_itemsAtStart);

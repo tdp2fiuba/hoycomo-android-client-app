@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -368,11 +370,11 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
 
     private void setAveragePriceFilter() throws Exception {
         if (((SwitchCompat) findViewById(R.id.filters_price_switch)).isChecked()) {
-            String averagePrice = ((EditText) findViewById(R.id.filters_price_input)).getText().toString();
-            if (averagePrice.equals("")) {
+            Editable averagePriceEditable = ((EditText) findViewById(R.id.filters_price_input)).getText();
+            if (averagePriceEditable == null || TextUtils.isEmpty(averagePriceEditable.toString())) {
                 throw new Exception(DEBE_INSERTAR_VALOR);
             } else {
-                filter.setAveragePrice(new Double(averagePrice));
+                filter.setAveragePrice(new Double(averagePriceEditable.toString()));
             }
         } else {
             filter.setAveragePrice(null);
@@ -381,11 +383,11 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
 
     private void setDelayTimeFilter() throws Exception {
         if (((SwitchCompat) findViewById(R.id.filters_wait_time_switch)).isChecked()) {
-            String delayTime = ((EditText) findViewById(R.id.filters_wait_time_input)).getText().toString();
-            if (delayTime.equals("")) {
+            Editable delayTimeEditable = ((EditText) findViewById(R.id.filters_wait_time_input)).getText();
+            if (delayTimeEditable == null || TextUtils.isEmpty(delayTimeEditable.toString())) {
                 throw new Exception(DEBE_INSERTAR_VALOR);
             } else {
-                filter.setDelayTime(new Integer(delayTime));
+                filter.setDelayTime(new Integer(delayTimeEditable.toString()));
             }
         } else {
             filter.setDelayTime(null);

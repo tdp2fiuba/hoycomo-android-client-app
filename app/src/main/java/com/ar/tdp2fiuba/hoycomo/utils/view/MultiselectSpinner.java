@@ -17,7 +17,7 @@ public class MultiselectSpinner extends android.support.v7.widget.AppCompatSpinn
     private final String ACEPTAR = "Aceptar";
     private final String CANCELAR = "Cancelar";
     private final String SELECCIONE_TIPOS_DE_COMIDA = "Seleccione tipos de comida";
-    private final int MAXLENGTH = 100;
+    private final int MAXLENGTH = 34;
     public interface OnMultipleItemsSelectedListener {
         void selectedIndices(List<Integer> indices);
         void selectedStrings(List<String> strings);
@@ -81,7 +81,11 @@ public class MultiselectSpinner extends android.support.v7.widget.AppCompatSpinn
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 simple_adapter.clear();
-                simple_adapter.add(_itemsAtStart);
+                if (_itemsAtStart.equals("")) {
+                    simple_adapter.add(SELECCIONE_TIPOS_DE_COMIDA);
+                } else {
+                    simple_adapter.add(_itemsAtStart);
+                }
                 System.arraycopy(mSelectionAtStart, 0, mSelection, 0, mSelectionAtStart.length);
             }
         });

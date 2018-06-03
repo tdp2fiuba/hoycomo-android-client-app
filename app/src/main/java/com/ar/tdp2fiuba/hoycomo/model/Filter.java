@@ -8,7 +8,7 @@ public class Filter {
     private DistanceFilter distance;
     private String[] foodTypes;
     private Integer delayTime;
-    private Double rating;
+    private Float rating;
     private Double averagePrice;
 
     public Filter() {}
@@ -41,11 +41,11 @@ public class Filter {
         this.delayTime = delayTime;
     }
 
-    public Double getRating() {
+    public Float getRating() {
         return this.rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 
@@ -63,6 +63,10 @@ public class Filter {
 
     public String parseToJSONString() {
         return new Gson().toJson(this);
+    }
+
+    public boolean isEmpty() {
+        return this.distance == null && this.rating == null && this.averagePrice == null && this.delayTime == null && this.foodTypes == null;
     }
 
     public static Filter parseJSONFilter(String filterJSON) {

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -50,13 +51,15 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
     private MultiselectSpinner multiselectSpinner;
     private FilterActivity self = this;
     private final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 1;
+    private final String DEBE_ELEGIR_TIPO_COMIDA = "Debe elegir al menos un tipo de comida";
+    private final String DEBE_INSERTAR_VALOR = "Debe insertar algún valor al filtro";
+    private final String DEBE_ELEGIR_AL_MENOS_UN_FILTRO = "Debe elegir al menos un filtro a aplicar";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         setInitialState();
-        setLocationListener();
         setToolbarBackButton();
 
         multiselectSpinner = findViewById(R.id.filters_food_type_spinner);
@@ -111,11 +114,20 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
 
         switch (id) {
             case R.id.apply_filter:
-                setFilter();
-                Intent intent = new Intent();
-                intent.putExtra("filter", new Gson().toJson(filter));
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                try {
+                    setFilter();
+                    if (filter.isEmpty()) {
+                        Toast.makeText(this, DEBE_ELEGIR_AL_MENOS_UN_FILTRO, Toast.LENGTH_LONG).show();
+                        return true;
+                    }
+                    Intent intent = new Intent();
+                    intent.putExtra("filter", new Gson().toJson(filter));
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
+                catch (Exception ex) {
+                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -138,7 +150,7 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
                     setLocationListener();
                 } else {
                     Toast.makeText(this, R.string.error_required_permissions_distance_filter, Toast.LENGTH_SHORT).show();
-                    errorReturnToStoreList();
+                    ((SwitchCompat) findViewById(R.id.filters_distance_switch)).setChecked(false);
                 }
                 break;
             default:
@@ -152,11 +164,24 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
     }
 
     private void setSwitchListeners() {
-        setSwitchListener(R.id.filters_distance_switch, R.id.filters_distance_input_container);
         setSwitchListener(R.id.filters_price_switch, R.id.filters_price_input_container);
         setSwitchListener(R.id.filters_wait_time_switch, R.id.filters_wait_time_input_container);
         setSwitchListener(R.id.filters_food_type_switch, R.id.filters_food_type_spinner);
         setSwitchListener(R.id.filters_rating_switch, R.id.filters_rating_bar);
+
+        ((SwitchCompat) findViewById(R.id.filters_distance_switch)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    findViewById(R.id.filters_distance_input_container).setVisibility(View.VISIBLE);
+                    findViewById(R.id.filters_distance_input_container).requestFocus();
+
+                    setLocationListener();
+                } else {
+                    findViewById(R.id.filters_distance_input_container).setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void setSwitchListener(int switchResId, final int inputResId) {
@@ -214,9 +239,64 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
         filter = Filter.parseJSONFilter(filterJSON);
         if (filter != null) {
             setDistanceFilterInitialState();
+            setAveragePriceInitialState();
+            setDelayTimeInitialState();
+            setRatingInitialState();
+            setFoodTypesInitialState();
         } else {
             filter = new Filter();
             distanceFilter = new DistanceFilter();
+        }
+    }
+
+    private void setFoodTypesInitialState() {
+        SwitchCompat foodTypeSwitch = findViewById(R.id.filters_food_type_switch);
+        if (filter.getFoodTypes() != null) {
+            foodTypeSwitch.setChecked(true);
+            findViewById(R.id.filters_food_type_spinner).setVisibility(View.VISIBLE);
+
+        } else {
+            foodTypeSwitch.setChecked(false);
+            findViewById(R.id.filters_food_type_spinner).setVisibility(View.GONE);
+        }
+    }
+
+    private void setAveragePriceInitialState() {
+        SwitchCompat averagePriceSwitch = findViewById(R.id.filters_price_switch);
+        if (filter.getAveragePrice() != null) {
+            averagePriceSwitch.setChecked(true);
+            findViewById(R.id.filters_price_input_container).setVisibility(View.VISIBLE);
+            ((EditText)findViewById(R.id.filters_price_input)).setText(filter.getAveragePrice().toString());
+
+        } else {
+            averagePriceSwitch.setChecked(false);
+            findViewById(R.id.filters_price_input_container).setVisibility(View.GONE);
+        }
+    }
+
+    private void setDelayTimeInitialState() {
+        SwitchCompat delayTimeSwitch = findViewById(R.id.filters_wait_time_switch);
+        if (filter.getDelayTime() != null) {
+            delayTimeSwitch.setChecked(true);
+            findViewById(R.id.filters_wait_time_input_container).setVisibility(View.VISIBLE);
+            ((EditText)findViewById(R.id.filters_wait_time_input)).setText(filter.getDelayTime().toString());
+
+        } else {
+            delayTimeSwitch.setChecked(false);
+            findViewById(R.id.filters_wait_time_input_container).setVisibility(View.GONE);
+        }
+    }
+
+    private void setRatingInitialState() {
+        SwitchCompat ratingSwitch = findViewById(R.id.filters_rating_switch);
+        if (filter.getRating() != null) {
+            ratingSwitch.setChecked(true);
+            findViewById(R.id.filters_rating_bar).setVisibility(View.VISIBLE);
+            ((AppCompatRatingBar)findViewById(R.id.filters_rating_bar)).setRating((float)filter.getRating());
+
+        } else {
+            ratingSwitch.setChecked(false);
+            findViewById(R.id.filters_rating_bar).setVisibility(View.GONE);
         }
     }
 
@@ -232,6 +312,7 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
             updateDistanceLabel(kms);
             distanceSlider.setProgress(kms);
         } else {
+            distanceFilter = new DistanceFilter();
             distanceSwitch.setChecked(false);
             findViewById(R.id.filters_distance_input_container).setVisibility(View.GONE);
         }
@@ -277,9 +358,47 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
         });
     }
 
-    private void setFilter() {
+    private void setFilter() throws Exception {
         setDistanceFilter();
         setFoodTypeFilter();
+        setDelayTimeFilter();
+        setAveragePriceFilter();
+        setRatingFilter();
+    }
+
+    private void setAveragePriceFilter() throws Exception {
+        if (((SwitchCompat) findViewById(R.id.filters_price_switch)).isChecked()) {
+            String averagePrice = ((EditText) findViewById(R.id.filters_price_input)).getText().toString();
+            if (averagePrice.equals("")) {
+                throw new Exception(DEBE_INSERTAR_VALOR);
+            } else {
+                filter.setAveragePrice(new Double(averagePrice));
+            }
+        } else {
+            filter.setAveragePrice(null);
+        }
+    }
+
+    private void setDelayTimeFilter() throws Exception {
+        if (((SwitchCompat) findViewById(R.id.filters_wait_time_switch)).isChecked()) {
+            String delayTime = ((EditText) findViewById(R.id.filters_wait_time_input)).getText().toString();
+            if (delayTime.equals("")) {
+                throw new Exception(DEBE_INSERTAR_VALOR);
+            } else {
+                filter.setDelayTime(new Integer(delayTime));
+            }
+        } else {
+            filter.setDelayTime(null);
+        }
+    }
+
+    private void setRatingFilter() {
+        if (((SwitchCompat) findViewById(R.id.filters_rating_switch)).isChecked()) {
+            Float rating = ((AppCompatRatingBar) findViewById(R.id.filters_rating_bar)).getRating();
+            filter.setRating(rating);
+        } else {
+            filter.setRating(null);
+        }
     }
 
     private void setDistanceFilter() {
@@ -287,15 +406,21 @@ public class FilterActivity extends AppCompatActivity implements MultiselectSpin
             Integer distance = ((SeekBar) findViewById(R.id.filters_distance_slider)).getProgress();
             distanceFilter.setDistance(distance.doubleValue());
             filter.setDistanceFilter(distanceFilter);
+        } else {
+            filter.setDistanceFilter(null);
         }
     }
 
-    private void setFoodTypeFilter() {
+    private void setFoodTypeFilter() throws Exception {
         if (((SwitchCompat) findViewById(R.id.filters_food_type_switch)).isChecked()) {
             List<String> foodTypes = multiselectSpinner.getSelectedStrings();
             if (foodTypes.size() > 0) {
                 filter.setFoodTypes(foodTypes.toArray(new String[0]));
+            } else {
+                throw new Exception(DEBE_ELEGIR_TIPO_COMIDA);
             }
+        } else {
+            filter.setFoodTypes(null);
         }
     }
 

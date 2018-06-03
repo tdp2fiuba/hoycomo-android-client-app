@@ -38,4 +38,5 @@ public class DistanceFilter {
     public void setDistance(Double distance) {
         this.distance = distance;
     }
+
 }

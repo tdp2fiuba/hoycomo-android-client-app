@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -90,6 +91,23 @@ public class MultiselectSpinner extends android.support.v7.widget.AppCompatSpinn
                 System.arraycopy(mSelectionAtStart, 0, mSelection, 0, mSelectionAtStart.length);
             }
         });
+        builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    simple_adapter.clear();
+                    if (TextUtils.isEmpty(_itemsAtStart)) {
+                        simple_adapter.add(SELECCIONE_TIPOS_DE_COMIDA);
+                    } else {
+                        simple_adapter.add(_itemsAtStart);
+                    }
+                    System.arraycopy(mSelectionAtStart, 0, mSelection, 0, mSelectionAtStart.length);
+                }
+                dialog.dismiss();
+                return true;
+            }
+        });
+
         builder.show();
         return true;
     }

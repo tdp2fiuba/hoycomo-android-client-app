@@ -92,9 +92,8 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     ((TextView) findViewById(R.id.profile_address)).setText(pickedPlace.getName());
+                    showAddressForm(pickedPlace);
                     stopLoading();
-
-                    updateUserAddress(pickedPlace); // TODO: 4/6/18 Replace with call to showAddressForm to contemplate floor and apartment
                 }
             };
             Response.ErrorListener errorListener = new Response.ErrorListener() {
@@ -183,16 +182,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void updateUserAddress(final Place place) {
         Address newUserAddress = new Address(
-                place.getAddress().toString(),  // TODO: 4/6/18 Consider floor and apartment using getNewAddressName()
+                getNewAddressName(place),
                 place.getLatLng().latitude,
                 place.getLatLng().longitude
         );
 
         String serializedUser = SharedPreferencesUtils.load(this, SHP_USER, null);
         if (serializedUser != null) {
-            User user = new Gson().fromJson(serializedUser, User.class);
-            user.setAddress(newUserAddress);
-            SharedPreferencesUtils.update(this, SHP_USER, new Gson().toJson(user));
+            mUser = new Gson().fromJson(serializedUser, User.class);
+            mUser.setAddress(newUserAddress);
+            SharedPreferencesUtils.update(this, SHP_USER, new Gson().toJson(mUser));
         }
     }
 

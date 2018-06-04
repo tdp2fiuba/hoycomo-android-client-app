@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ar.tdp2fiuba.hoycomo.R;
@@ -204,8 +205,15 @@ public class HomeActivity extends AppCompatActivity
                 TextView drawerUsername = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_name);
                 drawerUsername.setText(currentUser.getFirstName());
             }
+
+            CircleImageView drawerUserPicture = navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_picture);
+            drawerUserPicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openProfile();
+                }
+            });
             if (currentUser.getAvatar() != null) {
-                CircleImageView drawerUserPicture = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_home_user_picture);
                 Picasso.get().load(currentUser.getAvatar()).into(drawerUserPicture);
             }
         }
@@ -220,6 +228,11 @@ public class HomeActivity extends AppCompatActivity
             }
         }
         return false;
+    }
+
+    private void openProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
     private void openMyOrders() {

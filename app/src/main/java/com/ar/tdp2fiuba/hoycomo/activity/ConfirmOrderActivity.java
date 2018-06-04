@@ -22,6 +22,7 @@ import com.ar.tdp2fiuba.hoycomo.service.GeocodingService;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
 import com.ar.tdp2fiuba.hoycomo.service.UserAuthenticationManager;
 import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
+import com.ar.tdp2fiuba.hoycomo.utils.GeocodingUtils;
 import com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -171,7 +172,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 User user = new Gson().fromJson(serializedUser, User.class);
                 if (user.getAddress() != null && user.getAddress().getName() != null) {
                     mPreviousUserAddress = user.getAddress();
-                    ((TextView) findViewById(R.id.confirm_order_user_address)).setText(mPreviousUserAddress.getName());
+                    ((TextView) findViewById(R.id.confirm_order_user_address)).setText(GeocodingUtils.extractLocalAddress(mPreviousUserAddress.getName()));
                     findViewById(R.id.confirm_order_floor_apartment_input_container).setVisibility(View.GONE);
                 }
             }
@@ -261,14 +262,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         String floor = floorInput.getText() != null ? floorInput.getText().toString() : null;
         String apartment = apartmentInput.getText() != null ? apartmentInput.getText().toString() : null;
 
-        String addressName = mUserPlacePicked.getAddress().toString();
-        if (floor != null) {
-            addressName += " " + floor;
-        }
-        if (apartment != null) {
-            addressName += " " + apartment;
-        }
-
+        String addressName = GeocodingUtils.appendFloorAndApartment(mUserPlacePicked.getAddress().toString(), floor, apartment);
         Address newUserAddress = new Address(
                 addressName,
                 mUserPlacePicked.getLatLng().latitude,

@@ -123,4 +123,5 @@
     <string name="error_load_foodtypes">Error al cargar tipos de comida</string>
     <string name="no_address">No hay una dirección cargada</string>
     <string name="profile">Perfil</string>
+    <string name="your_address_was_updated">Tu dirección de envío por defecto fue actualizada</string>
 </resources>

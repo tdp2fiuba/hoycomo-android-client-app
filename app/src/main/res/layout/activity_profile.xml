@@ -9,73 +9,143 @@
 
     <include layout="@layout/main_toolbar" />
 
-    <LinearLayout
-        android:id="@+id/profile_content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_user_picture"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_margin="24dp"
-                android:layout_centerHorizontal="true"
-                app:srcCompat="@mipmap/ic_account_circle_white_48dp" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/profile_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="12dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:singleLine="true"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/profile_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            android:padding="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/profile_address"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
-                android:layout_marginEnd="12dp"
-                android:textSize="16sp"
+                android:background="@color/colorPrimary">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_user_picture"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_margin="24dp"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@mipmap/ic_account_circle_white_48dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/profile_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="12dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 android:singleLine="true"
-                android:text="@string/no_address"
-                android:textStyle="italic" />
-            <ImageView
-                android:id="@+id/profile_edit_address_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:tint="@color/colorAccent"
-                android:src="@mipmap/ic_edit_black_24dp"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_marginTop="12dp"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="12dp">
+                    <TextView
+                        android:id="@+id/profile_address"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:text="@string/no_address"
+                        android:textStyle="italic" />
+                    <ImageView
+                        android:id="@+id/profile_edit_address_button"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:tint="@color/colorAccent"
+                        android:src="@mipmap/ic_edit_black_24dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/profile_floor_apartment_input_container"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/profile_floor_input"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        android:inputType="numberDecimal"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:hint="@string/floor"
+                        android:textColor="@color/colorPrimary"
+                        android:background="@android:color/transparent"
+                        />
+
+                    <include layout="@layout/divider_vertical_primary_thin" />
+
+                    <EditText
+                        android:id="@+id/profile_apartment_input"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:textStyle="italic"
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:inputType="textCapCharacters"
+                        android:hint="@string/apartment"
+                        android:textColor="@color/colorPrimary"
+                        android:background="@android:color/transparent"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/profile_progress_bar"
+            android:visibility="gone"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true" />
 
-    <ProgressBar
-        android:id="@+id/profile_progress_bar"
-        android:visibility="gone"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/profile_confirm_changes_button"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@mipmap/ic_done_black_18dp" />
+
+    </RelativeLayout>
 
 </LinearLayout>

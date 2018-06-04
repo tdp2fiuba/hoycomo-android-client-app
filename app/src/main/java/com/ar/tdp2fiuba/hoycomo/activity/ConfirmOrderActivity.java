@@ -44,10 +44,6 @@ import static com.ar.tdp2fiuba.hoycomo.utils.SharedPreferencesConstants.SHP_USER
 public class ConfirmOrderActivity extends AppCompatActivity {
 
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    private final LatLngBounds CABABounds = new LatLngBounds(
-            new LatLng(-34.691381, -58.537996),
-            new LatLng(-34.530064, -58.327278)
-    );
 
     private static final String TAG = "ConfirmOrder";
 
@@ -247,7 +243,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         try {
             Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
                             .setFilter(filter)
-                            .setBoundsBias(CABABounds)
+                            .setBoundsBias(GeocodingUtils.CABABounds)
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
         } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {

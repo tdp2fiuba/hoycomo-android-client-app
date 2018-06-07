@@ -51,6 +51,10 @@ public class Order {
         return discount;
     }
 
+    public void updateDiscount(Double discount) {
+        this.discount = discount;
+    }
+
     public String getDescription() {
         return description;
     }

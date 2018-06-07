@@ -16,6 +16,19 @@ import java.util.Map;
 
 public class StoreService extends HoyComoService {
 
+    public static void getStore(String storeId, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
+        final String urlWithPlaceholders = BASE_URL + "/api/store/:storeId";
+        final String url = urlWithPlaceholders.replace(":storeId", storeId);
+
+        HttpRequestHelper.get(
+                url,
+                null,
+                successListener,
+                errorListener,
+                "GetStore"
+        );
+    }
+
     public static void getStores(int page, int count, Filter filter, Response.Listener<JSONArray> successListener, Response.ErrorListener errorListener) {
         final String urlWithPlaceholders = BASE_URL + "/api/stores?page=:page&count=:count&filters=:filters";
         final String url = urlWithPlaceholders.replace(":page", Integer.toString(page))

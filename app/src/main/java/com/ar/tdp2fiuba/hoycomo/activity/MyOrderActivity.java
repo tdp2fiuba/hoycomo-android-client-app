@@ -7,6 +7,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +15,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.ar.tdp2fiuba.hoycomo.R;
 import com.ar.tdp2fiuba.hoycomo.adapter.MyOrderItemAdapter;
 import com.ar.tdp2fiuba.hoycomo.model.Order;
+import com.ar.tdp2fiuba.hoycomo.model.Store;
 import com.ar.tdp2fiuba.hoycomo.service.OrderService;
+import com.ar.tdp2fiuba.hoycomo.service.StoreService;
 import com.ar.tdp2fiuba.hoycomo.utils.DateUtils;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 public class MyOrderActivity extends AppCompatActivity {
 
@@ -54,6 +63,8 @@ public class MyOrderActivity extends AppCompatActivity {
             }
             invalidateOptionsMenu();
         }
+
+        updateOrder();
 
         displayStoreInfo();
         populateOrderItems();
@@ -138,6 +149,30 @@ public class MyOrderActivity extends AppCompatActivity {
         MyOrderItemAdapter adapter = new MyOrderItemAdapter(mOrder.getItems());
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
+    }
+
+    private void updateOrder() {
+        Response.Listener<JSONObject> successListener = new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                final Gson gson = new GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create();
+                Store updatedStore = gson.fromJson(response.toString(), Store.class);
+                mOrder.updateDiscount(updatedStore.getDiscount());
+                OrderService.setAsCurrentOrder(mOrder);
+                updateDiscount();
+                updateSubtotal();
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.e("MyOrderActivity", "Error on retrieving order store to update discount");
+            }
+        };
+        StoreService.getStore(mOrder.getStore().getId(), successListener, errorListener);
     }
 
     private void updateDiscount() {

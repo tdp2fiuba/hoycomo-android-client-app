@@ -163,6 +163,8 @@ public class MyOrderActivity extends AppCompatActivity {
                 OrderService.setAsCurrentOrder(mOrder);
                 updateDiscount();
                 updateSubtotal();
+
+                stopLoading();
             }
         };
         Response.ErrorListener errorListener = new Response.ErrorListener() {
@@ -170,8 +172,10 @@ public class MyOrderActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Log.e("MyOrderActivity", "Error on retrieving order store to update discount");
+                stopLoading();
             }
         };
+        startLoading();
         StoreService.getStore(mOrder.getStore().getId(), successListener, errorListener);
     }
 
@@ -180,7 +184,7 @@ public class MyOrderActivity extends AppCompatActivity {
         if (mOrder.getDiscount() != null && mOrder.getDiscount() > 0) {
             discountView.setVisibility(View.VISIBLE);
             discountView.setText(
-                    discountView.getText().toString().replace(":discount", String.valueOf(Math.round(mOrder.getDiscount())))
+                    getString(R.string.subtract_discount).replace(":discount", String.valueOf(Math.round(mOrder.getDiscount())))
             );
         } else {
             discountView.setVisibility(View.GONE);
@@ -194,7 +198,7 @@ public class MyOrderActivity extends AppCompatActivity {
         }
         TextView subtotalView = (TextView) findViewById(R.id.my_order_subtotal);
         subtotalView.setText(
-                subtotalView.getText().toString().replace(":monto", "$" + String.valueOf(Math.round(subtotal)))
+                getString(R.string.subtotal_amount).replace(":monto", "$" + String.valueOf(Math.round(subtotal)))
         );
     }
 
@@ -228,5 +232,15 @@ public class MyOrderActivity extends AppCompatActivity {
             addMoreFoodButton.setVisibility(View.VISIBLE);
             continueButton.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void startLoading() {
+        findViewById(R.id.my_order_content).setVisibility(View.GONE);
+        findViewById(R.id.my_order_progress_bar).setVisibility(View.VISIBLE);
+    }
+
+    private void stopLoading() {
+        findViewById(R.id.my_order_content).setVisibility(View.VISIBLE);
+        findViewById(R.id.my_order_progress_bar).setVisibility(View.GONE);
     }
 }

@@ -61,6 +61,7 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             holder.mNameView.setText(holder.mItem.getName());
             holder.mFoodTypesView.setText(holder.mItem.getParsedFoodTypesAsString());
             loadImage(holder);
+            setRating(holder);
             setDelayTime(holder);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +126,18 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
                 .into(holder.mImageView);
     }
 
+    private void setRating(final ViewHolder holder) {
+        if (holder.mItem.getRating() != null) {
+            holder.mStarIcon.setVisibility(View.VISIBLE);
+            holder.mRateView.setVisibility(View.VISIBLE);
+
+            holder.mRateView.setText(String.format("%.1f", holder.mItem.getRating()));
+        } else {
+            holder.mStarIcon.setVisibility(View.GONE);
+            holder.mRateView.setVisibility(View.GONE);
+        }
+    }
+
     private void setDelayTime(final ViewHolder holder) {
         Double storeDelayTime = holder.mItem.getDelayTime();
         if (storeDelayTime != null) {
@@ -140,6 +153,8 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mNameView;
+        public final ImageView mStarIcon;
+        public final TextView mRateView;
         public final TextView mDelayTimeView;
         public final TextView mFoodTypesView;
         public final ImageView mImageView;
@@ -151,6 +166,8 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
             super(view);
             mView = view;
             mNameView = (TextView) view.findViewById(R.id.store_row_name);
+            mStarIcon = (ImageView) view.findViewById(R.id.store_row_rating_star_icon);
+            mRateView = (TextView) view.findViewById(R.id.store_row_rating);
             mFoodTypesView = (TextView) view.findViewById(R.id.store_row_food_types);
             mDelayTimeView = (TextView) view.findViewById(R.id.store_row_delay_time);
             mImageView = (ImageView) view.findViewById(R.id.store_row_image);

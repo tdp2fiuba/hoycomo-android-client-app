@@ -45,13 +45,14 @@
 
                     <ImageView
                         android:id="@+id/fragment_store_image"
-                        android:layout_width="98dp"
-                        android:layout_height="74dp"
+                        android:layout_width="102dp"
+                        android:layout_height="86dp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:paddingLeft="4dp"
                         android:paddingStart="4dp"
                         android:paddingRight="4dp"
+                        android:layout_gravity="center_vertical"
                         android:paddingEnd="4dp"/>
 
                     <LinearLayout
@@ -67,9 +68,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="2dp">
+                            android:paddingBottom="4dp"
+                            android:gravity="center_vertical">
                             <TextView
                                 android:id="@+id/fragment_store_name"
                                 android:layout_width="wrap_content"
@@ -96,8 +96,6 @@
                             android:id="@+id/fragment_store_food_types"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingTop="2dp"
-                            android:paddingBottom="2dp"
                             android:textAppearance="?attr/textAppearanceListItem"
                             android:textSize="12sp"/>
 
@@ -105,8 +103,6 @@
                             android:id="@+id/fragment_store_delay_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingTop="2dp"
-                            android:paddingBottom="8dp"
                             android:textAppearance="?attr/textAppearanceListItem"
                             android:textSize="12sp"
                             android:textColor="@color/colorAccent"/>

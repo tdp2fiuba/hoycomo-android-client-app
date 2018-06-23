@@ -96,6 +96,11 @@ public class StoreRecyclerViewAdapter extends RecyclerView.Adapter<StoreRecycler
         }
     }
 
+    public void clear() {
+        mValues.clear();
+        notifyDataSetChanged();
+    }
+
     public void addLoadingFooter() {
         final Store dummyItem = new Store();
         mValues.add(dummyItem);

@@ -3,6 +3,7 @@ package com.ar.tdp2fiuba.hoycomo.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class StoreListFragment extends Fragment {
     private OnStoreListFragmentInteractionListener mListener;
 
     private StoreRecyclerViewAdapter mAdapter = null;
+    private SwipeRefreshLayout mSwipeRefreshLayout = null;
 
     private static int currentPage = 0;
     private static final int paginationCount = 20;
@@ -102,9 +104,23 @@ public class StoreListFragment extends Fragment {
                     return 5;
                 }
             });
+
             mAdapter = new StoreRecyclerViewAdapter(mListener);
             recyclerView.setAdapter(mAdapter);
             retrieveMoreStores();
+
+            mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.store_list_swipe_refresh_layout);
+            mSwipeRefreshLayout.setColorSchemeResources(
+                    R.color.colorAccent,
+                    R.color.colorPrimary,
+                    R.color.colorPrimaryDark
+            );
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refreshData();
+                }
+            });
 
             rootView.findViewById(R.id.store_empty_list).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -159,6 +175,10 @@ public class StoreListFragment extends Fragment {
             public void onResponse(JSONArray response) {
                 stopLoading();
 
+                if (currentPage == 0) {
+                    mAdapter.clear();
+                }
+
                 if (response.length() > 0) {
                     final Gson gson = new GsonBuilder()
                             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -182,7 +202,9 @@ public class StoreListFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.error_no_stores, Toast.LENGTH_SHORT).show();
             }
         };
-        startLoading();
+        if (mSwipeRefreshLayout == null || !mSwipeRefreshLayout.isRefreshing()) {
+            startLoading();
+        }
         StoreService.getStores(currentPage, paginationCount, filter, successListener, errorListener);
     }
 
@@ -202,6 +224,9 @@ public class StoreListFragment extends Fragment {
         isLoading = false;
         if (mAdapter != null) {
             mAdapter.removeLoadingFooter();
+        }
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 

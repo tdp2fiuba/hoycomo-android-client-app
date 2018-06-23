@@ -6,14 +6,19 @@
     android:layout_width="match_parent"
     android:background="@color/background">
 
-    <com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport
-        android:id="@+id/store_list"
-        android:name="com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/store_list_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="LinearLayoutManager"
-        tools:context="com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment"
-        tools:listitem="@layout/store_row" />
+        android:layout_height="match_parent">
+        <com.ar.tdp2fiuba.hoycomo.utils.view.RecyclerViewEmptySupport
+            android:id="@+id/store_list"
+            android:name="com.ar.tdp2fiuba.hoycomo.fragment.StoreFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="LinearLayoutManager"
+            tools:context="com.ar.tdp2fiuba.hoycomo.fragment.StoreListFragment"
+            tools:listitem="@layout/store_row" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/store_empty_list"
